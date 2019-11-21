@@ -17,16 +17,27 @@
             end=json.universities.length;
             for(iter=0;iter < end;iter++){
                 var newchild = document.createElement('tr');
-                newchild.appendChild("<td>"+json.location+"</td>");
-                newchild.appendChile("<td>"+json.universities[iter].college_name+"</td>");
-                if(json.universities[iter].ealry_link == NULL)
-                    newchild.appendChild("<td>-</td>");
-                else 
-                    newchild.appendChild("<td>"+json.universities[iter].ealry_link+"</td>");
-                if(json.universities[iter].regular_link == NULL)
-                    newchild.appendChild("<td>-</td>");
-                else
-                    newchild.appendChild("<td>"+json.universities[iter].regular_link+"</td>");
+
+                var loc = document.createElement('td');
+                loc.innerHTML=json.location;
+                newchild.appendChild(loc);
+
+                var name = document.createElement('td');
+                name.innerHTML=json.universities[iter].college_name;
+                newchild.appendChile(name);
+                
+                var ealry = document.createElment('td');
+                ealry.innerHTML=json.universities[iter].ealry_link;
+                if(early.innerHTML == NULL)
+                    ealry.innerHTML="-";
+                newchild.appendChild(ealry);
+                
+                var regular = document.createElement('td');
+                regular.innerHTML = json.universities[iter].regular_link;
+                if(regular.innerHTML == NULL)
+                    regular.innerHTML="-";  
+                newchild.appendChild(regular);
+
                 document.getElementById("tb").appendChild(newchild);
             }
         }
