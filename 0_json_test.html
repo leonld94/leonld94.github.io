@@ -39,7 +39,7 @@
         
         request.responseType = 'json';
         request.send();
-        request.onload() = function (){
+        request.onload = function() {
             fill_table(request.response);
         }
         
