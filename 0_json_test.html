@@ -26,11 +26,11 @@
                 name.innerHTML=json.universities[iter].college_name;
                 newchild.appendChild(name);
                 
-                var ealry = document.createElement('td');
-                ealry.innerHTML=json.universities[iter].ealry_link;
+                var early = document.createElement('td');
+                early.innerHTML=json.universities[iter].early_link;
                 if(early.innerHTML == NULL)
-                    ealry.innerHTML="-";
-                newchild.appendChild(ealry);
+                    early.innerHTML="-";
+                newchild.appendChild(early);
                 
                 var regular = document.createElement('td');
                 regular.innerHTML = json.universities[iter].regular_link;
