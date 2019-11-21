@@ -28,13 +28,13 @@
                 
                 var early = document.createElement('td');
                 early.innerHTML=json.universities[iter].early_link;
-                if(early.innerHTML == NULL)
+                if(early.innerHTML == null)
                     early.innerHTML="-";
                 newchild.appendChild(early);
                 
                 var regular = document.createElement('td');
                 regular.innerHTML = json.universities[iter].regular_link;
-                if(regular.innerHTML == NULL)
+                if(regular.innerHTML == null)
                     regular.innerHTML="-";  
                 newchild.appendChild(regular);
 
