@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="uni">
+        <table id="tb">
+
+        </table>
+    </div>
+    <script>
+        
+        function fill_table(json){
+            var iter,end;
+            end=json.universities.length;
+            for(iter=0;iter < end;iter++){
+                var newchild = document.createElement('tr');
+                newchild.appendChild("<td>"+json.location+"</td>");
+                newchild.appendChile("<td>"+json.universities[iter].college_name+"</td>");
+                if(json.universities[iter].ealry_link == NULL)
+                    newchild.appendChild("<td>-</td>");
+                else 
+                    newchild.appendChild("<td>"+json.universities[iter].ealry_link+"</td>");
+                if(json.universities[iter].regular_link == NULL)
+                    newchild.appendChild("<td>-</td>");
+                else
+                    newchild.appendChild("<td>"+json.universities[iter].regular_link+"</td>");
+                document.getElementById("tb").appendChild(newchild);
+            }
+        }
+
+        var list_of_college_URL="https://leonld94.github.io/University_File/Seoul_Universities.json";
+        
+        var request = new XMLHttpRequest();
+        
+        request.open('Get',list_of_college_URL);
+        
+        request.responseType = 'json';
+        request.send();
+        request.onload() = function (){
+            fill_table(request.response);
+        }
+        
+        
+
+    </script>    
+</body>
+</html>
