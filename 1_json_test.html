@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="uni">
+        <table id="tb">
+
+        </table>
+    </div>
+    <script>
+        var seoulCollege = new Array(50);   // 서울
+        var ggCollege = new Array(50);      // 경기도
+        var gsCollege = new Array(50);      // 경상도
+        var jlCollege = new Array(50);      // 전라도
+        var gwCollege = new Array(50);      // 강원도
+        var ccCollege = new Array(50);      // 충청도
+        var metroCollege = new Array(50);   // 광역시
+        var allCollege = new Array(400);    // 전체 대학 총괄
+        var request;
+        var seoulListURL="https://leonld94.github.io/University_File/Seoul_Universities.json";
+        
+        function fill_table(json){
+            var iter,end;
+            end=json.universities.length;
+            for(iter=0;iter < end;iter++){
+                var newchild = document.createElement('tr');
+
+                var loc = document.createElement('td');
+                loc.innerHTML=json.location;
+                newchild.appendChild(loc);
+
+                var name = document.createElement('td');
+                name.innerHTML=json.universities[iter].college_name;
+                newchild.appendChild(name);
+                
+                var early = document.createElement('td');
+                early.innerHTML=json.universities[iter].early_link;
+                if(early.innerHTML == null)
+                    early.innerHTML="-";
+                newchild.appendChild(early);
+                
+                var regular = document.createElement('td');
+                regular.innerHTML = json.universities[iter].regular_link;
+                if(regular.innerHTML == null)
+                    regular.innerHTML="-";  
+                newchild.appendChild(regular);
+
+                document.getElementById("tb").appendChild(newchild);
+            }
+        }
+
+        request = new XMLHttpRequest();
+        request.open('Get',seoulListURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function() {
+            fill_table(request.response);
+        }
+    </script>
+</body>
+</html>
