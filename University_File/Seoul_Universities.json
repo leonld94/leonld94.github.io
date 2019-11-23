@@ -4,11 +4,15 @@
     "universities":[
         {
             "college_name":"서울대학교",
+            "location":"서울특별시",
+            "type":"4년제",
             "early_link":"http://admission.snu.ac.kr/under/early/guide",
             "regular_link":"http://admission.snu.ac.kr/under/regular/guide"
         },
         {
             "college_name":"성균관대학교",
+            "location":"서울특별시",
+            "type":"4년제",
             "early_link":"https://admission.skku.edu/intro.html",
             "regular_link":""
         }
