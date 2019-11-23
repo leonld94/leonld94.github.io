@@ -1,0 +1,18 @@
+{
+    "universities":[
+        {
+            "college_name":"UNIST",
+            "location":"울산광역시",
+            "type":"4년제",
+            "early_link":"https://adm-u.unist.ac.kr/admission/guidelines/",
+            "regular_link":""
+        },
+        {
+            "college_name":"KAIST",
+            "location":"대전광역시",
+            "type":"4년제",
+            "early_link":"https://admission.kaist.ac.kr/undergraduate/%ec%88%98%ec%8b%9c/",
+            "regular_link":"https://admission.kaist.ac.kr/undergraduate/%ec%a0%95%ec%8b%9c/"
+        }
+    ]
+}
