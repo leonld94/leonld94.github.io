@@ -12,7 +12,7 @@
     </div>
     <script>
         var list_of_college_URL="https://leonld94.github.io/University_File/Hangul.json";
-        
+
         var request = new XMLHttpRequest();
         
         request.open('Get',list_of_college_URL);
@@ -22,7 +22,7 @@
         request.onload = function() {
             var json = request.response;
             var newchild = document.createElement('div');
-            newchild.innerHTML = json.tag+json.hangul+json.good;
+            newchild.innerHTML = json.tag + json.hangul + json.good;
             document.getElementById("uni").appendChild(newchild);
         }
     </script>    
