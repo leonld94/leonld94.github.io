@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="uni">
+        <table id="tb">
+
+        </table>
+    </div>
+    <script>
+        var list_of_college_URL="https://leonld94.github.io/University_File/Hangul.json";
+        
+        var request = new XMLHttpRequest();
+        
+        request.open('Get',list_of_college_URL);
+        
+        request.responseType = 'json';
+        request.send();
+        request.onload = function() {
+            var json = request.response;
+            var newchild = document.createElement('div');
+            newchild.innerHTML = json.tag+json.hangul+json.good;
+            document.getElementById("uni").appendChild(newchild);
+        }
+    </script>    
+</body>
+</html>
