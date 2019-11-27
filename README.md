@@ -6,6 +6,7 @@ This git's function => json test & create blog page
 1. 디자인  
     -글 목록(왼쪽에 접힐 수 있는 것)  
     -Header(제목과 홀페이지 바로가기 버튼)  
+    -양쪽 마진 넣기  
     -나중에 추가  
   
 2. 기능
