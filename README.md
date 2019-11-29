@@ -14,3 +14,6 @@ This git's function => json test & create blog page
     2)글쓰기 기능  
     3)글 불러오기 기능  
     4)나중에 추가  
+
+
+    Example_Universities.json

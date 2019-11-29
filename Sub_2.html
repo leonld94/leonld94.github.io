@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <style>
+        body{
+            margin: 0px;
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+        header{
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+        }
+        .logo{
+            width: 150px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: blue;
+            color: white;
+        }
+        .empty{
+            width: 60%;
+        }
+        a{
+            color: red;
+            text-decoration: none;
+        }
+        .infor{
+            color: gray;
+            text-decoration: underline;
+        }
+        .intro{
+            box-sizing: border-box;
+            width: 100%;
+            height: 250px;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url("./Sub.png");
+        }
+        .input{
+            width: 300px;
+            height: 80px;
+            background-color: white;
+            border-radius: 40px;
+        }
+        form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+        }
+        #search{
+            border: 0px;
+            border-bottom: 1px solid gray;
+        }
+        #localCol{
+            display: block;
+            width: 100%;
+        }
+        .colTitle{
+            width: 70%;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            left: 15%;
+            top: 20px;
+        }
+        .colBody{
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            left: 10%;
+            top: 20px;
+            align-items: center;
+        }
+        .colleage{
+            width: 100%;
+            margin: 0px;
+            border-collapse: collapse;
+            line-height: 1.5;
+            margin : 20px 10px;
+            text-align: center;
+            background-color: #EEEEEE;
+        }
+        th, td{
+            border: 1px solid #CCCCCC;
+            font-weight: bold;
+        }
+        .Place{
+            width: 10%;
+            background-color: #AAAAAA;
+        }
+        .Name{
+            width: 35%;
+            background-color: #DDDDDD;
+        }
+        .Tag{
+            width: 35%;
+            background-color: #DDDDDD;
+        }
+        .SuLink{
+            width: 10%;
+            background-color: #DDDDDD;
+        }
+        .JungLink{
+            width: 10%;
+            background-color: #DDDDDD;
+        }
+        .Tags{
+            display: inline-block;
+            color: white;
+            padding: 2px 5px;
+            margin: 0px 5px;
+        }
+        .Prov{
+            background-color: #92D050;
+        }
+        .Spec{
+            background-color: #538034;
+        }
+        .Free{
+            background-color: #FFC409;
+        }
+        .Girl{
+            background-color: #F47878;
+        }
+        .Dorm{
+            background-color: #ED7D31;
+        }
+        .TopT{
+            background-color: #FF0909;
+        }
+        .Comp{
+            background-color: #7F7F7F;
+        }
+        .SHld{
+            background-color: #A20074;
+        }
+        .Scie{
+            background-color: #4472C4;
+        }
+        .tag{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 2px 0px;
+        }
+        td{
+            font-weight: normal;
+        }
+        .place{
+            background-color: #CCCCCC;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="" alt="GUI Logo">
+        </div>
+        <div class="empty"></div>
+        <div class="infor">
+            <a href="./undefined" class="infor">도움말</a>
+        </div>
+    </header>
+    <section>
+        <div class="intro">
+            <div class="input">
+                <form>
+                    <input type="search" id="search" placeholder="어느 대학교?" required>
+                    <input type="submit" id="submit" value="검색">
+                </form>
+            </div>
+        </div>
+    </section>
+    <section id="localCol">
+        <div class="colBody">
+            <table class="colleage">
+                <!-- var Famous = undefined -->
+                <thead>
+                    <tr>
+                        <th class="Place">소재</th>
+                        <th class="Name">대학교 이름</th>
+                        <th class="Tag">태그</th>
+                        <th class="SuLink">수시 링크</th>
+                        <th class="JungLink">정시 링크</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="place">서울특별시</td>
+                        <td>서울대학교</td>
+                        <td>
+                            <div class="tag">
+                                <span class="Dorm Tags">기숙사</span>
+                            </div>
+                        </td>
+                        <td><a href="nolink">링크</a></td>
+                        <td><a href="noLink">링크</a></td>
+                    </tr>
+                    <tr>
+                        <td class="place">대전광역시</td>
+                        <td>KAIST</td>
+                        <td>
+                            <div class="tag">
+                                <span class="Prov Tags">지방</span>
+                                <span class="Dorm Tags">기숙사</span>
+                                <span class="Scie Tags">과학기술원</span>
+                            </div>
+                        </td>
+                        <td><a href="NoLink">링크</a></td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="place">부산광역시</td>
+                        <td>인제대학교</td>
+                        <td>
+                            <div class="tag">
+                                <span class="Prov Tags">지방</span>
+                                <span class="Dorm Tags">기숙사</span>
+                            </div>
+                        </td>
+                        <td><a href="NoLink">링크</a></td>
+                        <td><a href="NoLink">링크</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+</html>
