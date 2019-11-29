@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var a = new Array(20);
+        var tmp;
+        var iter,jter;
+
+        a[3]=2;
+        for(iter=0;iter<20;iter++){
+            for(jter=0;jter<19;jter++){
+                if(a[jter]>a[jter-1]){
+                    tmp=a[jter];
+                    a[jter]=a[jter-1];
+                    a[jter-1]=tmp;
+                }
+            }
+        }
+        console.log(a);
+    </script>
+</body>
+</html>
