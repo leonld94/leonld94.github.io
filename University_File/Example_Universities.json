@@ -14,8 +14,22 @@
             "regular_link":"http://admission.snu.ac.kr/under/regular/guide"
         },
         {
-            "college_name":"울산과학기술원",
+            "college_name":"한국과학기술원",
             "location":"대전광역시",
+            "students":3873,
+            "tags":[
+                "지방",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과",
+                "과학기술원"
+            ],
+            "early_link":"https://admission.kaist.ac.kr/undergraduate/%ec%88%98%ec%8b%9c/",
+            "regular_link":"https://admission.kaist.ac.kr/undergraduate/%ec%a0%95%ec%8b%9c/"
+        },
+        {
+            "college_name":"울산과학기술원",
+            "location":"울산광역시",
             "students":3244,
             "tags":[
                 "지방",
