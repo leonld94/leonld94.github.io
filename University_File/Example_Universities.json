@@ -1,0 +1,31 @@
+{
+    "universities":[
+        {
+            "college_name":"서울대학교",
+            "location":"서울특별시",
+            "type":"4년제",
+            "early_link":"http://admission.snu.ac.kr/under/early/guide",
+            "regular_link":"http://admission.snu.ac.kr/under/regular/guide",
+            "Tag":[
+                "자유전공",
+                "기숙사",
+                "TOP 20",
+                "거점대학교"
+            ]
+        },
+        {
+            "college_name":"울산과학기술원",
+            "location":"대전광역시",
+            "type":"4년제",
+            "early_link":"https://adm-u.unist.ac.kr/admission/guidelines/",
+            "regular_link":"",
+            "Tag":[
+                "지방",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과",
+                "과학기술원"
+            ]
+        }
+    ]
+}
