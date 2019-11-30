@@ -1,0 +1,52 @@
+{
+    "universities":[
+        {
+            "college_name":"충북대학교",
+            "location":"충청북도",
+            "students":14150,
+            "tags":[
+                "지방",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과",
+                "거점대학교"
+            ],
+            "early_link":"https://ipsi.chungbuk.ac.kr/kor/BBSMSTR_000000000051/418/view.do",
+            "regular_link":"https://ipsi.chungbuk.ac.kr/kor/BBSMSTR_000000000013/401/view.do"
+        },{
+            "college_name":"한국교원대학교",
+            "location":"충청북도",
+            "students":2403,
+            "tags":[
+                "지방",
+                "기숙사"
+            ],
+            "early_link":"https://ent.knue.ac.kr/sub03_02.brd?shell=/index.shell:104",
+            "regular_link":"https://ent.knue.ac.kr/sub04_02.brd?shell=/index.shell:171"
+        },{
+            "college_name":"서원대학교",
+            "location":"충청북도",
+            "students":6782,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://www.seowon.ac.kr/web/iphak/entrance_a?p_p_id=EXT_BBS&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EXT_BBS_struts_action=%2Fext%2Fbbs%2Fview_message&_EXT_BBS_sCategory=&_EXT_BBS_sTitle=&_EXT_BBS_sWriter=&_EXT_BBS_sTag=&_EXT_BBS_sContent=&_EXT_BBS_sCategory2=&_EXT_BBS_sUsePeriod=false&_EXT_BBS_sStartDateMonth=0&_EXT_BBS_sStartDateDay=0&_EXT_BBS_sStartDateYear=0&_EXT_BBS_sStartDateHour=0&_EXT_BBS_sStartDateMinute=0&_EXT_BBS_sStartDateAmPm=0&_EXT_BBS_sEndDateMonth=0&_EXT_BBS_sEndDateDay=0&_EXT_BBS_sEndDateYear=0&_EXT_BBS_sEndDateHour=0&_EXT_BBS_sEndDateMinute=0&_EXT_BBS_sEndDateAmPm=0&_EXT_BBS_sKeyType=&_EXT_BBS_sKeyword=&_EXT_BBS_curPage=1&_EXT_BBS_messageId=45071",
+            "regular_link":"http://www.seowon.ac.kr/web/iphak/entrance_a?p_p_id=EXT_BBS&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EXT_BBS_struts_action=%2Fext%2Fbbs%2Fview_message&_EXT_BBS_sCategory=&_EXT_BBS_sTitle=&_EXT_BBS_sWriter=&_EXT_BBS_sTag=&_EXT_BBS_sContent=&_EXT_BBS_sCategory2=&_EXT_BBS_sUsePeriod=false&_EXT_BBS_sStartDateMonth=0&_EXT_BBS_sStartDateDay=0&_EXT_BBS_sStartDateYear=0&_EXT_BBS_sStartDateHour=0&_EXT_BBS_sStartDateMinute=0&_EXT_BBS_sStartDateAmPm=0&_EXT_BBS_sEndDateMonth=0&_EXT_BBS_sEndDateDay=0&_EXT_BBS_sEndDateYear=0&_EXT_BBS_sEndDateHour=0&_EXT_BBS_sEndDateMinute=0&_EXT_BBS_sEndDateAmPm=0&_EXT_BBS_sKeyType=&_EXT_BBS_sKeyword=&_EXT_BBS_curPage=1&_EXT_BBS_messageId=45726"
+        },{
+            "college_name":"세명대학교",
+            "location":"충청북도",
+            "students":7467,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://www.semyung.ac.kr/prog/info/ipsi/sub01_01/MJ01/list.do",
+            "regular_link":"http://www.semyung.ac.kr/prog/info/ipsi/sub03_01/MJ03/list.do"
+        }
+    ]
+}
