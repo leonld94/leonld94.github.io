@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GUI - 전형별 대학 분류</title>
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <style>
+        body{
+            margin: 0px;
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+        header{
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+        }
+        .logo{
+            width: 150px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: lightgray;
+            color: white;
+        }
+        .empty{
+            width: 60%;
+        }
+        a{
+            color: red;
+            text-decoration: none;
+        }
+        .infor{
+            color: gray;
+            text-decoration: underline;
+        }
+        .intro{
+            box-sizing: border-box;
+            width: 100%;
+            height: 250px;
+            /* border: 1px solid black; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url("./Sub.png");
+        }
+        .input{
+            width: 300px;
+            height: 80px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+        }
+        form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+        }
+        #search{
+            border: 0px;
+            font-size: 100%;
+            border-bottom: 1px solid gray;
+            text-align: center;
+        }
+        #submit{
+            background-color: rgba(211, 211, 211, 0.7);
+            height: 100%;
+            width: 60px;
+            transform: translateX(30px);
+            text-align: left;
+            border: 0px;
+            font-weight: bold;
+            
+        }
+        #localCol{
+            display: block;
+            width: 100%;
+        }
+        #Location{
+            width: 10%;
+            background-color: #AAAAAA;
+        }
+        
+        #Name{
+            width: 15%;
+            background-color: #DDDDDD;
+        }
+        #Students{
+            width: 10%;
+            background-color: #DDDDDD;
+        }
+        
+        #Tag{
+            width: 45%;
+            background-color: #DDDDDD;
+        }#SuLink{
+            width: 10%;
+            background-color: #DDDDDD;
+        }
+        #JungLink{
+            width: 10%;
+            background-color: #DDDDDD;
+        }
+        .colTitle{
+            width: 70%;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            left: 15%;
+            top: 20px;
+        }
+        .colBody{
+            width: 85%;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            left: 7.5%;
+            top: 20px;
+            align-items: center;
+        }
+        .college{
+            width: 100%;
+            margin: 0px;
+            border-collapse: collapse;
+            line-height: 1.5;
+            margin : 20px 10px;
+            text-align: center;
+            background-color: #EEEEEE;
+        }
+        th, td{
+            border: 1px solid #CCCCCC;
+            font-weight: bold;
+        }
+        .Tags{
+            display: inline-block;
+            color: white;
+            padding: 2px 5px;
+            margin: 0px 5px;
+        }
+        .sortArrow{
+            position: relative;
+            width: 15px;
+            height: 15px;
+            right: 1px;
+        }
+        .Prov{
+            background-color: #92D050;
+        }
+        .Spec{
+            background-color: #538034;
+        }
+        .Free{
+            background-color: #FFC409;
+        }
+        .Girl{
+            background-color: #F47878;
+        }
+        .Dorm{
+            background-color: #ED7D31;
+        }
+        .TopT{
+            background-color: #FF0909;
+        }
+        .Comp{
+            background-color: #7F7F7F;
+        }
+        .SHld{
+            background-color: #A20074;
+        }
+        .Scie{
+            background-color: #4472C4;
+        }
+        .tag{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 2px 0px;
+        }
+        td{
+            font-weight: normal;
+        }
+        .loc{
+            background-color: #CCCCCC;
+            font-weight: bold;
+        }
+        hr{
+            border: 0.5px solid black;
+            width: 70%;
+            margin-top: 20px;
+        }
+        footer{
+            height: 113px;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        var allCollege = new Array(110);    // 전체 대학 총괄
+        var Heap = new Array(110);          // 정렬용 배열
+        var search_College = new Array(110);// 검색용 배열
+
+        var nameSort = false;
+        var studSort = false;
+        var tagsSort = false;
+        var nameUp = false;
+        var studUp = false;
+        var tagsUp = false;
+
+        var seoulOK = false;
+        var metroOK = false;
+        var ggOK = false;
+        var gwOK = false;
+        var gs_bOK = false;
+        var gs_nOK = false;
+        var jl_bOK = false;
+        var jl_nOK = false;
+        var cc_bOK = false;
+        var cc_nOK = false; 
+        
+
+        var allCounter = 1;
+
+        var searchIndex = 0;
+
+        var seoulRequest;
+        var metroRequest;
+        var ggRequest;
+        var gwRequest;
+        var gs_bRequest;
+        var gs_nRequest;
+        var jl_bRequest;
+        var jl_nRequest;
+        var cc_bRequest;
+        var cc_nRequest;
+
+        var seoulListURL="https://leonld94.github.io/University_File/Seoul_Universities.json";
+        var metroListURL="https://leonld94.github.io/University_File/Metro_Universities.json";
+        var ggListURL="https://leonld94.github.io/University_File/GG_Universities.json";           
+        var gwListURL="https://leonld94.github.io/University_File/GW_Universities.json";            
+        var gs_bListURL="https://leonld94.github.io/University_File/GS_B_Universities.json";        // 미완
+        var gs_nListURL="https://leonld94.github.io/University_File/GS_N_Universities.json";        //
+        var jl_bListURL="https://leonld94.github.io/University_File/JL_B_Universities.json";        //
+        var jl_nListURL="https://leonld94.github.io/University_File/JL_N_Universities.json";        //
+        var cc_bListURL="https://leonld94.github.io/University_File/CC_B_Universities.json";        //
+        var cc_nListURL="https://leonld94.github.io/University_File/CC_N_Universities.json";        //
+
+        var arrows = document.getElementsByClassName('sortArrow');
+        var statusArrows = [-1, -1, -1];
+
+        function localFill(json){
+            var i, end;
+            end=json.universities.length;
+            for(i=1;i<=end;i++,allCounter++){
+                allCollege[allCounter]=json.universities[i-1];
+                Heap[allCounter]=json.universities[i-1];
+            }
+        }
+
+        function fillTable(){
+            var tbody=document.getElementsByTagName("tbody")[0];
+            var iter, end;
+            var jter, fnd;
+
+            end=allCounter;
+            
+            for(iter=1;iter<end;iter++){
+                var newchild=document.createElement("tr");
+
+                var loc=document.createElement("td");
+                loc.setAttribute("class","loc");
+                loc.innerHTML=Heap[iter].location;
+                newchild.appendChild(loc);
+
+                var name=document.createElement("td");
+                name.innerHTML=Heap[iter].college_name;
+                newchild.appendChild(name);
+
+                var stu=document.createElement("td");
+                stu.innerHTML=Heap[iter].students+"명";
+                newchild.appendChild(stu);
+
+                var tag=document.createElement("td");
+                var div=document.createElement("div");
+                div.setAttribute("class","tag");
+                fnd=Heap[iter].tags.length;
+                for(jter=0;jter<fnd;jter++){
+                    var spans=document.createElement("span");
+                    if(Heap[iter].tags[jter] == "지방") spans.setAttribute("class","Prov Tags");
+                    else if(Heap[iter].tags[jter] == "특성화고 전형") spans.setAttribute("class","Spec Tags");
+                    else if(Heap[iter].tags[jter] == "자유전공") spans.setAttribute("class","Free Tags");
+                    else if(Heap[iter].tags[jter] == "여대") spans.setAttribute("class","Girl Tags");
+                    else if(Heap[iter].tags[jter] == "기숙사") spans.setAttribute("class","Dorm Tags");
+                    else if(Heap[iter].tags[jter] == "TOP 20") spans.setAttribute("class","TopT Tags");
+                    else if(Heap[iter].tags[jter] == "컴퓨터 공학과") spans.setAttribute("class","Comp Tags");
+                    else if(Heap[iter].tags[jter] == "거점대학교") spans.setAttribute("class","SHld Tags");
+                    else if(Heap[iter].tags[jter] == "과학기술원") spans.setAttribute("class","Scie Tags");
+                    spans.innerHTML=Heap[iter].tags[jter];
+                    div.appendChild(spans);
+                }
+                tag.appendChild(div);
+                newchild.appendChild(tag);
+
+                var early=document.createElement("td");
+                if(Heap[iter].early_link == "")
+                    early.innerHTML="-";
+                else
+                    early.innerHTML="<a href='"+Heap[iter].early_link+"' target='_blank'>링크</a>";
+                newchild.appendChild(early);
+
+                var regular=document.createElement("td");
+                if(Heap[iter].regular_link == "")
+                    regular.innerHTML="-";
+                else
+                    regular.innerHTML="<a href='"+Heap[iter].regular_link+"' target='_blank'>링크</a>";
+                newchild.appendChild(regular);
+
+                tbody.appendChild(newchild);
+            }
+        }
+        
+        function fillCheck(){
+            if(seoulOK && metroOK && ggOK && gwOK && gs_bOK && gs_nOK && jl_bOK && jl_nOK && cc_bOK && cc_nOK)
+                fillTable();
+        }
+
+        seoulRequest=new XMLHttpRequest();
+        seoulRequest.open('Get',seoulListURL);
+        seoulRequest.responseType='json';
+        seoulRequest.send();
+        seoulRequest.onload = function (){
+            localFill(seoulRequest.response);
+            seoulOK = true;
+            fillCheck();
+        }
+        metroRequest=new XMLHttpRequest();
+        metroRequest.open('Get',metroListURL);
+        metroRequest.responseType='json';
+        metroRequest.send();
+        metroRequest.onload = function (){
+            localFill(metroRequest.response);
+            metroOK = true;
+            fillCheck();
+        }
+        ggRequest=new XMLHttpRequest();
+        ggRequest.open('Get',ggListURL);
+        ggRequest.responseType='json';
+        ggRequest.send();
+        ggRequest.onload = function (){
+            localFill(ggRequest.response);
+            ggOK = true;
+            fillCheck();
+        }
+        gwRequest=new XMLHttpRequest();
+        gwRequest.open('Get',gwListURL);
+        gwRequest.responseType='json';
+        gwRequest.send();
+        gwRequest.onload = function (){
+            localFill(gwRequest.response);
+            gwOK = true;
+            fillCheck();
+            
+        }
+        gs_bRequest=new XMLHttpRequest();
+        gs_bRequest.open('Get',gs_bListURL);
+        gs_bRequest.responseType='json';
+        gs_bRequest.send();
+        gs_bRequest.onload = function (){
+            localFill(gs_bRequest.response);
+            gs_bOK = true;
+            fillCheck();
+        }
+        gs_nRequest=new XMLHttpRequest();
+        gs_nRequest.open('Get',gs_nListURL);
+        gs_nRequest.responseType='json';
+        gs_nRequest.send();
+        gs_nRequest.onload = function (){
+            localFill(gs_nRequest.response);
+            gs_nOK = true;
+            fillCheck();
+        }
+        jl_bRequest=new XMLHttpRequest();
+        jl_bRequest.open('Get',jl_bListURL);
+        jl_bRequest.responseType='json';
+        jl_bRequest.send();
+        jl_bRequest.onload = function (){
+            localFill(jl_bRequest.response);
+            jl_bOK = true;
+            fillCheck();
+        }
+        jl_nRequest=new XMLHttpRequest();
+        jl_nRequest.open('Get',jl_nListURL);
+        jl_nRequest.responseType='json';
+        jl_nRequest.send();
+        jl_nRequest.onload = function (){
+            localFill(jl_nRequest.response);
+            jl_nOK = true;
+            fillCheck();
+        }
+        cc_bRequest=new XMLHttpRequest();
+        cc_bRequest.open('Get',cc_bListURL);
+        cc_bRequest.responseType='json';
+        cc_bRequest.send();
+        cc_bRequest.onload = function (){
+            localFill(cc_bRequest.response);
+            cc_bOK = true;
+            fillCheck();
+        }
+        cc_nRequest=new XMLHttpRequest();
+        cc_nRequest.open('Get',cc_nListURL);
+        cc_nRequest.responseType='json';
+        cc_nRequest.send();
+        cc_nRequest.onload = function (){
+            localFill(cc_nRequest.response);
+            cc_nOK = true;
+            fillCheck();
+        }
+
+        function clearHeap(){   // Heap 좀 지워줘요. 이거 하고나면 다 empty 되니까 비교할때 에러 안나서 좋음
+            Heap=new Array(140);
+            Heap[0]={
+                "college_name":"힣힣힣힣힣힣힣힣힣힣힣힣힣",
+                "students":2147483647,
+                "tags":[
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10"
+                ]
+            }
+        }
+        function initArrow(){
+            for(var i = 0; i < arrows.length; i++){
+                statusArrows[i] = -1;  
+                arrows[i].src = "triangleDesign/triangle90.png"
+            }
+        }
+        //화살표 돌리는 함수
+        function rotateArrow(ID){
+            var source = null;
+            for(var i = 0; i < arrows.length; i++){
+                if(arrows[i].parentElement.id == ID)
+                {
+                    if(statusArrows[i] == -1)
+                        statusArrows[i] = 0;
+                    statusArrows[i] = (statusArrows[i] + 1) % 2;
+                    switch(statusArrows[i]){
+                        case 0:
+                            source = "triangleDesign/triangle180.png";
+                            break;
+                        case 1:
+                            source = "triangleDesign/triangle.png";
+                            break;
+                        
+                    }
+                    arrows[i].src = source;
+                }else{
+                    statusArrows[i] = -1;  
+                    arrows[i].src = "triangleDesign/triangle90.png"
+                }
+            }
+        }
+        //서치 함수
+        function searchUniv(){
+            searchIndex = 0;
+            nameSort = false;
+            studSort = false;
+            tagsSort = false;
+            nameUp = false;
+            studUp = false;
+            tagsUp = false;
+            
+            initArrow();
+
+            var searchBar = document.getElementById('search');
+            for(var i = 1; i < allCounter; i++)
+                if(allCollege[i].college_name.indexOf(searchBar.value) != -1)
+                    search_College[searchIndex++] = allCollege[i];
+
+            var tbody=document.getElementsByTagName("tbody")[0];
+            var iter,end;
+            end = tbody.childElementCount;
+            for(iter=1;iter<=end;iter++)
+                tbody.removeChild(tbody.firstElementChild);
+
+            end=searchIndex;
+    
+            for(iter=0;iter<end;iter++){
+                var newchild=document.createElement("tr");
+                
+                var loc=document.createElement("td");
+                loc.setAttribute("class","loc");
+                loc.innerHTML=search_College[iter].location;
+                newchild.appendChild(loc);
+
+                var name=document.createElement("td");
+                name.innerHTML=search_College[iter].college_name;
+                newchild.appendChild(name);
+
+                var stu=document.createElement("td");
+                stu.innerHTML=search_College[iter].students+"명";
+                newchild.appendChild(stu);
+
+                var tag=document.createElement("td");
+                var div=document.createElement("div");
+                div.setAttribute("class","tag");
+                fnd=search_College[iter].tags.length;
+                for(jter=0;jter<fnd;jter++){
+                    var spans=document.createElement("span");
+                    if(search_College[iter].tags[jter] == "지방") spans.setAttribute("class","Prov Tags");
+                    else if(search_College[iter].tags[jter] == "특성화고 전형") spans.setAttribute("class","Spec Tags");
+                    else if(search_College[iter].tags[jter] == "자유전공") spans.setAttribute("class","Free Tags");
+                    else if(search_College[iter].tags[jter] == "여대") spans.setAttribute("class","Girl Tags");
+                    else if(search_College[iter].tags[jter] == "기숙사") spans.setAttribute("class","Dorm Tags");
+                    else if(search_College[iter].tags[jter] == "TOP 20") spans.setAttribute("class","TopT Tags");
+                    else if(search_College[iter].tags[jter] == "컴퓨터 공학과") spans.setAttribute("class","Comp Tags");
+                    else if(search_College[iter].tags[jter] == "거점대학교") spans.setAttribute("class","SHld Tags");
+                    else if(search_College[iter].tags[jter] == "과학기술원") spans.setAttribute("class","Scie Tags");
+                    spans.innerHTML=search_College[iter].tags[jter];
+                    div.appendChild(spans);
+                }
+                tag.appendChild(div);
+                newchild.appendChild(tag);
+
+                var early=document.createElement("td");
+                if(search_College[iter].early_link == "")
+                    early.innerHTML="-";
+                else
+                    early.innerHTML="<a href='"+search_College[iter].early_link+"' target='_blank'>링크</a>";
+                newchild.appendChild(early);
+
+                var regular=document.createElement("td");
+                if(search_College[iter].regular_link == "")
+                    regular.innerHTML="-";
+                else
+                    regular.innerHTML="<a href='"+search_College[iter].regular_link+"' target='_blank'>링크</a>";
+                newchild.appendChild(regular);
+
+                tbody.appendChild(newchild);
+            }
+        }
+
+        function sortName(){          // name의 경우만 특별하게 앞뒤를 뒤집어줘야함
+            if(nameSort == true)    // 뒤집으면 됨
+            {   
+                if(nameUp)
+                    nameUp=false;
+                else
+                    nameUp=true;
+                //여기에서 화살표 돌리기
+                rotateArrow('Name');
+
+                var iter,end;
+                var tbody=document.getElementsByTagName("tbody")[0];
+                end=parseInt((allCounter-1)/2);
+                for(iter=1;iter<=end;iter++){
+                    tmp=Heap[iter];
+                    Heap[iter]=Heap[allCounter-iter];
+                    Heap[allCounter-iter]=tmp;
+                }
+
+                var iter,end;
+                end=tbody.childElementCount;
+                for(iter=1;iter<=end;iter++)
+                    tbody.removeChild(tbody.firstElementChild);
+                    
+                fillTable();
+            }
+            else 
+            {     
+                rotateArrow('Name');
+                                  // 정렬하면 됨
+                studSort=false;
+                tagsSort=false;
+                nameSort=true;
+                nameUp=true;
+                studUp=false;
+                tagsUp=false;
+                // 정렬
+                var iter,end;
+                var now,dvs,tmp,left,right,wall;
+                var tbody=document.getElementsByTagName("tbody")[0];
+                end=allCounter;
+                clearHeap();
+                for(iter=1;iter<end;iter++) {    // 다 empty라서 비교해도 뒤로 안밀려남
+                    Heap[iter]=allCollege[iter];
+                    now=dvs=iter;
+                    dvs=parseInt(dvs/2);
+                    while(dvs!=0){
+                        if (Heap[now].college_name < Heap[dvs].college_name) {    // 아직 안정해져서 non으로 둠. 나중에 때에 맞춰 바꿔야함
+                            tmp=Heap[now];
+                            Heap[now]=Heap[dvs];
+                            Heap[dvs]=tmp;
+				            now = dvs;
+			            }
+			            dvs=parseInt(dvs/2);
+                    }
+                }
+                // 여기까지 위치 잡기
+                wall=end-1;
+                for(iter=1;iter<end;iter++, wall--){
+                    now=1;
+                    tmp=Heap[wall];
+                    Heap[wall]=Heap[now];
+                    Heap[now]=tmp;
+                    while (1) {
+			            if (now >= wall)break;
+
+			            left = now * 2;
+			            right = now * 2 + 1;
+			            if (right >= wall)right = 0;
+			            if (left >= wall)left = 0;
+
+			            if (Heap[left].college_name <= Heap[right].college_name && Heap[left].college_name < Heap[now].college_name) {       //non
+                            tmp=Heap[left];
+                            Heap[left]=Heap[now];
+                            Heap[now]=tmp;
+			    	        now = left;
+			            }
+			            else if (Heap[left].college_name > Heap[right].college_name && Heap[right].college_name < Heap[now].college_name) {         //non
+                            tmp=Heap[right];
+                            Heap[right]=Heap[now];
+                            Heap[now]=tmp;
+				            now = right;
+			            }
+			            else break;
+		            }
+                }
+                end=parseInt((allCounter-1)/2);
+                for(iter=1;iter<=end;iter++){
+                    tmp=Heap[iter];
+                    Heap[iter]=Heap[allCounter-iter];
+                    Heap[allCounter-iter]=tmp;
+                }                
+                
+                var iter,end;
+                end=tbody.childElementCount;
+                for(iter=1;iter<=end;iter++)
+                    tbody.removeChild(tbody.firstElementChild);
+                    
+                fillTable();
+            }
+        }
+        function sortStud(){
+            if(studSort == true) // 뒤집기
+            {
+                if(studUp)
+                    studUp=false;
+                else 
+                    studUp=true;
+                rotateArrow('Students');
+                var iter,end;
+                var tbody=document.getElementsByTagName("tbody")[0];
+                end=parseInt((allCounter-1)/2);
+                for(iter=1;iter<=end;iter++){
+                    tmp=Heap[iter];
+                    Heap[iter]=Heap[allCounter-iter];
+                    Heap[allCounter-iter]=tmp;
+                }
+
+                var iter,end;
+                end=tbody.childElementCount;
+                for(iter=1;iter<=end;iter++)
+                    tbody.removeChild(tbody.firstElementChild);
+                    
+                fillTable();
+            }
+            else 
+            {                    // 정렬
+                rotateArrow('Students');
+                nameSort=false;
+                tagsSort=false;
+                studSort=true;
+                nameUp=false;
+                studUp=true;
+                tagsUp=false;
+
+                var iter,end;
+                var now,dvs,tmp,left,right,wall;
+                var tbody=document.getElementsByTagName("tbody")[0];
+                end=allCounter;
+                clearHeap();
+                for(iter=1;iter<end;iter++) {    // 다 empty라서 비교해도 뒤로 안밀려남
+                    Heap[iter]=allCollege[iter];
+                    now=dvs=iter;
+                    dvs=parseInt(dvs/2);
+
+                    while(dvs!=0){
+                        if (Heap[now].students < Heap[dvs].students) {    // 아직 안정해져서 non으로 둠. 나중에 때에 맞춰 바꿔야함
+                            tmp=Heap[now];
+                            Heap[now]=Heap[dvs];
+                            Heap[dvs]=tmp;
+				            now = dvs;
+			            }
+			            dvs=parseInt(dvs/2);
+                    }
+                }
+                // 여기까지 위치 잡기
+                wall=end-1;
+                for(iter=1;iter<end;iter++, wall--){
+                    now=1;
+                    tmp=Heap[wall];
+                    Heap[wall]=Heap[now];
+                    Heap[now]=tmp;
+                    while (1) {
+			            if (now >= wall)break;
+
+			            left = now * 2;
+			            right = now * 2 + 1;
+			            if (right >= wall)right = 0;
+			            if (left >= wall)left = 0;
+
+			            if (Heap[left].students <= Heap[right].students && Heap[left].students < Heap[now].students) {       //non
+                            tmp=Heap[left];
+                            Heap[left]=Heap[now];
+                            Heap[now]=tmp;
+			    	        now = left;
+			            }
+			            else if (Heap[left].students > Heap[right].students && Heap[right].students < Heap[now].students) {         //non
+                            tmp=Heap[right];
+                            Heap[right]=Heap[now];
+                            Heap[now]=tmp;
+				            now = right;
+			            }
+			            else break;
+		            }
+                }
+                
+                var iter,end;
+                end=tbody.childElementCount;
+                for(iter=1;iter<=end;iter++)
+                    tbody.removeChild(tbody.firstElementChild);
+                    
+                fillTable();
+                }
+        }
+        function sortTags(){
+            if(tagsSort == true) // 뒤집기
+            {   
+                if(tagsUp)
+                    tagsUp=false;
+                else
+                    tagsUp=true;
+                rotateArrow('Tag');
+                var iter,end;
+                var tbody=document.getElementsByTagName("tbody")[0];
+                end=parseInt((allCounter-1)/2);
+                for(iter=1;iter<=end;iter++){
+                    tmp=Heap[iter];
+                    Heap[iter]=Heap[allCounter-iter];
+                    Heap[allCounter-iter]=tmp;
+                }
+
+                var iter,end;
+                end=tbody.childElementCount;
+                for(iter=1;iter<=end;iter++)
+                    tbody.removeChild(tbody.firstElementChild);
+                    
+                fillTable();
+                }
+            else 
+            {                    // 정렬
+                rotateArrow('Tag');
+                nameSort=false;
+                studSort=false;
+                tagsSort=true;
+                nameUp=false;
+                studUp=false;
+                tagsUp=true;
+
+                var iter,end;
+                var now,dvs,tmp,left,right,wall;
+                var tbody=document.getElementsByTagName("tbody")[0];
+                end=allCounter;
+                clearHeap();
+                for(iter=1;iter<end;iter++) {    // 다 empty라서 비교해도 뒤로 안밀려남
+                    Heap[iter]=allCollege[iter];
+                    now=dvs=iter;
+                    dvs=parseInt(dvs/2);
+
+                    while(dvs!=0){
+                        if (Heap[now].tags.length < Heap[dvs].tags.length) {    // 아직 안정해져서 non으로 둠. 나중에 때에 맞춰 바꿔야함
+                            tmp=Heap[now];
+                            Heap[now]=Heap[dvs];
+                            Heap[dvs]=tmp;
+				            now = dvs;
+			            }
+			            dvs=parseInt(dvs/2);
+                    }
+                }
+                // 여기까지 위치 잡기
+                wall=end-1;
+                for(iter=1;iter<end;iter++, wall--){
+                    now=1;
+                    tmp=Heap[wall];
+                    Heap[wall]=Heap[now];
+                    Heap[now]=tmp;
+                    while (1) {
+			            if (now >= wall)break;
+
+			            left = now * 2;
+			            right = now * 2 + 1;
+			            if (right >= wall)right = 0;
+			            if (left >= wall)left = 0;
+
+			            if (Heap[left].tags.length <= Heap[right].tags.length && Heap[left].tags.length < Heap[now].tags.length) {       //non
+                            tmp=Heap[left];
+                            Heap[left]=Heap[now];
+                            Heap[now]=tmp;
+			    	        now = left;
+			            }
+			            else if (Heap[left].tags.length > Heap[right].tags.length && Heap[right].tags.length < Heap[now].tags.length) {         //non
+                            tmp=Heap[right];
+                            Heap[right]=Heap[now];
+                            Heap[now]=tmp;
+				            now = right;
+			            }
+			            else break;
+		            }
+                }
+                
+                var iter,end;
+                end=tbody.childElementCount;
+                for(iter=1;iter<=end;iter++)
+                    tbody.removeChild(tbody.firstElementChild);
+                    
+                fillTable();
+                }
+            }
+        </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="GUI Logo" onclick="location.href='Main_Page.html';" style="width: 120px; height: auto;">
+        </div>
+        <div class="empty"></div>
+        <div class="infor">
+            <a href="Sub_1.html" class="infor">지역별 대학 사이트가기</a>
+        </div>
+    </header>
+    <section>
+        <div class="intro">
+            <div class="input">
+                <form>
+                    <input type="search" id="search" placeholder="어느 대학교?" required>
+                    <input type="button" id="submit" onclick="searchUniv()" value="검색">
+                </form>
+            </div>
+        </div>
+    </section>
+    <section id="localCol">
+        <div class="colBody">
+            <table class="college">
+                <!-- var Famous = undefined -->
+                <thead>
+                    <tr>
+                        <th id="Location">소재</th>
+                        <th id="Name" onclick="sortName()" class="tableHead"><span>대학교 이름</span><img src="triangleDesign/triangle90.png" alt="화살표" class="sortArrow"></th>
+                        <th id="Students" onclick="sortStud()" class="tableHead"><span>재학생 수</span><img src="triangleDesign/triangle90.png" alt="화살표" class="sortArrow"></th>
+                        <th id="Tag" onclick="sortTags()" class="tableHead"><span>태그</span><img src="triangleDesign/triangle90.png" alt="화살표" class="sortArrow"></th>
+                        <th id="SuLink">수시 링크</th>
+                        <th id="JungLink">정시 링크</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <hr>
+    <footer>
+        <br>
+        - 대표자명 : 이윤호<br>
+        - 주소 : Colin P Kelly Junior Street, San Francisco<br>
+        - 전화번호 : 010-4677-3492<br>
+        - 이메일 : qwerty1076199@gmail.com<br>
+        태그 중 [TOP 20]는 'https://www.languagecourse.net/ko/daehag--south-korea'를 기준으로 선정하였습니다.<br>
+        재학생 수는 동일 시기가 아닐 수 있습니다.
+    </footer>
+</body>
+</html>
