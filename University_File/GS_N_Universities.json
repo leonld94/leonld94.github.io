@@ -1,0 +1,78 @@
+{
+    "universities":[
+        {
+            "college_name":"한동대학교",
+            "location":"경상남도",
+            "students":3946,
+            "tags":[
+                "지방",
+                "자유전공",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://admissions.handong.edu/early/view/",
+            "regular_link":""
+        },{
+            "college_name":"경상대학교",
+            "location":"경상남도",
+            "students":20420,
+            "tags":[
+                "지방",
+                "기숙사",
+                "거점대학교"
+            ],
+            "early_link":"https://new.gnu.ac.kr/sub/02_01.jsp",
+            "regular_link":"https://new.gnu.ac.kr/sub/03_01.jsp"
+        },{
+            "college_name":"창원대학교",
+            "location":"경상남도",
+            "students":11497,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.changwon.ac.kr/html/01_nonscheduled/nonscheduled_0101.php",
+            "regular_link":"http://ipsi.changwon.ac.kr/html/02_regular/regular_0101.php"
+        },{
+            "college_name":"경남대학교",
+            "location":"경상남도",
+            "students":11959,
+            "tags":[
+                "지방",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.kyungnam.ac.kr/sub.html?seq=10",
+            "regular_link":"http://ipsi.kyungnam.ac.kr/sub.html?seq=50"
+        },{
+            "college_name":"영산대학교",
+            "location":"경상남도",
+            "students":6942,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.ysu.ac.kr/sub_susi/01.asp",
+            "regular_link":"https://ipsi.ysu.ac.kr/sub_jeongsi/01.asp"
+        },{
+            "college_name":"인제대학교",
+            "location":"경상남도",
+            "students":12312,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://iphak.inje.ac.kr/contents/contents.asp?m=1&m2=1&m3=1",
+            "regular_link":"https://iphak.inje.ac.kr/contents/contents.asp?m=2&m2=1&m3=1"
+        }
+    ]
+}

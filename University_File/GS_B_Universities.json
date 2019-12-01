@@ -1,0 +1,69 @@
+{
+    "universities":[
+        {
+            "college_name":"금오공과대학",
+            "location":"경상북도",
+            "students":8860,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://iphak.kumoh.ac.kr/ipsi/sub0101.do",
+            "regular_link":"http://iphak.kumoh.ac.kr/ipsi/sub0201.do"
+        },{
+            "college_name":"안동대학교",
+            "location":"경상북도",
+            "students":6040,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.andong.ac.kr/new/admission/sub.htm?nav_code=and1536915398",
+            "regular_link":"http://ipsi.andong.ac.kr/new/admission/sub.htm?nav_code=and1537234541"
+        },{
+            "college_name":"경일대학교",
+            "location":"경상북도",
+            "students":7014,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ibsi.kiu.ac.kr/admission/sub.htm?nav_code=ips1556254569",
+            "regular_link":"http://ibsi.kiu.ac.kr/admission/sub.htm?nav_code=ips1556273308"
+        },{
+            "college_name":"영남대학교",
+            "location":"경상북도",
+            "students":29887,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://enter.yu.ac.kr/susi/guide.htm?etc1=1&ctg_cd=susi",
+            "regular_link":"https://enter.yu.ac.kr/susi/guide.htm?etc1=2&page=1"
+        },{
+            "college_name":"포항공과대학교",
+            "location":"경상북도",
+            "students":1422,
+            "tags":[
+                "지방",
+                "자유전공",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"",
+            "regular_link":"https://admission.postech.ac.kr/link.do?f=sub2-0"
+        }
+    ]
+}
