@@ -239,7 +239,8 @@
 
         const adjustDiv = th => {
             const div = document.getElementsByName('localDiv')[1]
-            div[i].style.marginTop = `${(-count[i] % 2) * div[i].offsetHeight}px`
+            div.style.cssText = 'display: flex; transition: 0s;'
+            div.style.marginTop = `${(-count[i] % 2) * div.offsetHeight}px`
         }
 
         var exCollege = new Array(50);
