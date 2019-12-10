@@ -17,3 +17,7 @@ This git's function => json test & create blog page
   
   
     Example_Universities.json  
+  
+  
+  
+상관없는거긴 한데, 나중에 해볼 일에 게임 AI 짜보기 넣어야지  
