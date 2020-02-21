@@ -1,23 +1,14 @@
 # leonld94.github.io  
-This git's function => json test & create blog page  
+This git's function => json test & create blog page => image cloud website develop  
   
-들어가야 하는거  
-
-1. 디자인  
-    -글 목록(왼쪽에 접힐 수 있는 것)  
-    -Header(제목과 홀페이지 바로가기 버튼)  
-    -양쪽 마진 넣기  
-    -나중에 추가  
+1. 제목 :  Hyper Image Cloud (임시)  
   
-2. 기능 => 태민曰 : node.js + express + DB (express는 프레임워크)  
-    1)글 저장 기능  
-    2)글쓰기 기능  
-    3)글 불러오기 기능  
-    4)나중에 추가  
+2. 목표 : 태그를 이용한 효과적이고 보기 좋은 이미지 저장 & 정리  
   
+3. 기능  
+    3_1 작가 분류 : Eng / 中 / 日 / 한 4개 국어의 작가 닉네임 분류  
+    3_2 수위 조절 : 순한 맛 / 매콤한 맛 / 매운 맛 / 모두 보여지는 이미지의 수위를 조절 할 수 있음  
+    3_3 태그 설정 : 캐릭터 태그, 특수 태그(배포 가능 등) 등의 태그를 붙여 간편하게 검색 가능  
+    3_4 업로드 기능 : 이미지를 업로드할 때 이미지의 세부 사항을 조정하여 업로드 가능  
+    3_5 다운로드 기능 : 원본 보기 버튼과 다운로드 버튼을 따로 만들어 사용 가능  
   
-    Example_Universities.json  
-  
-  
-  
-상관없는거긴 한데, 나중에 해볼 일에 게임 AI 짜보기 넣어야지  
