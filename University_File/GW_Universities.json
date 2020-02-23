@@ -1,0 +1,42 @@
+{
+    "universities":[
+        {
+            "college_name":"강원대학교",
+            "location":"강원도",
+            "students":20168,
+            "tags":[
+                "지방",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과",
+                "거점대학교"
+            ],
+            "early_link":"https://www.kangwon.ac.kr/admission01/contents.do?key=1909&",
+            "regular_link":"https://www.kangwon.ac.kr/admission01/contents.do?key=967&"
+        },{
+            "college_name":"상지대학교",
+            "location":"강원도",
+            "students":6453,
+            "tags":[
+                "지방",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://www.sangji.ac.kr/go/sub01_01.do",
+            "regular_link":"https://www.sangji.ac.kr/prog/pdfDetail/Ka965b353752Sa2cN0ui%20/view.do?detailNo=45960"
+        },{
+            "college_name":"한라대학교",
+            "location":"강원도",
+            "students":3807,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://www.halla.ac.kr/mbs/ipsi/subview.jsp?id=ipsi_011400000000",
+            "regular_link":"http://www.halla.ac.kr/mbs/ipsi/subview.jsp?id=ipsi_021200000000"
+        }
+    ]
+}

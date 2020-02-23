@@ -1,0 +1,151 @@
+{
+    "universities":[
+        {
+            "college_name":"한경대학교",
+            "location":"경기도",
+            "students":5954,
+            "tags":[
+                "기숙사"
+            ],
+            "early_link":"https://ipsi.hknu.ac.kr/newhtml/html/02_2_guide.html",
+            "regular_link":"https://ipsi.hknu.ac.kr/newhtml/html/03_2.guide.html"
+        },{
+            "college_name":"가톨릭대학교",
+            "location":"경기도",
+            "students":7979,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.catholic.ac.kr/pages/?p=11&mj=01",
+            "regular_link":"http://ipsi.catholic.ac.kr/pages/?p=16&mj=02"
+        },{
+            "college_name":"강남대학교",
+            "location":"경기도",
+            "students":6719,
+            "tags":[
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://admission.kangnam.ac.kr/jeonhyung/yogang.htm?ctg_cd=susi1",
+            "regular_link":"https://admission.kangnam.ac.kr/jeonhyung/yogang.htm?ctg_cd=jungsi"
+        },{
+            "college_name":"경기대학교",
+            "location":"경기도",
+            "students":16650,
+            "tags":[
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://enter.kyonggi.ac.kr/pages/?p=10&mj=01",
+            "regular_link":"http://enter.kyonggi.ac.kr/pages/?p=16&mj=02"
+        },{
+            "college_name":"단국대학교",
+            "location":"경기도",
+            "students":35825,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.dankook.ac.kr/jukjeon/doumi/mojip.html?bbsid=juk_paper&ctg_cd=01",
+            "regular_link":"http://ipsi.dankook.ac.kr/jukjeon/doumi/mojip.html?bbsid=juk_paper&ctg_cd=03"
+        },{
+            "college_name":"대진대학교",
+            "location":"경기도",
+            "students":8903,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://admission.daejin.ac.kr/boardview.do?pkid=4310&searchField=ALL&searchValue=&searchLpp=15&currentPage=1&searchItemGubun=B&bbsconfig=1",
+            "regular_link":"http://admission.daejin.ac.kr/boardview.do?pkid=4520&searchField=ALL&searchValue=&searchLpp=15&currentPage=1&searchItemGubun=C&bbsconfig=1"
+        },{
+            "college_name":"성결대학교",
+            "location":"경기도",
+            "students":5407,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.sungkyul.ac.kr/asp_sub/sub1/0101.asp?tab1=1",
+            "regular_link":"http://ipsi.sungkyul.ac.kr/asp_sub/sub2/0101.asp?tab1=2"
+        },{
+            "college_name":"수원대학교",
+            "location":"경기도",
+            "students":12649,
+            "tags":[
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.suwon.ac.kr/index.html?menuno=2057",
+            "regular_link":"https://ipsi.suwon.ac.kr/index.html?menuno=2063"
+        },{
+            "college_name":"아주대학교",
+            "location":"경기도",
+            "students":9850,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://www.iajou.ac.kr/susi/mojip.do?gb=mojip",
+            "regular_link":"http://www.iajou.ac.kr/jungsi/mojip.do?gb=mojip"
+        },{
+            "college_name":"안양대학교",
+            "location":"경기도",
+            "students":6915,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://www.anyang.ac.kr/uploads/CONTENTS/site/enter/2020susi_f.pdf",
+            "regular_link":"http://www.anyang.ac.kr/uploads/CONTENTS/site/enter/2020jung.pdf"
+        },{
+            "college_name":"용인대학교",
+            "location":"경기도",
+            "students":6076,
+            "tags":[
+                "기숙사"
+            ],
+            "early_link":"https://ipsi.yongin.ac.kr/susi/guide.do ",
+            "regular_link":"https://ipsi.yongin.ac.kr/jungsi/guide.do"
+        },{
+            "college_name":"한국산업기술대학교",
+            "location":"경기도",
+            "students":7370,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://iphak.kpu.ac.kr/susi/guide.htm",
+            "regular_link":"http://iphak.kpu.ac.kr/jungsi/guide.htm"
+        },{
+            "college_name":"한세대학교",
+            "location":"경기도",
+            "students":2828,
+            "tags":[
+                "기숙사"
+            ],
+            "early_link":"http://ipsi.hansei.ac.kr/ipsi/1071/subview.do",
+            "regular_link":"http://ipsi.hansei.ac.kr/ipsi/1077/subview.do"
+        },{
+            "college_name":"한신대학교",
+            "location":"경기도",
+            "students":7359,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ent.hs.ac.kr/ipsi/pages/?p=2&mj=01",
+            "regular_link":"http://ent.hs.ac.kr/ipsi/pages/?p=7&mj=02"
+        }
+    ]
+}

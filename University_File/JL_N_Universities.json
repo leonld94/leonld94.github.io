@@ -1,0 +1,30 @@
+{
+    "universities":[
+        {
+            "college_name":"목포대학교",
+            "location":"전라남도",
+            "students":9027,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.mokpo.ac.kr/index.9is?contentUid=4a94e3926cb381c9016cb3b4cacb00cb",
+            "regular_link":"http://ipsi.mokpo.ac.kr/index.9is?contentUid=4a94e3926cb381c9016cb3b5149100cd"
+        },{
+            "college_name":"동신대학교",
+            "location":"전라남도",
+            "students":8559,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.dsu.ac.kr/ipsi/index.php?pCode=ocguide",
+            "regular_link":"https://ipsi.dsu.ac.kr/ipsi/index.php?pCode=otguide"
+        }
+    ]
+}

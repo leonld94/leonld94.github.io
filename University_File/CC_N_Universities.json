@@ -1,0 +1,112 @@
+{
+    "universities":[
+        {
+            "college_name":"공주대학교",
+            "location":"충청남도",
+            "students":17192,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://4u.kongju.ac.kr/kor/sub10_01_01.do",
+            "regular_link":"https://4u.kongju.ac.kr/kor/sub11_01_01.do"
+        },{
+            "college_name":"건양대학교",
+            "location":"충청남도",
+            "students":7646,
+            "tags":[
+                "지방",
+                "기숙사"
+            ],
+            "early_link":"https://www.konyang.ac.kr/prog/info/ipsi/sub01_01/susi/list.do",
+            "regular_link":"https://www.konyang.ac.kr/prog/info/ipsi/sub02_01/jeongsi/list.do"
+        },{
+            "college_name":"남서울대학교",
+            "location":"충청남도",
+            "students":9629,
+            "tags":[
+                "지방",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://www.namseoul.net/html/110101.htm",
+            "regular_link":"https://www.namseoul.net/html/180912.htm"
+        },{
+            "college_name":"백석대학교",
+            "location":"충청남도",
+            "students":16374,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.bu.ac.kr/admission/bbs/apply.jsp?pc=2,1&c1=%EC%88%98%EC%8B%9C",
+            "regular_link":"http://ipsi.bu.ac.kr/admission/bbs/apply.jsp?pc=3,1&c1=%EC%A0%95%EC%8B%9C"
+        },{
+            "college_name":"선문대학교",
+            "location":"충청남도",
+            "students":13074,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ilove.sunmoon.ac.kr/Page/Nonschedule/NonGuide2020.aspx",
+            "regular_link":"https://ilove.sunmoon.ac.kr/Page/Regular/RegGuide2020.aspx"
+        },{
+            "college_name":"순천향대학교",
+            "location":"충청남도",
+            "students":14245,
+            "tags":[
+                "지방",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.sch.ac.kr/susi/application/handbook_01.html",
+            "regular_link":"https://ipsi.sch.ac.kr/jungsi/application/handbook.html"
+        },{
+            "college_name":"중부대학교",
+            "location":"충청남도",
+            "students":12474,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.joongbu.ac.kr/menu.es?mid=a60101000000",
+            "regular_link":"https://ipsi.joongbu.ac.kr/menu.es?mid=a60201000000"
+        },{
+            "college_name":"한서대학교",
+            "location":"충청남도",
+            "students":7109,
+            "tags":[
+                "지방",
+                "자유전공",
+                "기숙사"
+            ],
+            "early_link":"http://helper.hanseo.ac.kr/html/kr/sub1/sub1_0101.html",
+            "regular_link":"http://helper.hanseo.ac.kr/html/kr/sub1/sub1_0101.html"
+        },{
+            "college_name":"호서대학교",
+            "location":"충청남도",
+            "students":11791,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.hoseo.ac.kr/CmsHome/susi01.eznic",
+            "regular_link":"http://ipsi.hoseo.ac.kr/CmsHome/jungsi01.eznic"
+        }
+    ]
+}

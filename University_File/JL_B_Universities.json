@@ -1,0 +1,55 @@
+{
+    "universities":[
+        {
+            "college_name":"군산대학교",
+            "location":"전라북도",
+            "students":10803,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://www.kunsan.ac.kr/iphak/index.kunsan?menuCd=DOM_000000602001000000",
+            "regular_link":"http://www.kunsan.ac.kr/iphak/index.kunsan?menuCd=DOM_000000603001000000"
+        },{
+            "college_name":"전북대학교",
+            "location":"전라북도",
+            "students":18046,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과",
+                "거점대학교"
+            ],
+            "early_link":"http://enter.jbnu.ac.kr/bbs/board.php?bo_table=sub06_01&wr_id=638&sca=%ED%95%99%EC%83%9D%EB%B6%80%EC%A2%85%ED%95%A9%EC%A0%84%ED%98%95",
+            "regular_link":"http://enter.jbnu.ac.kr/bbs/content.php?co_id=sub02_01"
+        },{
+            "college_name":"우석대학교",
+            "location":"전라북도",
+            "students":7339,
+            "tags":[
+                "지방",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://www.woosuk.ac.kr/boardView.do?bcode=B0155&id=302961&pid=27&lgF=1&mzcode=K04M0710",
+            "regular_link":"https://www.woosuk.ac.kr/boardView.do?bcode=B0155&id=307363&pid=28&lgF=1&mzcode=K04M0710"
+        },{
+            "college_name":"원광대학교",
+            "location":"전라북도",
+            "students":15158,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.wku.ac.kr/rolling/guide/",
+            "regular_link":"http://ipsi.wku.ac.kr/regular/guide/"
+        }
+    ]
+}

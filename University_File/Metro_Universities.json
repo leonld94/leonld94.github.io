@@ -1,0 +1,278 @@
+{
+    "universities":[
+        {
+            "college_name":"부경대학교",
+            "location":"부산광역시",
+            "students":16655,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://iphak.pknu.ac.kr/pknu/plan/index.htm?code=susi",
+            "regular_link":"http://iphak.pknu.ac.kr/pknu/plan/index.htm?code=jungsi"
+        },{
+            "college_name":"부산대학교",
+            "location":"부산광역시",
+            "students":29091,
+            "tags":[
+                "지방",
+                "기숙사",
+                "컴퓨터 공학과",
+                "거점대학교"
+            ],
+            "early_link":"http://go.pusan.ac.kr/college_2016/pages/index.asp?p=3&mj=01",
+            "regular_link":"http://go.pusan.ac.kr/college_2016/pages/index.asp?p=13&mj=02"
+        },{
+            "college_name":"경성대학교",
+            "location":"부산광역시",
+            "students":12448,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://kscms.ks.ac.kr/ipsi/CMS/Contents/Contents.do?mCode=MN025",
+            "regular_link":"http://kscms.ks.ac.kr/ipsi/CMS/Contents/Contents.do?mCode=MN031"
+        },{
+            "college_name":"동명대학교",
+            "location":"부산광역시",
+            "students":12100,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://iphak.tu.ac.kr/default/sub/subLocation.tu?categorySeq=1002005&menuSeq=100200509&confSeq=&boardSeq=-1",
+            "regular_link":"http://iphak.tu.ac.kr/default/sub/subLocation.tu?categorySeq=1002007&menuSeq=100200724&confSeq=&boardSeq=-1"
+        },{
+            "college_name":"동서대학교",
+            "location":"부산광역시",
+            "students":10581,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.dongseo.ac.kr/ipsi/?pCode=sihandbk",
+            "regular_link":"http://ipsi.dongseo.ac.kr/ipsi/index.php?pCode=jihandbk"
+        },{
+            "college_name":"동아대학교",
+            "location":"부산광역시",
+            "students":26961,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ent.donga.ac.kr/admission/html/rolling/guide.asp",
+            "regular_link":"http://ent.donga.ac.kr/admission/html/regular/guide.asp"
+        },{
+            "college_name":"부산외국어대학교",
+            "location":"부산광역시",
+            "students":12352,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://enter.bufs.ac.kr/enter/index.php?pCode=enter_11",
+            "regular_link":"https://enter.bufs.ac.kr/enter/index.php?pCode=MN000078"
+        },{
+            "college_name":"신라대학교",
+            "location":"부산광역시",
+            "students":9616,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.silla.ac.kr/ipsi/index.php?pCode=sihandbk",
+            "regular_link":"https://ipsi.silla.ac.kr/ipsi/index.php?pCode=jihandbk"
+        },{
+            "college_name":"계명대학교",
+            "location":"대구광역시",
+            "students":23435,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://www.gokmu.ac.kr/guide/paper.htm?ctg_cd=susi",
+            "regular_link":"https://www.gokmu.ac.kr/guide/paper.htm?ctg_cd=jungsi"
+        },{
+            "college_name":"대구경북과학기술원",
+            "location":"대구광역시",
+            "students":755,
+            "tags":[
+                "지방",
+                "기숙사",
+                "과학기술원"
+            ],
+            "early_link":"https://www.dgist.ac.kr/adm/html/sub02/020202.html",
+            "regular_link":"https://www.dgist.ac.kr/adm/html/sub03/030102.html"
+        },{
+            "college_name":"인천대학교",
+            "location":"인천광역시",
+            "students":18619,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://www.inu.ac.kr/ipsi/sub/susi/recruit.do",
+            "regular_link":"https://www.inu.ac.kr/ipsi/sub/jeongsi/recruit.do"
+        },{
+            "college_name":"인하대학교",
+            "location":"인천광역시",
+            "students":17674,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://admission.inha.ac.kr/cms/FR_CON/index.do?MENU_ID=80",
+            "regular_link":"https://admission.inha.ac.kr/cms/FR_CON/index.do?MENU_ID=120"
+        },{
+            "college_name":"조선대학교",
+            "location":"광주광역시",
+            "students":19240,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ibhak.chosun.ac.kr/contents.php?mc=9",
+            "regular_link":"http://ibhak.chosun.ac.kr/contents.php?mc=16"
+        },{
+            "college_name":"호남대학교",
+            "location":"광주광역시",
+            "students":9364,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://enter.honam.ac.kr/susiPDF",
+            "regular_link":"https://enter.honam.ac.kr/jungsiPDF"
+        },{
+            "college_name":"광주과학기술원",
+            "location":"광주광역시",
+            "students":949,
+            "tags":[
+                "지방",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과",
+                "과학기술원"
+            ],
+            "early_link":"https://www.gist.ac.kr/uadm/html/sub02/020101.html",
+            "regular_link":"https://www.gist.ac.kr/uadm/html/sub02/0202.html"
+        },{
+            "college_name":"충남대학교",
+            "location":"대전광역시",
+            "students":24089,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과",
+                "거점대학교"
+            ],
+            "early_link":"http://ipsi.cnu.ac.kr/html/uadm/sub01/sub01_0103.html",
+            "regular_link":"http://ipsi.cnu.ac.kr/html/uadm/sub02/sub02_0203.html"
+        },{
+            "college_name":"한밭대학교",
+            "location":"대전광역시",
+            "students":7832,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://admission.hanbat.ac.kr/html/kr/synth/synth_0801.html",
+            "regular_link":"http://admission.hanbat.ac.kr/html/kr/regular/regular_0207.html"
+        },{
+            "college_name":"목원대학교",
+            "location":"대전광역시",
+            "students":7892,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://enter.mokwon.ac.kr/new/html/frequent/frequent01.php",
+            "regular_link":"http://enter.mokwon.ac.kr/new/html/fixed_period/fixed_period01.php"
+        },{
+            "college_name":"한남대학교",
+            "location":"대전광역시",
+            "students":16685,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ibsi.hannam.ac.kr/adms5/occasional/1_1.asp",
+            "regular_link":"https://ibsi.hannam.ac.kr/adms5/procedure/3_1.asp"
+        },{
+            "college_name":"한국과학기술원",
+            "location":"대전광역시",
+            "students":3873,
+            "tags":[
+                "지방",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과",
+                "과학기술원"
+            ],
+            "early_link":"https://admission.kaist.ac.kr/undergraduate/%EC%88%98%EC%8B%9C/",
+            "regular_link":"https://admission.kaist.ac.kr/undergraduate/%ec%a0%95%ec%8b%9c/"
+        },{
+            "college_name":"울산대학교",
+            "location":"울산광역시",
+            "students":12184,
+            "tags":[
+                "지방",
+                "특성화고 전형",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://iphak.ulsan.ac.kr/sub/info.do?m=0101&s=iphak",
+            "regular_link":"http://iphak.ulsan.ac.kr/sub/info.do?m=0104&s=iphak"
+        },{
+            "college_name":"울산과학기술원",
+            "location":"울산광역시",
+            "students":3090,
+            "tags":[
+                "지방",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과",
+                "과학기술원"
+            ],
+            "early_link":"https://adm-u.unist.ac.kr/admission/guidelines/",
+            "regular_link":""
+        }
+    ]
+}

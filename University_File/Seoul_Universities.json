@@ -1,0 +1,378 @@
+{
+    "universities":[
+        {
+            "college_name":"서울시립대학교",
+            "location":"서울특별시",
+            "students":12621,
+            "tags":[
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://www.uos.ac.kr/admission/susi/info.do?epTicket=LOG",
+            "regular_link":"https://www.uos.ac.kr/admission/jungsi/info.do?epTicket=LOG"
+        },
+        {
+            "college_name":"서울교육대학교",
+            "location":"서울특별시",
+            "students":1546,
+            "tags":[
+                "기숙사"
+            ],
+            "early_link":"http://admission.snue.ac.kr/guide/guide.page",
+            "regular_link":"http://admission.snue.ac.kr/guide/guide2.page"
+        },
+        {
+            "college_name":"서울대학교",
+            "location":"서울특별시",
+            "students":16511,
+            "tags":[
+                "자유전공",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과",
+                "거점대학교"
+            ],
+            "early_link":"http://admission.snu.ac.kr/under/early/guide",
+            "regular_link":"http://admission.snu.ac.kr/under/regular/guide"
+        },
+        {
+            "college_name":"한국방송통신대학교",
+            "location":"서울특별시",
+            "students":241800,
+            "tags":[
+                "기숙사"
+            ],
+            "early_link":"",
+            "regular_link":"https://www.knou.ac.kr/knou/admission/EHPNwsdScrnScl.jsp"
+        },
+        {
+            "college_name":"건국대학교",
+            "location":"서울특별시",
+            "students":15908,
+            "tags":[
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://enter.konkuk.ac.kr/seoul/susi/guide.jsp",
+            "regular_link":"http://enter.konkuk.ac.kr/seoul/jungsi/guide.jsp"
+        },
+        {
+            "college_name":"경희대학교",
+            "location":"서울특별시",
+            "students":26430,
+            "tags":[
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://iphak.khu.ac.kr/upload/02_2020khu_susi_mojip_2.pdf",
+            "regular_link":"http://iphak.khu.ac.kr/upload/06_2019khu_jungsi_section.pdf"
+        },
+        {
+            "college_name":"고려대학교",
+            "location":"서울특별시",
+            "students":27608,
+            "tags":[
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://oku.korea.ac.kr/oku/cms/FR_CON/index.do?MENU_ID=680",
+            "regular_link":"https://oku.korea.ac.kr/oku/cms/FR_CON/index.do?MENU_ID=650"
+        },
+        {
+            "college_name":"광운대학교",
+            "location":"서울특별시",
+            "students":8199,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://iphak.kw.ac.kr/occasional/susi_01.php",
+            "regular_link":"https://iphak.kw.ac.kr/regular/regular_01.php"
+        },
+        {
+            "college_name":"국민대학교",
+            "location":"서울특별시",
+            "students":15575,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://admission.kookmin.ac.kr/nonschedule/application.php",
+            "regular_link":"http://admission.kookmin.ac.kr/onschedule/application.php"
+        },
+        {
+            "college_name":"덕성여자대학교",
+            "location":"서울특별시",
+            "students":5888,
+            "tags":[
+                "특성화고 전형",
+                "여대",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://enter.duksung.ac.kr/contents/contents.do?ciIdx=301&menuId=824",
+            "regular_link":"https://enter.duksung.ac.kr/contents/contents.do?ciIdx=302&menuId=830"
+        },
+        {
+            "college_name":"동국대학교",
+            "location":"서울특별시",
+            "students":13872,
+            "tags":[
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.dongguk.edu/admission/html/rolling/guide.asp",
+            "regular_link":"https://ipsi.dongguk.edu/admission/html/regular/guide.asp"
+        },
+        {
+            "college_name":"동덕여자대학교",
+            "location":"서울특별시",
+            "students":6763,
+            "tags":[
+                "여대",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.dongduk.ac.kr/ipsi/ss/common.do",
+            "regular_link":"https://ipsi.dongduk.ac.kr/ipsi/js/common.do"
+        },
+        {
+            "college_name":"명지대학교",
+            "location":"서울특별시",
+            "students":19034,
+            "tags":[
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.mju.ac.kr/pages/?p=10&mj=01",
+            "regular_link":"http://ipsi.mju.ac.kr/pages/?p=16&mj=02"
+        },
+        {
+            "college_name":"상명대학교",
+            "location":"서울특별시",
+            "students":12730,
+            "tags":[
+                "자유전공",
+                "기숙사"
+            ],
+            "early_link":"https://admission.smu.ac.kr:2012/seoul/ipsi/mojib.php?ctg_cd=susi",
+            "regular_link":"https://admission.smu.ac.kr:2012/seoul/ipsi/mojib.php?ctg_cd=jungsi"
+        },
+        {
+            "college_name":"서강대학교",
+            "location":"서울특별시",
+            "students":8302,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://admission.sogang.ac.kr/admission/html/rolling/guide.asp",
+            "regular_link":"http://admission.sogang.ac.kr/admission/html/regular/guide.asp"
+        },
+        {
+            "college_name":"서경대학교",
+            "location":"서울특별시",
+            "students":6568,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://go.skuniv.ac.kr/#mid=rolling_admission_guide",
+            "regular_link":"https://go.skuniv.ac.kr/#mid=regular_admission_guide"
+        },
+        {
+            "college_name":"서울여자대학교",
+            "location":"서울특별시",
+            "students":7624,
+            "tags":[
+                "특성화고 전형",
+                "자유전공",
+                "여대",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://admission.swu.ac.kr/ipsi/mojip.htm?ctg_cd=susi",
+            "regular_link":"http://admission.swu.ac.kr/ipsi/mojip.htm?ctg_cd=jungsi"
+        },
+        {
+            "college_name":"성균관대학교",
+            "location":"서울특별시",
+            "students":26229,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://admission.skku.edu/mojip/mojip.htm?ctg_cd=susi",
+            "regular_link":"https://admission.skku.edu/mojip/mojip.htm?ctg_cd=jungsi"
+        },
+        {
+            "college_name":"성신여자대학교",
+            "location":"서울특별시",
+            "students":9223,
+            "tags":[
+                "특성화고 전형",
+                "여대",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://ipsi.sungshin.ac.kr/guide/recruit.htm?ctg_cd=susi",
+            "regular_link":"https://ipsi.sungshin.ac.kr/guide/recruit.htm?ctg_cd=jungsi"
+        },
+        {
+            "college_name":"세종대학교",
+            "location":"서울특별시",
+            "students":16218,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://ipsi.sejong.ac.kr/sub_page/sub1/0101.asp?tab1=1",
+            "regular_link":"http://ipsi.sejong.ac.kr/sub_page/sub2/0101.asp?tab1=2"
+        },
+        {
+            "college_name":"숙명여자대학교",
+            "location":"서울특별시",
+            "students":10158,
+            "tags":[
+                "여대",
+                "기숙사"
+            ],
+            "early_link":"http://admission.sookmyung.ac.kr/enter/html/rolling/guide.asp",
+            "regular_link":"http://admission.sookmyung.ac.kr/enter/html/regular/guide.asp"
+        },
+        {
+            "college_name":"숭실대학교",
+            "location":"서울특별시",
+            "students":13402,
+            "tags":[
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://iphak.ssu.ac.kr/2014/susi/req.asp",
+            "regular_link":"http://iphak.ssu.ac.kr/2014/jungsi/req.asp"
+        },
+        {
+            "college_name":"연세대학교",
+            "location":"서울특별시",
+            "students":25185,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://admission.yonsei.ac.kr/seoul/admission/html/rolling/guide.asp",
+            "regular_link":"https://admission.yonsei.ac.kr/seoul/admission/html/regular/guide.asp"
+        },
+        {
+            "college_name":"이화여자대학교",
+            "location":"서울특별시",
+            "students":15789,
+            "tags":[
+                "자유전공",
+                "여대",
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://admission.ewha.ac.kr/enter/doc/rolling/guide.asp",
+            "regular_link":"https://admission.ewha.ac.kr/enter/doc/regular/guide.asp"
+        },
+        {
+            "college_name":"중앙대학교",
+            "location":"서울특별시",
+            "students":23426,
+            "tags":[
+                "특성화고 전형",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://admission.cau.ac.kr/guide/plan.html?ctg_cd=susi",
+            "regular_link":"https://admission.cau.ac.kr/guide/plan.html?ctg_cd=jungsi"
+        },
+        {
+            "college_name":"총신대학교",
+            "location":"서울특별시",
+            "students":1634,
+            "tags":[
+                "기숙사"
+            ],
+            "early_link":"http://admission.chongshin.ac.kr/early/guide/2020/",
+            "regular_link":"http://admission.chongshin.ac.kr/regular/guide/2020/"
+        },
+        {
+            "college_name":"한국성서대학교",
+            "location":"서울특별시",
+            "students":1074,
+            "tags":[
+                "기숙사"
+            ],
+            "early_link":"http://ipsi.bible.ac.kr/throughout/outline.aspx",
+            "regular_link":"http://ipsi.bible.ac.kr/on_scedule/outline.aspx"
+        },
+        {
+            "college_name":"한국외국어대학교",
+            "location":"서울특별시",
+            "students":17345,
+            "tags":[
+                "기숙사",
+                "TOP 20"
+            ],
+            "early_link":"https://adms.hufs.ac.kr/enter/html/rolling/guide_rolling.asp",
+            "regular_link":"https://adms.hufs.ac.kr/enter/html/regular/guide.asp"
+        },
+        {
+            "college_name":"한성대학교",
+            "location":"서울특별시",
+            "students":9243,
+            "tags":[
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"http://enter.hansung.ac.kr/?m1=menu00%25&m2=sub00%25&board=application%25&application=1%25",
+            "regular_link":"http://enter.hansung.ac.kr/?m1=menu01%25&m2=sub00%25&board=application%25&application=4%25"
+        },
+        {
+            "college_name":"한양대학교",
+            "location":"서울특별시",
+            "students":16142,
+            "tags":[
+                "기숙사",
+                "TOP 20",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://go.hanyang.ac.kr/new/2015/01/req.html",
+            "regular_link":"https://go.hanyang.ac.kr/new/2015/02/req.html"
+        },
+        {
+            "college_name":"홍익대학교",
+            "location":"서울특별시",
+            "students":25599,
+            "tags":[
+                "특성화고 전형",
+                "자유전공",
+                "기숙사",
+                "컴퓨터 공학과"
+            ],
+            "early_link":"https://admission.hongik.ac.kr/guide/guide?kind=rolling",
+            "regular_link":"https://admission.hongik.ac.kr/guide/guide?kind=regular"
+        }
+    ]
+}
