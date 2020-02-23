@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Test</title>
+    <title>Test 1</title>
     <style>
         html {
           font-family: sans-serif;
@@ -60,7 +60,7 @@
       </style>
 </head>
 <body>
-    <form>
+  <form method="POST" enctype="multipart/form-data">
     <div>
       <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
       <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png" multiple>
@@ -69,12 +69,12 @@
       <p>No files currently selected for upload</p>
     </div>
     <div>
-      <button>Submit</button>
+      <button type="submit">Submit</button>
     </div>
-    <div>
+    <!--<div>
       <a href="" id="abc">클릭클릭클릭</a>
-      <!-- target을 _blank로 해놓으면 다른 웹에서는 이미지의 정보가 없으니까 못여나봐-->
-    </div>
+      target을 _blank로 해놓으면 다른 웹에서는 이미지의 정보가 없으니까 못여나봐
+    </div>-->
   </form>
   <script>
       // 내가 만든게 아니고, 모질라 예제에 있던게 내가 원하단거라서 좀 가져옴
@@ -107,7 +107,7 @@
             para.textContent = `File name ${file.name}, file size ${returnFileSize(file.size)}.`;
             const image = document.createElement('img');
             image.src = URL.createObjectURL(file);
-                document.getElementById("abc").href = image.src;
+            //document.getElementById("abc").href = image.src;
 
             listItem.appendChild(image);
             listItem.appendChild(para);
