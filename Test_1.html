@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Test</title>
     <style>
         html {
           font-family: sans-serif;
@@ -71,6 +71,10 @@
     <div>
       <button>Submit</button>
     </div>
+    <div>
+      <a href="" id="abc">클릭클릭클릭</a>
+      <!-- target을 _blank로 해놓으면 다른 웹에서는 이미지의 정보가 없으니까 못여나봐-->
+    </div>
   </form>
   <script>
       // 내가 만든게 아니고, 모질라 예제에 있던게 내가 원하단거라서 좀 가져옴
@@ -103,6 +107,7 @@
             para.textContent = `File name ${file.name}, file size ${returnFileSize(file.size)}.`;
             const image = document.createElement('img');
             image.src = URL.createObjectURL(file);
+                document.getElementById("abc").href = image.src;
 
             listItem.appendChild(image);
             listItem.appendChild(para);
