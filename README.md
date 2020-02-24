@@ -1,7 +1,7 @@
 # leonld94.github.io  
 This git's function => json test & create blog page => image cloud website develop  
   
-1. 제목 :  Hyper Image Cloud (임시)  
+1. 제목 :  Hyper Image Cloud or Private AK-12 Library (임시)  
   
 2. 목표 : 태그를 이용한 효과적이고 보기 좋은 이미지 저장 & 정리  
   
@@ -26,9 +26,10 @@ This git's function => json test & create blog page => image cloud website devel
 
 5. 파일 구조 정리  
   
-    5_1 일러스트레이션 저장 방식 1안 : 이미지를 업로드할 때 태그로 정한 대표 캐릭터의 이름이 파일의 이름이 되고 (ex)UMP45_3.png), 동명의 json 파일에 업로드한 상세 내용을 저장, 요구할때마다 설정에서 뜯어본다.
-        일러스트레이션 저장 방식 2안 : 순한 맛 / 매콤한 맛 / 매운 맛 3개의 json 파일을 만들어두고, 해당 일러스트가 추가될 때마다 목록에 추가한다. 작가도 마찬가지, 캐릭터도 마찬가지. 단 목록이 작가 수 + 캐릭터 수만큼 늘어난다.
-
+    5_1 일러스트레이션 저장 방식 1안 : 이미지를 업로드할 때 태그로 정한 대표 캐릭터의 이름이 파일의 이름이 되고 (ex)UMP45_3.png), 동명의 json 파일에 업로드한 상세 내용을 저장, 요구할때마다 설정에서 뜯어본다.  
+        일러스트레이션 저장 방식 2안 : 순한 맛 / 매콤한 맛 / 매운 맛 3개의 json 파일을 만들어두고, 해당 일러스트가 추가될 때마다 목록에 추가한다. 나머지는 1안과 같다.   
+    5_2 만화 저장 방식 : 작가 이름을 제목으로 설정하고 장 수마다 숫자가 올라간다(ex)abc_1_1.png). 뒤에 숫자를 뺸 제목의 json 파일에 만화 한 세트의 목록과 설정이 들어가고, 순한 맛 / 매콤한 맛 / 매운 맛 json 목록 파일에는 해당 json 파일이 들어간다(ex)abc_1.json).  
+  
 ├── app  
 │   ├── static  
 │   │   ├── css  
