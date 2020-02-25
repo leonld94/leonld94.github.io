@@ -3,12 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Test 2</title>
+    <script>
+        var ti = document.getElementById("test");
+        function button1(){
+            
+            alert(ti)
+        }
+        function button2(){
+            var ti = document.getElementById("test");
+            ti.value = ti.value + " button2";
+        }
+
+        function buttion(e){
+            var a = document.getElementById(e);
+            a.innerText = 'button';
+        }
+    </script>
 </head>
 <body>
     <form method="POST">
-        <input name="say" value="Hi">
-        <input name="to" value="Mom">
-        <input type="submit" value="확인">
-      </form>
+        <input type="text" id="test" value="ABCD"><br>
+        <input type="button" onclick="button1()" value="버튼 1"><br>
+        <input type="button" onclick="button2()" value="버튼 2"><br>
+        <textarea name="ta" id="ta" cols="30" rows="10">
+
+        </textarea>
+        <input type="button" onclick="buttion('ta')" value="버튼 3">
+    </form>
 </body>
 </html>
