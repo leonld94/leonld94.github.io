@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Test 2</title>
-    <script>
+    <!-- <script>
         var ti = document.getElementById("test");
         function button1(){
             
@@ -18,17 +18,36 @@
             var a = document.getElementById(e);
             a.innerText = 'button';
         }
+    </script> -->
+    <script>
+        function addDelete(id){
+            document.getElementById(id).style.backgroundColor = '#ff7777';
+            document.getElementById(id).style.color = 'white';
+        }
     </script>
 </head>
 <body>
     <form method="POST">
-        <input type="text" id="test" value="ABCD"><br>
+
+        <script src="Test_1.js"></script>
+
+        <input type="text" id="test" value="ABCD" readonly><br>
         <input type="button" onclick="button1()" value="버튼 1"><br>
         <input type="button" onclick="button2()" value="버튼 2"><br>
         <textarea name="ta" id="ta" cols="30" rows="10">
 
         </textarea>
-        <input type="button" onclick="buttion('ta')" value="버튼 3">
+        <input type="button" onclick="buttion('ta')" value="버튼 3"><br>
+
+        <a id="tag_1" onclick="addDelete('tag_1')" >UMP45</a><br>
+        <a id="tag_1" onclick="" href>ㅇ거</a>
+        
+        <p>
+            랄룰랄랄랄룰
+        </p>
+        <p style="font-family:fantasy;">
+            랄룰랄랄랄룰
+        </p>
     </form>
 </body>
 </html>

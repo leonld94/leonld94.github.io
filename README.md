@@ -33,12 +33,12 @@ This git's function => json test & create blog page => image cloud website devel
     5_2 만화 저장 방식 : 작가 이름을 제목으로 설정하고 장 수마다 숫자가 올라간다(ex)abc_1_1.png). 뒤에 숫자를 뺸 제목의 json 파일에 만화 한 세트의 목록과 설정이 들어가고, 순한 맛 / 매콤한 맛 / 매운 맛 json 목록 파일에는 해당 json 파일이 들어간다(ex)abc_1.json).  
   
 ├── app  
-│   ├── library  
-│   │   ├── author  
-│   │   ├── character  
-│   │   ├── illust  
-│   │   └── comic  
 │   ├── static  
+│   │   ├── library  
+│   │   │   ├── author 
+│   │   │   ├── character  
+│   │   │   ├── illust  
+│   │   │   └── comic 
 │   │   ├── css  
 │   │   ├── img  
 │   │   └── js  
@@ -57,10 +57,12 @@ This git's function => json test & create blog page => image cloud website devel
         5. 해당 작가의 json 파일의 작품 목록에 json 파일명을 추가한다.  
         6. 대표 캐릭터의 카운트를 올리고 등장 캐릭터들의 일러스트 목록에 올린다(맨 앞에 이름을 올리고 있는 캐릭터가 대표 캐릭터로 자동 설정된다).  
     6_2 일러스트에서 캐릭터 탐색:  
-        1. 태그 클릭을 js가 인식, /library/character/ 에서 해당 캐릭터의 json을 열고 illust 목록을 가져온다.  
+        1. 태그 클릭을 js가 인식, /static/library/character/ 에서 해당 캐릭터의 json을 열고 illust 목록을 가져온다.  
         2. illust 목록을 돌며 해당 일러스트 수위를 확인하고, 해당하면 화면에 띄운다.  
     6_3 만화 업로드:  
         1. 만화들을 차례대로 업로드 받고, 대표 이미지를 업로드 받고, 작가, 등장 캐릭터, 수위 정보, 제목을 입력 받는다.  
     6_4 등장 캐릭터 체크 방법:  
-        1. /library/character/0_list.json에서 캐릭터 하나씩 가져오면서 <a>태그로 감싸 div에 출력하고, 홀수번 클릭 시 input#text에 캐릭터 이름을 공백으로 구분하여 띄우며, 짝수번 클릭 시 캐릭터 이름을 지운다.  
-         나머지는 지금 생각해두는거보다 좀 더 공부해서 하는게 좋을 것 같다.
+        1. /static/library/character/0_list.json에서 캐릭터 하나씩 가져오면서 <a>태그로 감싸 div에 출력하고, 홀수번 클릭 시 input#text에 캐릭터 이름을 공백으로 구분하여 띄우며, 짝수번 클릭 시 캐릭터 이름을 지운다.  
+        2_1. submit 버튼을 누르면 보내기전에 대표 캐릭터의 json을 가져와 count를 확인하여 일러스트의 제목을 정하고 json을 저장한 후 나머지 데이터들과 함께 보낸다.  
+        2_2. 또는 python에서 파일 입력을 통해 대표 캐릭터의 count를 확인하고 일러스트의 제목을 정한 후 수정하여 저장한다.  
+        3. routes.py에서 데이터들을 조합하여 json 파일을 만들고 이미지를 저장한 후 upload_complete.html로 보낸다.  
