@@ -2,9 +2,12 @@ const UNFURL_DURATION = 650;
 const REFURL_DURATION = 400;
 
 export function unfurl(viewerEl) {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     viewerEl.classList.remove('unfurled');
     viewerEl.classList.add('unfurling');
+
+    // Compute target width in pixels for reliable cross-browser interpolation
+    const targetWidth = Math.min(window.innerWidth * 0.75, 1100) + 'px';
 
     // Phase 1: Height + opacity
     const heightAnim = viewerEl.animate(
@@ -19,42 +22,41 @@ export function unfurl(viewerEl) {
       }
     );
 
-    heightAnim.onfinish = () => {
-      // Phase 2: Width (parchment unrolls)
-      const wrapper = viewerEl.querySelector('.scroll-parchment-wrapper');
-      const widthAnim = wrapper.animate(
-        [
-          { width: '0px' },
-          { width: 'min(75vw, 1100px)' },
-        ],
-        {
-          duration: UNFURL_DURATION * 0.6,
-          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-          fill: 'forwards',
-        }
-      );
+    await heightAnim.finished;
 
-      widthAnim.onfinish = () => {
-        viewerEl.classList.remove('unfurling');
-        viewerEl.classList.add('unfurled');
+    // Phase 2: Width (parchment unrolls)
+    const wrapper = viewerEl.querySelector('.scroll-parchment-wrapper');
+    const widthAnim = wrapper.animate(
+      [
+        { width: '0px' },
+        { width: targetWidth },
+      ],
+      {
+        duration: UNFURL_DURATION * 0.6,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'forwards',
+      }
+    );
 
-        // Set final styles directly
-        viewerEl.style.height = '75vh';
-        viewerEl.style.opacity = '1';
-        wrapper.style.width = 'min(75vw, 1100px)';
+    await widthAnim.finished;
 
-        // Clean up animations
-        heightAnim.cancel();
-        widthAnim.cancel();
+    viewerEl.classList.remove('unfurling');
+    viewerEl.classList.add('unfurled');
 
-        resolve();
-      };
-    };
+    // Set final styles directly, then cancel fill to avoid stale animation state
+    viewerEl.style.height = '75vh';
+    viewerEl.style.opacity = '1';
+    wrapper.style.width = targetWidth;
+
+    heightAnim.cancel();
+    widthAnim.cancel();
+
+    resolve();
   });
 }
 
 export function refurl(viewerEl) {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     viewerEl.classList.remove('unfurled');
     viewerEl.classList.add('unfurling');
 
@@ -73,33 +75,33 @@ export function refurl(viewerEl) {
       }
     );
 
-    widthAnim.onfinish = () => {
-      // Phase 2: Height collapses
-      const heightAnim = viewerEl.animate(
-        [
-          { height: viewerEl.offsetHeight + 'px', opacity: 1 },
-          { height: '0px', opacity: 0 },
-        ],
-        {
-          duration: REFURL_DURATION * 0.6,
-          easing: 'ease-in',
-          fill: 'forwards',
-        }
-      );
+    await widthAnim.finished;
 
-      heightAnim.onfinish = () => {
-        viewerEl.classList.remove('unfurling');
+    // Phase 2: Height collapses
+    const heightAnim = viewerEl.animate(
+      [
+        { height: viewerEl.offsetHeight + 'px', opacity: 1 },
+        { height: '0px', opacity: 0 },
+      ],
+      {
+        duration: REFURL_DURATION * 0.6,
+        easing: 'ease-in',
+        fill: 'forwards',
+      }
+    );
 
-        // Reset inline styles
-        viewerEl.style.height = '';
-        viewerEl.style.opacity = '';
-        wrapper.style.width = '';
+    await heightAnim.finished;
 
-        heightAnim.cancel();
-        widthAnim.cancel();
+    viewerEl.classList.remove('unfurling');
 
-        resolve();
-      };
-    };
+    // Reset inline styles
+    viewerEl.style.height = '';
+    viewerEl.style.opacity = '';
+    wrapper.style.width = '';
+
+    heightAnim.cancel();
+    widthAnim.cancel();
+
+    resolve();
   });
 }
