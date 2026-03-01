@@ -7,7 +7,9 @@ export function unfurl(viewerEl) {
     viewerEl.classList.add('unfurling');
 
     // Compute target width in pixels for reliable cross-browser interpolation
-    const targetWidth = Math.min(window.innerWidth * 0.75, 1100) + 'px';
+    // On mobile (<=768px), use near-full width minus scroll handles (28px each)
+    const maxWidth = window.innerWidth > 768 ? 1100 : window.innerWidth - 56;
+    const targetWidth = Math.min(window.innerWidth * 0.75, maxWidth) + 'px';
 
     // Phase 1: Height + opacity
     const heightAnim = viewerEl.animate(

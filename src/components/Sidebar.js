@@ -1,6 +1,10 @@
+import { escapeHTML } from '../utils/sanitize.js';
+import { formatDateKR } from '../utils/format.js';
+
 export function createSidebar() {
   const sidebar = document.createElement('nav');
   sidebar.className = 'sidebar';
+  sidebar.setAttribute('aria-label', '글 목록');
 
   sidebar.innerHTML = `
     <div class="sidebar__topic-label"></div>
@@ -21,14 +25,22 @@ export function updateSidebar(sidebar, topic, onPostClick) {
     const li = document.createElement('li');
     li.className = 'sidebar__item';
     li.dataset.postId = post.id;
+    li.setAttribute('tabindex', '0');
 
     li.innerHTML = `
-      <div>${post.title}</div>
-      <div class="sidebar__date">${post.date}</div>
+      <div>${escapeHTML(post.title)}</div>
+      <div class="sidebar__date">${escapeHTML(formatDateKR(post.date))}</div>
     `;
 
     li.addEventListener('click', () => {
       onPostClick(post.id);
+    });
+
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onPostClick(post.id);
+      }
     });
 
     list.appendChild(li);
@@ -37,7 +49,9 @@ export function updateSidebar(sidebar, topic, onPostClick) {
 
 export function setActivePost(sidebar, postId) {
   sidebar.querySelectorAll('.sidebar__item').forEach((item) => {
-    item.classList.toggle('active', item.dataset.postId === postId);
+    const isActive = item.dataset.postId === postId;
+    item.classList.toggle('active', isActive);
+    item.setAttribute('aria-current', isActive ? 'true' : 'false');
   });
 }
 

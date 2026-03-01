@@ -600,8 +600,120 @@ html, body {
   animation: fadeIn 0.4s ease backwards;
 }
 
+/* staggered: base 0.3s, +0.15s per card */
 .post-card:nth-child(1) { animation-delay: 0.3s; }
 .post-card:nth-child(2) { animation-delay: 0.45s; }
 .post-card:nth-child(3) { animation-delay: 0.6s; }
 .post-card:nth-child(4) { animation-delay: 0.75s; }
 .post-card:nth-child(5) { animation-delay: 0.9s; }
+
+/* ========================================
+   Focus Styles (Accessibility)
+   ======================================== */
+.scroll-icon:focus-visible {
+  outline: 2px solid var(--color-accent-orange);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.sidebar__item:focus-visible {
+  outline: 2px solid var(--color-accent-orange);
+  outline-offset: -2px;
+}
+
+.post-card:focus-visible {
+  outline: 2px solid var(--color-accent-warm);
+  outline-offset: -2px;
+}
+
+/* ========================================
+   Responsive: Tablet (max-width: 1024px)
+   ======================================== */
+@media (max-width: 1024px) {
+  .header__title {
+    font-size: 1.8rem;
+  }
+
+  .post-card {
+    padding: 28px 28px;
+    column-width: 320px;
+  }
+
+  .sidebar {
+    width: 180px;
+  }
+
+  .scroll-viewer {
+    left: calc(50% + 90px); /* sidebar 180px / 2 */
+  }
+
+  .scroll-rack {
+    gap: 24px;
+  }
+}
+
+/* ========================================
+   Responsive: Mobile (max-width: 768px)
+   ======================================== */
+@media (max-width: 768px) {
+  .header {
+    padding: 24px 16px 12px;
+  }
+
+  .header__title {
+    font-size: 1.4rem;
+  }
+
+  .header__subtitle {
+    font-size: 0.85rem;
+  }
+
+  /* Hide sidebar on mobile */
+  .sidebar {
+    display: none;
+  }
+
+  /* Scroll viewer takes full width */
+  .scroll-viewer {
+    left: 50%;
+    bottom: 100px;
+  }
+
+  .scroll-rack {
+    gap: 16px;
+    padding: 12px 12px 16px;
+  }
+
+  .scroll-icon__roll {
+    width: 56px;
+    height: 26px;
+  }
+
+  .scroll-icon__body {
+    width: 40px;
+    height: 18px;
+    border-radius: 9px;
+  }
+
+  .scroll-icon__rod {
+    height: 30px;
+    width: 4px;
+  }
+
+  .scroll-icon__label {
+    font-size: 0.72rem;
+  }
+
+  .welcome__icon {
+    width: 120px;
+  }
+
+  .welcome__text {
+    font-size: 0.9rem;
+  }
+
+  .post-card {
+    padding: 20px 20px;
+    column-width: 260px;
+  }
+}

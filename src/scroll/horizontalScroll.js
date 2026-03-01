@@ -52,19 +52,20 @@ export function enableHorizontalScroll(containerEl, { speed = 2, onProgress } = 
     onProgress(containerEl.scrollLeft / maxScroll);
   }
 
-  containerEl.addEventListener('wheel', onWheel, { passive: false });
-
-  // Sync target on manual scroll
-  containerEl.addEventListener('scroll', () => {
+  function onScroll() {
     if (!animating) {
       targetScrollLeft = containerEl.scrollLeft;
       emitProgress();
     }
-  });
+  }
+
+  containerEl.addEventListener('wheel', onWheel, { passive: false });
+  containerEl.addEventListener('scroll', onScroll);
 
   return {
     destroy() {
       containerEl.removeEventListener('wheel', onWheel);
+      containerEl.removeEventListener('scroll', onScroll);
     },
     reset() {
       targetScrollLeft = 0;

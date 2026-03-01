@@ -39,7 +39,7 @@ export function getParchmentWrapper(viewer) {
 
 export function scrollToPost(viewer, postId, scrollCtrl) {
   const wrapper = viewer.querySelector('.scroll-parchment-wrapper');
-  const card = wrapper.querySelector(`[data-post-id="${postId}"]`);
+  const card = wrapper.querySelector(`[data-post-id="${CSS.escape(postId)}"]`);
   if (!card) return;
 
   const wrapperRect = wrapper.getBoundingClientRect();
