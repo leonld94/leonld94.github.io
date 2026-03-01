@@ -71,5 +71,13 @@ export function enableHorizontalScroll(containerEl, { speed = 2, onProgress } = 
       containerEl.scrollLeft = 0;
       emitProgress();
     },
+    scrollTo(left) {
+      const maxScroll = containerEl.scrollWidth - containerEl.clientWidth;
+      targetScrollLeft = Math.max(0, Math.min(left, maxScroll));
+      if (!animating) {
+        animating = true;
+        smoothScroll();
+      }
+    },
   };
 }
