@@ -23,7 +23,7 @@ const app = document.getElementById('app');
 const header = document.createElement('header');
 header.className = 'header';
 header.innerHTML = `
-  <h1 class="header__title">Sungho's Blog</h1>
+  <h1 class="header__title">아선대너무좋아님</h1>
   <p class="header__subtitle">생각을 펼치다</p>
 `;
 
