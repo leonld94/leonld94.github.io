@@ -105,6 +105,13 @@ async function handleTopicSelect(topicId) {
   // Unfurl animation
   await unfurl(scrollViewer);
 
+  // Move focus to first post card for keyboard users
+  const firstCard = scrollViewer.querySelector('.post-card');
+  if (firstCard) {
+    firstCard.setAttribute('tabindex', '-1');
+    firstCard.focus({ preventScroll: true });
+  }
+
   // Show sidebar after unfurl
   showSidebar(sidebar);
 

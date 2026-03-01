@@ -18,6 +18,9 @@ const TOPIC_META = {
 const TOPIC_ORDER = ['eng', 'lang', 'math', 'phil'];
 
 export default function markdownPostsPlugin() {
+  // WARNING: html: true allows raw HTML in markdown files.
+  // Only enable this if you trust all content authors.
+  // If you don't need raw HTML in posts, set html: false for safety.
   const md = new MarkdownIt({ html: true, typographer: true });
   let contentDir;
 
