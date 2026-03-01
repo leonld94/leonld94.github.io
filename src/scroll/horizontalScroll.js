@@ -7,7 +7,16 @@ export function enableHorizontalScroll(containerEl, { speed = 2, onProgress } = 
     e.preventDefault();
     e.stopPropagation();
 
-    targetScrollLeft += e.deltaY * speed;
+    // Normalize deltaY across browsers:
+    // Firefox uses deltaMode 1 (lines), Chrome uses deltaMode 0 (pixels)
+    let delta = e.deltaY;
+    if (e.deltaMode === 1) {        // DOM_DELTA_LINE
+      delta *= 40;
+    } else if (e.deltaMode === 2) { // DOM_DELTA_PAGE
+      delta *= containerEl.clientWidth;
+    }
+
+    targetScrollLeft += delta * speed;
 
     const maxScroll = containerEl.scrollWidth - containerEl.clientWidth;
     targetScrollLeft = Math.max(0, Math.min(targetScrollLeft, maxScroll));
