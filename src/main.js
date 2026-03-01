@@ -31,7 +31,7 @@ header.innerHTML = `
 const welcome = document.createElement('div');
 welcome.className = 'welcome';
 welcome.innerHTML = `
-  <img class="welcome__icon" src="/sungho/images/scroll.png" alt="두루마리" />
+  <img class="welcome__icon" src="/images/scroll.png" alt="두루마리" />
   <div class="welcome__text">아래 두루마리를 선택하여<br>이야기를 펼쳐보세요</div>
 `;
 
