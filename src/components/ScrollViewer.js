@@ -37,7 +37,7 @@ export function getParchmentWrapper(viewer) {
   return viewer.querySelector('.scroll-parchment-wrapper');
 }
 
-export function scrollToPost(viewer, postId) {
+export function scrollToPost(viewer, postId, scrollCtrl) {
   const wrapper = viewer.querySelector('.scroll-parchment-wrapper');
   const card = wrapper.querySelector(`[data-post-id="${postId}"]`);
   if (!card) return;
@@ -46,10 +46,14 @@ export function scrollToPost(viewer, postId) {
   const cardRect = card.getBoundingClientRect();
   const scrollOffset = cardRect.left - wrapperRect.left + wrapper.scrollLeft - 20;
 
-  wrapper.scrollTo({
-    left: scrollOffset,
-    behavior: 'smooth',
-  });
+  if (scrollCtrl) {
+    scrollCtrl.scrollTo(scrollOffset);
+  } else {
+    wrapper.scrollTo({
+      left: scrollOffset,
+      behavior: 'smooth',
+    });
+  }
 }
 
 export function updateProgress(viewer, ratio) {

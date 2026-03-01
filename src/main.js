@@ -99,7 +99,7 @@ async function handleTopicSelect(topicId) {
 
   // Update sidebar
   updateSidebar(sidebar, topic, (postId) => {
-    scrollToPost(scrollViewer, postId);
+    scrollToPost(scrollViewer, postId, horizontalScrollCtrl);
   });
 
   // Unfurl animation
