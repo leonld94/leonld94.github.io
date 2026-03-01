@@ -23,8 +23,8 @@ const app = document.getElementById('app');
 const header = document.createElement('header');
 header.className = 'header';
 header.innerHTML = `
-  <h1 class="header__title">아선대너무좋아님</h1>
-  <p class="header__subtitle">생각을 펼치다</p>
+  <h1 class="header__title">아선대너무좋아님의 블로그</h1>
+  <p class="header__subtitle">선형대수를 펼치다, 그리스어를 펼치다.</p>
 `;
 
 // Welcome
