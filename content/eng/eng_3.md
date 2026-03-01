@@ -1,8 +1,8 @@
 ---
-id: tech-003
+id: eng
 title: Web Animation API 심화
 date: 2025-12-10
-topic: tech
+topic: eng
 ---
 
 ## 브라우저 네이티브 애니메이션

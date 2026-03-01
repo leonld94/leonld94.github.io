@@ -1,8 +1,8 @@
 ---
-id: tech-002
+id: eng_2
 title: CSS Grid 완벽 가이드
 date: 2026-01-20
-topic: tech
+topic: eng
 ---
 
 ## 2차원 레이아웃의 혁명

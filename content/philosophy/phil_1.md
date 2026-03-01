@@ -1,8 +1,8 @@
 ---
-id: life-001
+id: phil_1
 title: 미니멀 라이프 시작하기
 date: 2026-02-01
-topic: life
+topic: phil
 ---
 
 ## 덜어내는 삶의 가치

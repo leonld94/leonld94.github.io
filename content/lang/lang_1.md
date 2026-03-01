@@ -1,8 +1,8 @@
 ---
-id: travel-001
+id: lang_1
 title: 교토의 숨겨진 정원들
 date: 2026-01-25
-topic: travel
+topic: lang
 ---
 
 ## 관광객이 모르는 교토

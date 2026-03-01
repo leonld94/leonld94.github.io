@@ -1,8 +1,8 @@
 ---
-id: travel-003
+id: lang_3
 title: 포르투갈 리스본 3일
 date: 2025-11-18
-topic: travel
+topic: lang
 ---
 
 ## 노란 트램과 파두의 도시

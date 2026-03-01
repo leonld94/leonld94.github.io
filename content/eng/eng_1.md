@@ -1,8 +1,8 @@
 ---
-id: tech-001
-title: JavaScript 비동기 처리의 이해
+id: eng_1
+title: 엘렐레우
 date: 2026-02-15
-topic: tech
+topic: eng
 ---
 
 ## 콜백에서 async/await까지

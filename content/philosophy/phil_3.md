@@ -1,8 +1,8 @@
 ---
-id: life-003
+id: phil_3
 title: 아침 루틴의 힘
 date: 2025-12-28
-topic: life
+topic: phil
 ---
 
 ## 하루를 바꾸는 첫 두 시간

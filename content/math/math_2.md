@@ -1,8 +1,8 @@
 ---
-id: book-002
+id: math_2
 title: 효과적인 독서법
 date: 2026-01-10
-topic: book
+topic: math
 ---
 
 ## 읽는 것과 이해하는 것의 차이

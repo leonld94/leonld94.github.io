@@ -1,8 +1,8 @@
 ---
-id: travel-002
+id: lang_2
 title: 제주 올레길 종주기
 date: 2025-12-05
-topic: travel
+topic: lang
 ---
 
 ## 26코스, 425km의 기록

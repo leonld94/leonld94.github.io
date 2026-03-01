@@ -1,8 +1,8 @@
 ---
-id: book-001
+id: math_1
 title: 올해 읽은 최고의 책 5선
 date: 2026-02-20
-topic: book
+topic: math
 ---
 
 ## 2025년 독서 결산

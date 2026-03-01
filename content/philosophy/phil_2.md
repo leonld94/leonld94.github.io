@@ -1,8 +1,8 @@
 ---
-id: life-002
+id: phil_2
 title: 집에서 만드는 수제 빵
 date: 2026-01-15
-topic: life
+topic: phil
 ---
 
 ## 사워도우 여정

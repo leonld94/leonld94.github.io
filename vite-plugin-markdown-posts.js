@@ -8,14 +8,14 @@ const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID;
 
 // ── Topic metadata ──
 const TOPIC_META = {
-  tech: { title: '기술', emoji: '💻', icon: '&#xe3af;' },
-  life: { title: '일상', emoji: '🌿' },
-  travel: { title: '여행', emoji: '✈️' },
-  book: { title: '독서', emoji: '📚' },
+  eng: { title: '공학', emoji: '⚙️' },
+  lang: { title: '언어', emoji: '🔤' },
+  math: { title: '수학', emoji: '➗', icon: '&#xe3af;' },
+  phil: { title: '철학', emoji: '📚' },
 };
 
 // Topic display order
-const TOPIC_ORDER = ['tech', 'life', 'travel', 'book'];
+const TOPIC_ORDER = ['eng', 'lang', 'math', 'phil'];
 
 export default function markdownPostsPlugin() {
   const md = new MarkdownIt({ html: true, typographer: true });
