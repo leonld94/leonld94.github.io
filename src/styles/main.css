@@ -426,6 +426,7 @@ html, body {
   column-width: 380px;
   column-gap: 48px;
   column-fill: auto;
+  overflow: hidden;
 }
 
 .post-card__title,
