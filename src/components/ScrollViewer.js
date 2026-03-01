@@ -1,0 +1,60 @@
+import { createPostCard } from './PostCard.js';
+
+export function createScrollViewer() {
+  const viewer = document.createElement('div');
+  viewer.className = 'scroll-viewer';
+
+  viewer.innerHTML = `
+    <div class="scroll-handle scroll-handle--left"></div>
+    <div class="scroll-parchment-wrapper">
+      <div class="scroll-parchment"></div>
+      <div class="scroll-progress"></div>
+    </div>
+    <div class="scroll-handle scroll-handle--right"></div>
+  `;
+
+  return viewer;
+}
+
+export function loadTopic(viewer, topic) {
+  const parchment = viewer.querySelector('.scroll-parchment');
+  parchment.innerHTML = '';
+
+  topic.posts.forEach((post) => {
+    const card = createPostCard(post);
+    parchment.appendChild(card);
+  });
+
+  // Reset scroll position
+  const wrapper = viewer.querySelector('.scroll-parchment-wrapper');
+  wrapper.scrollLeft = 0;
+
+  // Reset progress
+  updateProgress(viewer, 0);
+}
+
+export function getParchmentWrapper(viewer) {
+  return viewer.querySelector('.scroll-parchment-wrapper');
+}
+
+export function scrollToPost(viewer, postId) {
+  const wrapper = viewer.querySelector('.scroll-parchment-wrapper');
+  const card = wrapper.querySelector(`[data-post-id="${postId}"]`);
+  if (!card) return;
+
+  const wrapperRect = wrapper.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+  const scrollOffset = cardRect.left - wrapperRect.left + wrapper.scrollLeft - 20;
+
+  wrapper.scrollTo({
+    left: scrollOffset,
+    behavior: 'smooth',
+  });
+}
+
+export function updateProgress(viewer, ratio) {
+  const bar = viewer.querySelector('.scroll-progress');
+  if (bar) {
+    bar.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
+  }
+}
