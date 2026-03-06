@@ -1,4 +1,4 @@
-import { createPostCard, resetActiveComments } from './PostCard.js';
+import { createPostCard } from './PostCard.js';
 
 export function createScrollViewer() {
   const viewer = document.createElement('div');
@@ -17,7 +17,6 @@ export function createScrollViewer() {
 }
 
 export function loadTopic(viewer, topic) {
-  resetActiveComments();
   const parchment = viewer.querySelector('.scroll-parchment');
   parchment.innerHTML = '';
 
