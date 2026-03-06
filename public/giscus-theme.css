@@ -1,0 +1,31 @@
+/* Giscus custom theme — 한지/두루마리 */
+main {
+  --color-canvas-default: #F4EADB;
+  --color-canvas-subtle: #EDE5D8;
+  --color-border-default: #C9B99A;
+  --color-border-muted: rgba(201, 185, 154, 0.5);
+  --color-fg-default: #3D2B1F;
+  --color-fg-muted: #6B5A4E;
+  --color-accent-fg: #C15F3C;
+  --color-accent-emphasis: #C15F3C;
+  --color-btn-bg: #EDE5D8;
+  --color-btn-border: #C9B99A;
+  --color-btn-hover-bg: rgba(212, 165, 116, 0.25);
+  font-family: 'Noto Sans KR', 'Segoe UI', sans-serif;
+}
+
+.gsc-comment-box {
+  border-color: #C9B99A;
+}
+
+.gsc-header {
+  border-bottom-color: rgba(201, 185, 154, 0.35);
+}
+
+.gsc-comment {
+  border-color: rgba(201, 185, 154, 0.35);
+}
+
+.gsc-timeline {
+  border-color: rgba(201, 185, 154, 0.35);
+}
