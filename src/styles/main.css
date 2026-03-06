@@ -424,15 +424,8 @@ html, body {
 .post-card {
   flex: 0 0 auto;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
-
-.post-card__body {
-  flex: 1 1 auto;
   padding: 36px 44px;
+  position: relative;
   column-width: 380px;
   column-gap: 48px;
   column-fill: auto;
@@ -519,60 +512,35 @@ html, body {
 }
 
 /* ========================================
-   Post Comment Section
+   Post Comment Section (inline)
    ======================================== */
 .post-card__comment-section {
-  flex: 0 0 auto;
-  padding: 0 44px 20px;
-  border-top: 1px solid rgba(201, 185, 154, 0.3);
+  break-inside: avoid;
+  margin-top: 32px;
 }
 
-.post-card__comment-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 20px;
-  margin-top: 16px;
-  border: 1.5px solid var(--color-border);
-  border-radius: 20px;
-  background: transparent;
-  color: var(--color-text-secondary);
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
+.post-card__comment-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-border) 20%,
+    var(--color-border) 80%,
+    transparent
+  );
+  margin-bottom: 16px;
 }
 
-.post-card__comment-toggle:hover {
-  background: rgba(212, 165, 116, 0.15);
-  border-color: var(--color-accent-warm);
-  color: var(--color-text-primary);
-}
-
-.post-card__comment-toggle.active {
-  background: rgba(193, 95, 60, 0.1);
-  border-color: var(--color-accent-orange);
-  color: var(--color-accent-orange);
-}
-
-.post-card__comment-icon {
-  font-size: 1rem;
-  line-height: 1;
+.post-card__comment-heading {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-bottom: 12px;
 }
 
 .post-card__comment-container {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
-  margin-top: 0;
-}
-
-.post-card__comment-container.open {
-  max-height: 500px;
-  overflow-y: auto;
-  opacity: 1;
-  margin-top: 16px;
+  min-width: 300px;
 }
 
 /* ========================================
