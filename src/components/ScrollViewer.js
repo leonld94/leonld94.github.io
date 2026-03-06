@@ -1,4 +1,6 @@
-import { createPostCard, resetActiveComments } from './PostCard.js';
+import { createPostCard, loadGiscusForCard } from './PostCard.js';
+
+let commentObserver = null;
 
 export function createScrollViewer() {
   const viewer = document.createElement('div');
@@ -17,7 +19,12 @@ export function createScrollViewer() {
 }
 
 export function loadTopic(viewer, topic) {
-  resetActiveComments();
+  // Clean up previous observer
+  if (commentObserver) {
+    commentObserver.disconnect();
+    commentObserver = null;
+  }
+
   const parchment = viewer.querySelector('.scroll-parchment');
   parchment.innerHTML = '';
 
@@ -32,6 +39,23 @@ export function loadTopic(viewer, topic) {
 
   // Reset progress
   updateProgress(viewer, 0);
+
+  // Lazy load Giscus as cards scroll into view
+  commentObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadGiscusForCard(entry.target);
+          commentObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { root: wrapper, threshold: 0.1 }
+  );
+
+  parchment.querySelectorAll('.post-card').forEach((card) => {
+    commentObserver.observe(card);
+  });
 }
 
 export function getParchmentWrapper(viewer) {

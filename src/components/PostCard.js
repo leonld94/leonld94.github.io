@@ -1,81 +1,31 @@
 import { escapeHTML } from '../utils/sanitize.js';
 import { formatDateKR } from '../utils/format.js';
 
-let activeCommentCard = null;
-
 export function createPostCard(post) {
   const card = document.createElement('article');
   card.className = 'post-card';
   card.dataset.postId = post.id;
 
   card.innerHTML = `
-    <div class="post-card__body">
-      <h3 class="post-card__title">${escapeHTML(post.title)}</h3>
-      <div class="post-card__date">${formatDateKR(post.date)}</div>
-      <div class="post-card__content">${post.content}</div>
-    </div>
+    <h3 class="post-card__title">${escapeHTML(post.title)}</h3>
+    <div class="post-card__date">${formatDateKR(post.date)}</div>
+    <div class="post-card__content">${post.content}</div>
     <div class="post-card__comment-section">
-      <button class="post-card__comment-toggle" aria-expanded="false">
-        <span class="post-card__comment-icon">💬</span>
-        댓글
-      </button>
+      <div class="post-card__comment-divider"></div>
+      <h4 class="post-card__comment-heading">댓글</h4>
       <div class="post-card__comment-container"></div>
     </div>
   `;
 
-  const toggleBtn = card.querySelector('.post-card__comment-toggle');
-  const container = card.querySelector('.post-card__comment-container');
-
-  toggleBtn.addEventListener('click', () => {
-    const isOpen = container.classList.contains('open');
-
-    if (activeCommentCard && activeCommentCard !== card) {
-      closeComments(activeCommentCard);
-    }
-
-    if (isOpen) {
-      closeComments(card);
-    } else {
-      openComments(card, post.id);
-    }
-  });
-
   return card;
 }
 
-export function resetActiveComments() {
-  if (activeCommentCard) {
-    closeComments(activeCommentCard);
-  }
-}
-
-function openComments(card, postId) {
+export function loadGiscusForCard(card) {
   const container = card.querySelector('.post-card__comment-container');
-  const btn = card.querySelector('.post-card__comment-toggle');
+  if (!container || container.dataset.loaded) return;
+  container.dataset.loaded = 'true';
 
-  container.innerHTML = '';
-  loadGiscus(container, postId);
-
-  container.classList.add('open');
-  btn.classList.add('active');
-  btn.setAttribute('aria-expanded', 'true');
-  activeCommentCard = card;
-}
-
-function closeComments(card) {
-  const container = card.querySelector('.post-card__comment-container');
-  const btn = card.querySelector('.post-card__comment-toggle');
-
-  container.classList.remove('open');
-  btn.classList.remove('active');
-  btn.setAttribute('aria-expanded', 'false');
-
-  setTimeout(() => { container.innerHTML = ''; }, 400);
-
-  if (activeCommentCard === card) activeCommentCard = null;
-}
-
-function loadGiscus(container, postId) {
+  const postId = card.dataset.postId;
   const script = document.createElement('script');
   script.src = 'https://giscus.app/client.js';
   script.setAttribute('data-repo', 'leonld94/leonld94.github.io');
