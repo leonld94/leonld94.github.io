@@ -1,23 +1,6 @@
 import { escapeHTML } from '../utils/sanitize.js';
 import { formatDateKR } from '../utils/format.js';
 
-const commentObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const container = entry.target.querySelector('.post-card__comment-container');
-        const postId = entry.target.dataset.postId;
-        if (container && !container.dataset.loaded) {
-          container.dataset.loaded = 'true';
-          loadGiscus(container, postId);
-        }
-        commentObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1 }
-);
-
 export function createPostCard(post) {
   const card = document.createElement('article');
   card.className = 'post-card';
@@ -34,12 +17,15 @@ export function createPostCard(post) {
     </div>
   `;
 
-  commentObserver.observe(card);
-
   return card;
 }
 
-function loadGiscus(container, postId) {
+export function loadGiscusForCard(card) {
+  const container = card.querySelector('.post-card__comment-container');
+  if (!container || container.dataset.loaded) return;
+  container.dataset.loaded = 'true';
+
+  const postId = card.dataset.postId;
   const script = document.createElement('script');
   script.src = 'https://giscus.app/client.js';
   script.setAttribute('data-repo', 'leonld94/leonld94.github.io');
