@@ -1,22 +1,7 @@
 import { escapeHTML } from '../utils/sanitize.js';
 import { formatDateKR } from '../utils/format.js';
 
-const commentObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const container = entry.target.querySelector('.post-card__comment-container');
-        const postId = entry.target.dataset.postId;
-        if (container && !container.dataset.loaded) {
-          container.dataset.loaded = 'true';
-          loadGiscus(container, postId);
-        }
-        commentObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1 }
-);
+let activeCommentCard = null;
 
 export function createPostCard(post) {
   const card = document.createElement('article');
@@ -24,19 +9,70 @@ export function createPostCard(post) {
   card.dataset.postId = post.id;
 
   card.innerHTML = `
-    <h3 class="post-card__title">${escapeHTML(post.title)}</h3>
-    <div class="post-card__date">${formatDateKR(post.date)}</div>
-    <div class="post-card__content">${post.content}</div>
+    <div class="post-card__body">
+      <h3 class="post-card__title">${escapeHTML(post.title)}</h3>
+      <div class="post-card__date">${formatDateKR(post.date)}</div>
+      <div class="post-card__content">${post.content}</div>
+    </div>
     <div class="post-card__comment-section">
-      <div class="post-card__comment-divider"></div>
-      <h4 class="post-card__comment-heading">댓글</h4>
+      <button class="post-card__comment-toggle" aria-expanded="false">
+        <span class="post-card__comment-icon">💬</span>
+        댓글
+      </button>
       <div class="post-card__comment-container"></div>
     </div>
   `;
 
-  commentObserver.observe(card);
+  const toggleBtn = card.querySelector('.post-card__comment-toggle');
+  const container = card.querySelector('.post-card__comment-container');
+
+  toggleBtn.addEventListener('click', () => {
+    const isOpen = container.classList.contains('open');
+
+    if (activeCommentCard && activeCommentCard !== card) {
+      closeComments(activeCommentCard);
+    }
+
+    if (isOpen) {
+      closeComments(card);
+    } else {
+      openComments(card, post.id);
+    }
+  });
 
   return card;
+}
+
+export function resetActiveComments() {
+  if (activeCommentCard) {
+    closeComments(activeCommentCard);
+  }
+}
+
+function openComments(card, postId) {
+  const container = card.querySelector('.post-card__comment-container');
+  const btn = card.querySelector('.post-card__comment-toggle');
+
+  container.innerHTML = '';
+  loadGiscus(container, postId);
+
+  container.classList.add('open');
+  btn.classList.add('active');
+  btn.setAttribute('aria-expanded', 'true');
+  activeCommentCard = card;
+}
+
+function closeComments(card) {
+  const container = card.querySelector('.post-card__comment-container');
+  const btn = card.querySelector('.post-card__comment-toggle');
+
+  container.classList.remove('open');
+  btn.classList.remove('active');
+  btn.setAttribute('aria-expanded', 'false');
+
+  setTimeout(() => { container.innerHTML = ''; }, 400);
+
+  if (activeCommentCard === card) activeCommentCard = null;
 }
 
 function loadGiscus(container, postId) {
