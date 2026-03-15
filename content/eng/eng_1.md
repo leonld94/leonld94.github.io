@@ -30,3 +30,5 @@ async function fetchData() {
 ```
 
 현대 JavaScript 개발에서는 async/await가 표준적인 비동기 처리 방식이 되었습니다.
+
+관련 글: [수학 두루마리의 첫 글](post://math_1) | [공학 두 번째 글](post://eng_2)

@@ -22,6 +22,8 @@ export default function markdownPostsPlugin() {
   // Only enable this if you trust all content authors.
   // If you don't need raw HTML in posts, set html: false for safety.
   const md = new MarkdownIt({ html: true, typographer: true });
+  const defaultValidateLink = md.validateLink.bind(md);
+  md.validateLink = (url) => /^post:\/\//.test(url) || defaultValidateLink(url);
   let contentDir;
 
   function buildTopics() {
@@ -56,7 +58,8 @@ export default function markdownPostsPlugin() {
         const raw = fs.readFileSync(filePath, 'utf-8');
         const { data: frontmatter, content } = matter(raw);
 
-        const html = md.render(content);
+        const html = md.render(content)
+          .replace(/href="post:\/\/([^"]+)"/g, 'href="#" data-post-link="$1" class="internal-link"');
         const resolvedTopicId = frontmatter.topic || topicId;
 
         // Ensure the topic exists in map
