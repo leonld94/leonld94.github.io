@@ -1,7 +1,7 @@
 import './styles/main.css';
 import { topics } from './data/posts.js';
 import { createScrollRack, setActiveIcon } from './components/ScrollRack.js';
-import { createScrollViewer, loadTopic, getParchmentWrapper, scrollToPost, updateProgress } from './components/ScrollViewer.js';
+import { createScrollViewer, loadTopic, startCommentObserver, cleanupCommentObserver, getParchmentWrapper, scrollToPost, updateProgress } from './components/ScrollViewer.js';
 import { createSidebar, updateSidebar, setActivePost, showSidebar, hideSidebar } from './components/Sidebar.js';
 import { unfurl, refurl } from './animations/unfurl.js';
 import { enableHorizontalScroll } from './scroll/horizontalScroll.js';
@@ -52,6 +52,14 @@ app.appendChild(hint);
 app.appendChild(sidebar);
 app.appendChild(scrollViewer);
 app.appendChild(scrollRack);
+
+// ── Internal Link Handler (event delegation) ──
+scrollViewer.addEventListener('click', (e) => {
+  const link = e.target.closest('a[data-post-link]');
+  if (!link) return;
+  e.preventDefault();
+  navigateToPost(link.dataset.postLink);
+});
 
 // ── Topic Selection Handler ──
 async function handleTopicSelect(topicId) {
@@ -127,6 +135,9 @@ async function handleTopicSelect(topicId) {
   // Ensure scroll starts at the first (newest) post
   horizontalScrollCtrl.reset();
 
+  // Start lazy-loading Giscus comments after unfurl
+  startCommentObserver(scrollViewer);
+
   // Show hint briefly
   hint.classList.add('visible');
   setTimeout(() => hint.classList.remove('visible'), 3000);
@@ -181,6 +192,28 @@ function setupPostObserver(wrapper, topic) {
   });
 }
 
+// ── Internal Navigation ──
+async function navigateToPost(postId) {
+  if (state.isAnimating) return;
+
+  const topic = topics.find((t) => t.posts.some((p) => p.id === postId));
+  if (!topic) {
+    console.warn(`[navigateToPost] post "${postId}" not found`);
+    return;
+  }
+
+  if (state.activeTopic === topic.id) {
+    // Same topic — just scroll to the post
+    scrollToPost(scrollViewer, postId, horizontalScrollCtrl);
+  } else {
+    // Different topic — switch topic then scroll
+    await handleTopicSelect(topic.id);
+    requestAnimationFrame(() => {
+      scrollToPost(scrollViewer, postId, horizontalScrollCtrl);
+    });
+  }
+}
+
 // ── Cleanup ──
 function cleanupScroll() {
   if (horizontalScrollCtrl) {
@@ -191,4 +224,5 @@ function cleanupScroll() {
     postObserver.disconnect();
     postObserver = null;
   }
+  cleanupCommentObserver();
 }

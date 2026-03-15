@@ -10,20 +10,16 @@ export function createScrollViewer() {
     <div class="scroll-handle scroll-handle--left"></div>
     <div class="scroll-parchment-wrapper">
       <div class="scroll-parchment"></div>
-      <div class="scroll-progress"></div>
     </div>
     <div class="scroll-handle scroll-handle--right"></div>
+    <div class="scroll-progress"></div>
   `;
 
   return viewer;
 }
 
 export function loadTopic(viewer, topic) {
-  // Clean up previous observer
-  if (commentObserver) {
-    commentObserver.disconnect();
-    commentObserver = null;
-  }
+  cleanupCommentObserver();
 
   const parchment = viewer.querySelector('.scroll-parchment');
   parchment.innerHTML = '';
@@ -39,8 +35,14 @@ export function loadTopic(viewer, topic) {
 
   // Reset progress
   updateProgress(viewer, 0);
+}
 
-  // Lazy load Giscus as cards scroll into view
+export function startCommentObserver(viewer) {
+  cleanupCommentObserver();
+
+  const wrapper = viewer.querySelector('.scroll-parchment-wrapper');
+  const parchment = viewer.querySelector('.scroll-parchment');
+
   commentObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -56,6 +58,13 @@ export function loadTopic(viewer, topic) {
   parchment.querySelectorAll('.post-card').forEach((card) => {
     commentObserver.observe(card);
   });
+}
+
+export function cleanupCommentObserver() {
+  if (commentObserver) {
+    commentObserver.disconnect();
+    commentObserver = null;
+  }
 }
 
 export function getParchmentWrapper(viewer) {
@@ -84,6 +93,6 @@ export function scrollToPost(viewer, postId, scrollCtrl) {
 export function updateProgress(viewer, ratio) {
   const bar = viewer.querySelector('.scroll-progress');
   if (bar) {
-    bar.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
+    bar.style.transform = `scaleX(${Math.min(1, Math.max(0, ratio))})`;
   }
 }

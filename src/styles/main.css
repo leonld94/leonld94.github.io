@@ -512,6 +512,21 @@ html, body {
 }
 
 /* ========================================
+   Internal Links
+   ======================================== */
+.post-card__content .internal-link {
+  color: var(--color-accent-orange);
+  text-decoration: underline dotted var(--color-accent-warm);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.post-card__content .internal-link:hover {
+  color: var(--color-wood-dark);
+}
+
+/* ========================================
    Post Comment Section (inline)
    ======================================== */
 .post-card__comment-section {
@@ -548,13 +563,17 @@ html, body {
    ======================================== */
 .scroll-progress {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 14px;
+  left: 28px;
+  right: 28px;
   height: 3px;
   background: var(--color-accent-orange);
   border-radius: 0 3px 0 0;
-  transition: width 0.15s ease;
+  transition: transform 0.15s ease;
   z-index: 5;
+  pointer-events: none;
+  transform-origin: left;
+  transform: scaleX(0);
 }
 
 /* ========================================

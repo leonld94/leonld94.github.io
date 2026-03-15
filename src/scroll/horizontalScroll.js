@@ -2,6 +2,7 @@ export function enableHorizontalScroll(containerEl, { speed = 2, onProgress } = 
   containerEl.scrollLeft = 0;
   let targetScrollLeft = 0;
   let animating = false;
+  let animFrameId = null;
 
   function onWheel(e) {
     e.preventDefault();
@@ -23,7 +24,7 @@ export function enableHorizontalScroll(containerEl, { speed = 2, onProgress } = 
 
     if (!animating) {
       animating = true;
-      smoothScroll();
+      animFrameId = requestAnimationFrame(smoothScroll);
     }
   }
 
@@ -33,13 +34,14 @@ export function enableHorizontalScroll(containerEl, { speed = 2, onProgress } = 
     if (Math.abs(diff) < 0.5) {
       containerEl.scrollLeft = targetScrollLeft;
       animating = false;
+      animFrameId = null;
       emitProgress();
       return;
     }
 
     containerEl.scrollLeft += diff * 0.12;
     emitProgress();
-    requestAnimationFrame(smoothScroll);
+    animFrameId = requestAnimationFrame(smoothScroll);
   }
 
   function emitProgress() {
@@ -66,6 +68,11 @@ export function enableHorizontalScroll(containerEl, { speed = 2, onProgress } = 
     destroy() {
       containerEl.removeEventListener('wheel', onWheel);
       containerEl.removeEventListener('scroll', onScroll);
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+      }
+      animating = false;
     },
     reset() {
       targetScrollLeft = 0;
@@ -77,7 +84,7 @@ export function enableHorizontalScroll(containerEl, { speed = 2, onProgress } = 
       targetScrollLeft = Math.max(0, Math.min(left, maxScroll));
       if (!animating) {
         animating = true;
-        smoothScroll();
+        animFrameId = requestAnimationFrame(smoothScroll);
       }
     },
   };
