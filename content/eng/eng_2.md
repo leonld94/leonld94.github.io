@@ -1,6 +1,6 @@
 ---
 id: eng_2
-title: 백준 1074번 : Z
+title: 백준 1074번 - Z
 date: 2021-07-05
 topic: eng
 ---
