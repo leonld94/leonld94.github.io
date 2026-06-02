@@ -32,7 +32,7 @@ const welcome = document.createElement('div');
 welcome.className = 'welcome';
 welcome.innerHTML = `
   <img class="welcome__icon" src="/images/scroll.png" alt="두루마리" />
-  <div class="welcome__text">아래 두루마리를 선택하여<br>이야기를 펼쳐보세요</div>
+  <div class="welcome__text">아래 두루마리를 선택하여<br>이야기를 펼쳐보세요<br>해당 블로그는 Chrome에서만 정상작동합니다.</div>
 `;
 
 // Hint

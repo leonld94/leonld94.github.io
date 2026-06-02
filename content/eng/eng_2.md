@@ -7,7 +7,7 @@ topic: eng
 
 
 <a href="https://www.acmicpc.net/problem/1074">백준 1074번 : Z</a>
-
+<br>
 ```
 #include <stdio.h>
 int f(int r, int c, int n) {
@@ -27,5 +27,5 @@ int main() {
     return 0;
 }
 ```
-
+<br>
 재귀함수를 이용한 문제를 푸는 코드이다. 아마 이걸 분할정복이라 부르는 듯 하다. 재귀함수를 이용해 범위를 좁히며 누적값을 계산한다.
