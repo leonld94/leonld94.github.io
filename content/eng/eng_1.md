@@ -1,6 +1,6 @@
 ---
 id: eng_1
-title: 1
+title: 프로그래밍의 토대를 배우자
 date: 2026-02-15
 topic: eng
 ---
