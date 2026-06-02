@@ -1,28 +1,31 @@
 ---
 id: eng_2
-title: CSS Grid 완벽 가이드
-date: 2026-01-20
+title: 2
+date: 2021-07-05
 topic: eng
 ---
 
-## 2차원 레이아웃의 혁명
 
-CSS Grid는 웹 레이아웃을 근본적으로 변화시켰습니다. Flexbox가 1차원 레이아웃에 특화되어 있다면, Grid는 행과 열을 동시에 제어할 수 있습니다.
+<a href="https://www.acmicpc.net/problem/1074">백준 1074번 : Z</a>
 
-### 기본 개념
-
-`display: grid`를 선언하고, `grid-template-columns`와 `grid-template-rows`로 구조를 정의합니다.
-
-```css
-.container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+```
+#include <stdio.h>
+int f(int r, int c, int n) {
+    int rr, cc;
+    rr = r/n, cc = c/n;
+    if(!(n-1))
+        return (2*rr + cc);
+    else
+        return n*n*(2*rr + cc) + f(r-rr*n, c-cc*n, n/2);
+}
+int main() {
+    int n, r, c, end = 1;
+    int i, j;
+    scanf("%d %d %d", &n, &r, &c);
+    end = end << n-1;
+    printf("%d", f(r, c, end));
+    return 0;
 }
 ```
 
-
-
-### 실전 패턴
-
-반응형 카드 레이아웃, 대시보드, 매거진 스타일 등 다양한 패턴을 Grid로 쉽게 구현할 수 있습니다. `auto-fill`과 `minmax()`를 조합하면 미디어 쿼리 없이도 반응형 디자인이 가능합니다.
+재귀함수를 이용한 문제를 푸는 코드이다. 아마 이걸 분할정복이라 부르는 듯 하다. 재귀함수를 이용해 범위를 좁히며 누적값을 계산한다.
