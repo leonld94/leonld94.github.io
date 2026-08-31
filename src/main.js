@@ -8,6 +8,10 @@ const app = document.getElementById('app');
 const allPosts = topics.flatMap((topic) =>
   topic.posts.map((post) => ({ post, topic }))
 );
+const latestPostContext = allPosts.reduce((latest, current) => {
+  if (!latest) return current;
+  return new Date(current.post.date) > new Date(latest.post.date) ? current : latest;
+}, null);
 
 const initialRoute = readRoute();
 const state = {
@@ -18,7 +22,7 @@ const state = {
 };
 
 function readRoute() {
-  if (window.location.hash === '#profile') {
+  if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#profile') {
     return { view: 'profile', postId: allPosts[0]?.post.id ?? null, voiceId: null };
   }
   if (window.location.hash.startsWith('#voice')) {
@@ -215,8 +219,26 @@ function createProfileView() {
           <span class="page-eyebrow">PROFILE · 아선대너무좋아</span>
           <h1>배우고 생각한 것을<br>오래 남깁니다.</h1>
           <p>수학, 철학, 공학, 언어를 오가며 발견한 연결을 기록하는 개인 블로그입니다. 여러 활동 속에서 흩어지기 쉬운 생각을 한곳에 모읍니다.</p>
-          <button class="profile-read-button" type="button" data-view="posts">최근 글 읽기 <span aria-hidden="true">→</span></button>
+          ${latestPostContext
+            ? `<button class="profile-read-button" type="button" data-post-id="${escapeHTML(latestPostContext.post.id)}">
+                <span class="profile-read-button__label">
+                  <small>LATEST POST</small>
+                  <strong>${escapeHTML(latestPostContext.post.title)}</strong>
+                </span>
+                <span aria-hidden="true">→</span>
+              </button>`
+            : ''}
         </div>
+      </section>
+
+      <section class="profile-identity" aria-labelledby="profile-identity-title">
+        <div class="profile-identity__mark" aria-hidden="true">A</div>
+        <div class="profile-identity__copy">
+          <span class="page-eyebrow">WHO AM I?</span>
+          <h2 id="profile-identity-title">아선대너무좋아</h2>
+          <p>선형대수를 매우 좋아하는 공학도입니다.</p>
+        </div>
+        <span class="profile-identity__tag">NICKNAME</span>
       </section>
 
       <section class="profile-details" aria-label="블로그 소개">
