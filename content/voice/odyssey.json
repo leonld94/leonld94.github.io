@@ -1,0 +1,32 @@
+{
+  "id": "odyssey",
+  "order": 2,
+  "titles": {
+    "greek": "Ὅμηρος – Ὀδύσσεια",
+    "english": "Homer – Odyssey",
+    "korean": "호메로스 – 오뒷세이아"
+  },
+  "book": "I",
+  "lines": [
+    { "number": 1, "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "audio": "/audio/voice/tones/01-do.wav", "note": "도" },
+    { "number": 2, "text": "Praesent vitae sapien sed arcu fermentum consequat.", "audio": "/audio/voice/tones/02-re.wav", "note": "레" },
+    { "number": 3, "text": "Integer feugiat justo vel neque luctus, ut gravida nisl posuere.", "audio": "/audio/voice/tones/03-mi.wav", "note": "미" },
+    { "number": 4, "text": "Donec ultricies nibh at sem tincidunt, eget tempor erat luctus.", "audio": "/audio/voice/tones/04-fa.wav", "note": "파" },
+    { "number": 5, "text": "Vivamus eleifend magna non tellus faucibus, vitae pulvinar purus auctor.", "audio": "/audio/voice/tones/05-sol.wav", "note": "솔" },
+    { "number": 6, "text": "Curabitur vitae lectus nec risus malesuada pretium.", "audio": "/audio/voice/tones/06-la.wav", "note": "라" },
+    { "number": 7, "text": "Aliquam erat volutpat, sed ullamcorper augue porttitor.", "audio": "/audio/voice/tones/07-si.wav", "note": "시" },
+    { "number": 8, "text": "Suspendisse potenti, nam posuere velit ut libero finibus.", "audio": "/audio/voice/tones/08-do-high.wav", "note": "높은 도" },
+    { "number": 9, "text": "Mauris tincidunt nibh quis mi aliquet, vitae efficitur urna tempus." },
+    { "number": 10, "text": "Fusce pharetra lorem id ipsum faucibus, at posuere dui pretium." },
+    { "number": 11, "text": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices." },
+    { "number": 12, "text": "Sed dignissim nisl vitae purus vulputate, ac aliquet leo varius." },
+    { "number": 13, "text": "Nunc dictum tortor at ligula egestas, quis faucibus est vulputate." },
+    { "number": 14, "text": "Phasellus accumsan justo sed eros cursus, vel ultrices neque facilisis." },
+    { "number": 15, "text": "Etiam convallis neque at tellus pharetra, vitae mollis augue interdum." },
+    { "number": 16, "text": "Cras non sem nec sapien consequat malesuada vel a nibh." },
+    { "number": 17, "text": "Pellentesque habitant morbi tristique senectus et netus et malesuada." },
+    { "number": 18, "text": "Aenean commodo mauris eget odio porta, at tristique magna ultrices." },
+    { "number": 19, "text": "Quisque posuere velit a erat interdum, nec sodales libero ullamcorper." },
+    { "number": 20, "text": "Nullam finibus metus sit amet lectus volutpat, ut consequat ipsum cursus." }
+  ]
+}

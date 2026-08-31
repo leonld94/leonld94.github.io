@@ -5,6 +5,8 @@ import MarkdownIt from 'markdown-it';
 
 const VIRTUAL_MODULE_ID = 'virtual:posts';
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID;
+const VIRTUAL_VOICE_MODULE_ID = 'virtual:voice-contents';
+const RESOLVED_VIRTUAL_VOICE_MODULE_ID = '\0' + VIRTUAL_VOICE_MODULE_ID;
 
 // ── Topic metadata ──
 const TOPIC_META = {
@@ -94,6 +96,68 @@ export default function markdownPostsPlugin() {
     );
   }
 
+  function buildVoiceContents() {
+    const voicePath = path.join(contentDir, 'voice');
+    if (!fs.existsSync(voicePath)) return [];
+    const seenIds = new Set();
+
+    return fs
+      .readdirSync(voicePath)
+      .filter((file) => file.endsWith('.json'))
+      .map((file) => {
+        const filePath = path.join(voicePath, file);
+        let data;
+        try {
+          data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+        } catch (error) {
+          throw new Error(`[voice-contents] ${file}: 올바른 JSON 파일이 아닙니다. ${error.message}`);
+        }
+
+        if (!data.id || !data.titles?.korean || !data.titles?.english || !data.titles?.greek) {
+          throw new Error(`[voice-contents] ${file}: id와 titles.korean/english/greek이 필요합니다.`);
+        }
+        if (!Array.isArray(data.lines)) {
+          throw new Error(`[voice-contents] ${file}: lines는 배열이어야 합니다.`);
+        }
+        if (seenIds.has(data.id)) {
+          throw new Error(`[voice-contents] ${file}: 중복된 id "${data.id}"가 있습니다.`);
+        }
+        seenIds.add(data.id);
+
+        const lines = data.lines.map((line, index) => {
+          const lineNumber = Number(line.number) || index + 1;
+          const text = String(line.text || '').trim();
+          const audio = line.audio ? String(line.audio) : null;
+          if (!text) {
+            throw new Error(`[voice-contents] ${file}: ${lineNumber}행의 text가 비어 있습니다.`);
+          }
+          if (audio?.startsWith('/')) {
+            const audioPath = path.join(path.dirname(contentDir), 'public', audio.slice(1));
+            if (!fs.existsSync(audioPath)) {
+              throw new Error(`[voice-contents] ${file}: ${lineNumber}행의 음성 파일을 찾을 수 없습니다: ${audio}`);
+            }
+          }
+          return {
+            number: lineNumber,
+            text,
+            audio,
+            note: line.note ? String(line.note) : null,
+          };
+        });
+
+        return {
+          id: data.id,
+          order: Number(data.order) || 999,
+          greek: data.titles.greek,
+          english: data.titles.english,
+          korean: data.titles.korean,
+          book: String(data.book || 'I'),
+          lines,
+        };
+      })
+      .sort((a, b) => a.order - b.order || a.korean.localeCompare(b.korean, 'ko'));
+  }
+
   return {
     name: 'markdown-posts',
 
@@ -105,6 +169,9 @@ export default function markdownPostsPlugin() {
       if (id === VIRTUAL_MODULE_ID) {
         return RESOLVED_VIRTUAL_MODULE_ID;
       }
+      if (id === VIRTUAL_VOICE_MODULE_ID) {
+        return RESOLVED_VIRTUAL_VOICE_MODULE_ID;
+      }
     },
 
     load(id) {
@@ -112,17 +179,29 @@ export default function markdownPostsPlugin() {
         const topics = buildTopics();
         return `export const topics = ${JSON.stringify(topics, null, 2)};`;
       }
+      if (id === RESOLVED_VIRTUAL_VOICE_MODULE_ID) {
+        const voiceContents = buildVoiceContents();
+        return `export const voiceContents = ${JSON.stringify(voiceContents, null, 2)};`;
+      }
     },
 
     handleHotUpdate({ file, server }) {
+      const modules = [];
       if (file.endsWith('.md') && file.includes(path.sep + 'content' + path.sep)) {
-        // Invalidate the virtual module when any .md file changes
         const mod = server.moduleGraph.getModuleById(RESOLVED_VIRTUAL_MODULE_ID);
         if (mod) {
           server.moduleGraph.invalidateModule(mod);
-          return [mod];
+          modules.push(mod);
         }
       }
+      if (file.endsWith('.json') && file.includes(path.sep + 'content' + path.sep + 'voice' + path.sep)) {
+        const mod = server.moduleGraph.getModuleById(RESOLVED_VIRTUAL_VOICE_MODULE_ID);
+        if (mod) {
+          server.moduleGraph.invalidateModule(mod);
+          modules.push(mod);
+        }
+      }
+      if (modules.length > 0) return modules;
     },
   };
 }
