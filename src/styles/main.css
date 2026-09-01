@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+KR:wght@400;500;600;700&display=swap');
 
 :root {
   --ink: #1f2430;
@@ -11,6 +11,7 @@
   --accent-soft: #eef0ff;
   --shadow: 0 20px 55px rgba(28, 33, 63, 0.09);
   --serif: 'Noto Serif KR', serif;
+  --greek-serif: 'Noto Serif', 'Palatino Linotype', 'Times New Roman', serif;
   --sans: 'Noto Sans KR', sans-serif;
 }
 
@@ -1005,7 +1006,7 @@ a:focus-visible,
 
 .voice-entry-card__titles strong {
   color: var(--ink);
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--greek-serif);
   font-size: clamp(1.5rem, 3vw, 2rem);
   line-height: 1.25;
 }
@@ -1100,7 +1101,7 @@ a:focus-visible,
 }
 
 .voice-detail-link span {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--greek-serif);
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -1128,7 +1129,8 @@ a:focus-visible,
 
 .voice-title-pair span[lang='grc'] {
   color: #444957;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--greek-serif);
+  font-feature-settings: 'mark' 1, 'mkmk' 1;
   font-size: 1.2rem;
   font-weight: 700;
 }
@@ -1188,6 +1190,11 @@ a:focus-visible,
   box-shadow: var(--shadow);
 }
 
+.voice-reader-nav {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
 .voice-reader-nav__section + .voice-reader-nav__section {
   margin-top: 24px;
   padding-top: 22px;
@@ -1220,6 +1227,38 @@ a:focus-visible,
 .voice-reader-position strong {
   color: var(--accent-dark);
   font-family: var(--serif);
+}
+
+.voice-book-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.voice-book-link {
+  display: grid;
+  gap: 2px;
+  min-height: 48px;
+  place-items: center;
+  color: var(--muted);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.voice-book-link span {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+}
+
+.voice-book-link small { font-size: 0.56rem; }
+
+.voice-book-link:hover,
+.voice-book-link.is-active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .voice-reader {
@@ -1268,6 +1307,28 @@ a:focus-visible,
   line-height: 1.75;
 }
 
+.voice-source-link {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--accent-dark);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+
+.voice-source-link:hover { text-decoration: underline; }
+
+.voice-source-credit {
+  display: block;
+  max-width: 620px;
+  margin-top: 8px;
+  color: #8b8e98;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.62rem;
+  line-height: 1.55;
+}
+
 .voice-line-list {
   padding: 18px clamp(18px, 4vw, 42px) 44px;
 }
@@ -1295,6 +1356,11 @@ a:focus-visible,
   background: rgba(238, 240, 255, 0.62);
 }
 
+.voice-line.is-paragraph-start:not(:first-child) {
+  margin-top: 22px;
+  border-top: 2px solid #d9dbe5;
+}
+
 .voice-line__number {
   color: #a0a3ad;
   font-family: Georgia, 'Times New Roman', serif;
@@ -1311,9 +1377,22 @@ a:focus-visible,
 .voice-line__text {
   position: relative;
   z-index: 1;
-  font-family: Georgia, 'Times New Roman', serif;
+  display: grid;
+  gap: 7px;
+}
+
+.voice-line__greek {
+  font-family: var(--greek-serif);
+  font-feature-settings: 'mark' 1, 'mkmk' 1;
   font-size: 1.04rem;
   line-height: 1.65;
+}
+
+.voice-line__korean {
+  color: #7b7f89;
+  font-family: var(--serif);
+  font-size: 0.8rem;
+  line-height: 1.7;
 }
 
 .voice-line__audio {
@@ -1344,8 +1423,17 @@ a:focus-visible,
 }
 
 .voice-line.is-unavailable {
-  color: #a5a6ab;
-  opacity: 0.64;
+  color: #464955;
+  opacity: 1;
+}
+
+.voice-line.is-unavailable .voice-line__audio { visibility: hidden; }
+
+.voice-line.is-omitted .voice-line__greek {
+  color: #8d9099;
+  font-style: italic;
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
 }
 
 .voice-line__progress {
@@ -1475,6 +1563,7 @@ a:focus-visible,
   .voice-reader-nav,
   .voice-playback-panel {
     position: static;
+    max-height: none;
     margin-bottom: 14px;
   }
 

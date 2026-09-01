@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "import:iliad": "node scripts/import-perseus-iliad.mjs",
+    "import:odyssey": "node scripts/import-perseus-odyssey.mjs",
+    "normalize:iliad": "node scripts/import-perseus-iliad.mjs --fill-local",
+    "normalize:odyssey": "node scripts/import-perseus-odyssey.mjs --fill-local",
+    "verify:iliad": "node scripts/verify-local-iliad.mjs",
+    "verify:odyssey": "node scripts/verify-local-odyssey.mjs"
   },
   "devDependencies": {
     "vite": "^7.3.1"
