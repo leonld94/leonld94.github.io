@@ -321,6 +321,26 @@ function displayPassageLabel(label) {
   return /^\d$/.test(text) ? text.padStart(2, '0') : text;
 }
 
+function voiceSpeakerNames(speaker) {
+  if (!speaker) return [];
+  if (speaker.label) return [{ text: speaker.label, language: null }];
+  return [
+    speaker.greek ? { text: speaker.greek, language: 'grc' } : null,
+    speaker.korean ? { text: speaker.korean, language: 'ko' } : null,
+    speaker.english ? { text: speaker.english, language: 'en' } : null,
+  ].filter(Boolean);
+}
+
+function createVoiceSpeaker(speaker) {
+  const names = voiceSpeakerNames(speaker);
+  if (names.length === 0) return '';
+  return `
+    <span class="voice-line__speaker">
+      ${names.map(({ text, language }, index) => `<${index === 0 ? 'strong' : 'small'}${language ? ` lang="${language}"` : ''}>${escapeHTML(text)}</${index === 0 ? 'strong' : 'small'}>`).join('')}
+    </span>
+  `;
+}
+
 function createVoiceDetailView() {
   const voiceItem = voiceContents.find((item) => item.id === state.activeVoiceId) ?? voiceContents[0];
   if (!voiceItem) return '<main id="main-content"><p class="empty-state">등록된 음성 작품이 없습니다.</p></main>';
@@ -355,17 +375,21 @@ function createVoiceDetailView() {
     .join('');
   const passageRows = voicePassages
     .map(
-      (passage, index) => `
+      (passage, index) => {
+        const speakerNames = voiceSpeakerNames(passage.speaker);
+        const speakerLabel = speakerNames.length > 0 ? `, 화자 ${speakerNames.map(({ text }) => text).join(' / ')}` : '';
+        return `
         <button
           class="voice-line${passage.audio ? ' has-audio' : ' is-unavailable'}${passage.order % 5 === 0 ? ' is-milestone' : ''}${passage.paragraphStart ? ' is-paragraph-start' : ''}${passage.omitted ? ' is-omitted' : ''}"
           type="button"
           data-voice-line="${index}"
           data-passage-label="${escapeHTML(passage.label)}"
           ${passage.audio ? `data-audio="${escapeHTML(passage.audio)}"` : 'disabled'}
-          aria-label="${escapeHTML(passage.label)}${escapeHTML(navigation.passage.label)}${passage.omitted ? ', 이 판본에서 생략됨' : passage.audio ? ', 음성 재생' : ', 음성 준비 중'}"
+          aria-label="${escapeHTML(passage.label)}${escapeHTML(navigation.passage.label)}${escapeHTML(speakerLabel)}${passage.omitted ? ', 이 판본에서 생략됨' : passage.audio ? ', 음성 재생' : ', 음성 준비 중'}"
         >
           <span class="voice-line__number">${escapeHTML(displayPassageLabel(passage.label))}</span>
           <span class="voice-line__text">
+            ${createVoiceSpeaker(passage.speaker)}
             <span class="voice-line__greek" lang="${passage.omitted ? 'en' : 'grc'}">${escapeHTML(passage.greekText)}</span>
             <span class="voice-line__korean" lang="ko">${escapeHTML(passage.koreanText)}</span>
           </span>
@@ -376,7 +400,8 @@ function createVoiceDetailView() {
           </span>
           <span class="voice-line__progress" aria-hidden="true"></span>
         </button>
-      `
+      `;
+      }
     )
     .join('');
 
