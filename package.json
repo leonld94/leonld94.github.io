@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "import:iliad": "node scripts/import-perseus-iliad.mjs",
     "import:odyssey": "node scripts/import-perseus-odyssey.mjs",
+    "import:clouds": "node scripts/import-perseus-clouds.mjs",
     "voice:new": "node scripts/create-voice-work.mjs",
     "voice:validate": "node scripts/validate-voice-content.mjs"
   },
