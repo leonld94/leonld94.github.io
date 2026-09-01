@@ -1,5 +1,5 @@
 ---
-id: phil_3
+id: phil_1
 title: 테드창과 에피쿠로스주의
 date: 2025-12-28
 topic: phil
