@@ -116,34 +116,63 @@ export default function markdownPostsPlugin() {
         if (!data.id || !data.titles?.korean || !data.titles?.english || !data.titles?.greek) {
           throw new Error(`[voice-contents] ${file}: id와 titles.korean/english/greek이 필요합니다.`);
         }
-        if (!Array.isArray(data.lines)) {
-          throw new Error(`[voice-contents] ${file}: lines는 배열이어야 합니다.`);
+        if (!Array.isArray(data.books) && !Array.isArray(data.lines)) {
+          throw new Error(`[voice-contents] ${file}: books 또는 lines 배열이 필요합니다.`);
         }
         if (seenIds.has(data.id)) {
           throw new Error(`[voice-contents] ${file}: 중복된 id "${data.id}"가 있습니다.`);
         }
         seenIds.add(data.id);
 
-        const lines = data.lines.map((line, index) => {
+        const normalizeLines = (lines, bookLabel) => lines.map((line, index) => {
           const lineNumber = Number(line.number) || index + 1;
-          const text = String(line.text || '').trim();
+          const greekText = String(line.greekText ?? line.text ?? '').trim().normalize('NFC');
+          const koreanText = String(line.koreanText ?? '(준비중입니다)').trim().normalize('NFC');
           const audio = line.audio ? String(line.audio) : null;
-          if (!text) {
-            throw new Error(`[voice-contents] ${file}: ${lineNumber}행의 text가 비어 있습니다.`);
+          if (!greekText) {
+            throw new Error(`[voice-contents] ${file}: ${bookLabel}권 ${lineNumber}행의 greekText가 비어 있습니다.`);
+          }
+          if (!koreanText) {
+            throw new Error(`[voice-contents] ${file}: ${bookLabel}권 ${lineNumber}행의 koreanText가 비어 있습니다.`);
           }
           if (audio?.startsWith('/')) {
             const audioPath = path.join(path.dirname(contentDir), 'public', audio.slice(1));
             if (!fs.existsSync(audioPath)) {
-              throw new Error(`[voice-contents] ${file}: ${lineNumber}행의 음성 파일을 찾을 수 없습니다: ${audio}`);
+              throw new Error(`[voice-contents] ${file}: ${bookLabel}권 ${lineNumber}행의 음성 파일을 찾을 수 없습니다: ${audio}`);
             }
           }
           return {
             number: lineNumber,
-            text,
+            greekText,
+            koreanText,
             audio,
-            note: line.note ? String(line.note) : null,
+            ...(line.paragraphStart ? { paragraphStart: true } : {}),
+            ...(line.omitted ? { omitted: true } : {}),
           };
         });
+
+        const rawBooks = Array.isArray(data.books)
+          ? data.books
+          : [{ number: 1, label: String(data.book || 'I'), lines: data.lines }];
+        const seenBookNumbers = new Set();
+        const books = rawBooks
+          .map((book, index) => {
+            const number = Number(book.number) || index + 1;
+            if (seenBookNumbers.has(number)) {
+              throw new Error(`[voice-contents] ${file}: 중복된 ${number}권이 있습니다.`);
+            }
+            if (!Array.isArray(book.lines)) {
+              throw new Error(`[voice-contents] ${file}: ${number}권의 lines는 배열이어야 합니다.`);
+            }
+            seenBookNumbers.add(number);
+            return {
+              number,
+              label: String(book.label || number),
+              lines: normalizeLines(book.lines, number),
+            };
+          })
+          .filter((book) => book.lines.length > 0)
+          .sort((a, b) => a.number - b.number);
 
         return {
           id: data.id,
@@ -151,8 +180,9 @@ export default function markdownPostsPlugin() {
           greek: data.titles.greek,
           english: data.titles.english,
           korean: data.titles.korean,
-          book: String(data.book || 'I'),
-          lines,
+          source: data.source ? String(data.source) : null,
+          credit: data.credit ? String(data.credit) : null,
+          books,
         };
       })
       .sort((a, b) => a.order - b.order || a.korean.localeCompare(b.korean, 'ko'));

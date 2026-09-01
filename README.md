@@ -35,7 +35,7 @@ Markdown으로 본문을 작성합니다.
 
 ## 음성 콘텐츠 추가
 
-음성 작품 하나는 `content/voice`의 JSON 파일 하나로 관리합니다. 기존 파일을 복사한 뒤 식별자와 제목, 행만 수정하면 메뉴와 상세 화면에 자동으로 추가됩니다.
+음성 작품 하나는 `content/voice`의 JSON 파일 하나로 관리합니다. 기존 파일을 복사한 뒤 식별자와 제목, 권, 행만 수정하면 메뉴와 상세 화면에 자동으로 추가됩니다.
 
 ```json
 {
@@ -46,17 +46,25 @@ Markdown으로 본문을 작성합니다.
     "english": "English title",
     "korean": "한국어 제목"
   },
-  "book": "I",
-  "lines": [
+  "books": [
     {
       "number": 1,
-      "text": "첫 번째 행",
-      "audio": "/audio/voice/new-work/line-001.wav",
-      "note": "음성 있음"
-    },
-    {
-      "number": 2,
-      "text": "두 번째 행"
+      "label": "I",
+      "lines": [
+        {
+          "number": 1,
+          "greekText": "첫 번째 그리스어 행",
+          "koreanText": "첫 번째 행의 한국어 번역",
+          "paragraphStart": true,
+          "audio": "/audio/voice/new-work/line-001.wav",
+          "note": "음성 있음"
+        },
+        {
+          "number": 2,
+          "greekText": "두 번째 그리스어 행",
+          "koreanText": "(준비중입니다)"
+        }
+      ]
     }
   ]
 }
@@ -65,6 +73,27 @@ Markdown으로 본문을 작성합니다.
 1. 음성 파일을 `public/audio/voice/<작품 ID>` 아래에 저장합니다.
 2. JSON 행의 `audio`에 `/audio/voice/...`로 시작하는 공개 경로를 적습니다.
 3. 음성이 아직 없는 행은 `audio`와 `note`를 생략합니다.
+4. `greekText` 아래에 `koreanText`가 별도 줄로 표시됩니다.
+5. `paragraphStart: true`인 행 앞에는 원문의 단락 구분 여백이 표시됩니다.
+
+일리아스 24권의 Perseus 원문을 다시 가져오려면 다음 명령을 실행합니다. 원문 XML의 행 번호와 단락 시작 표식을 유지하며, 접근할 수 없는 데이터는 결과에서 제외합니다.
+
+```bash
+npm run import:iliad
+```
+
+오뒷세이아 24권도 동일한 방식으로 다시 가져올 수 있습니다.
+
+```bash
+npm run import:odyssey
+```
+
+가져온 일리아스 본문 24권은 `content/voice/iliad.json`에 행별로 완전히 저장됩니다. 블로그를 보거나 빌드할 때 Perseus 서버에 본문을 요청하지 않으며, `source` 주소는 출처 링크로만 사용됩니다. 로컬 저장 상태는 다음 명령으로 확인할 수 있습니다.
+
+```bash
+npm run verify:iliad
+npm run verify:odyssey
+```
 
 음성이 있는 행의 재생이 끝나면 바로 다음 행에 음성이 있을 때만 연속 재생합니다. 중간에 음성이 없는 행을 만나면 자동으로 멈춥니다.
 

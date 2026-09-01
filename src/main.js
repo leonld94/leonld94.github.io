@@ -18,26 +18,30 @@ const state = {
   activeView: initialRoute.view,
   activePostId: initialRoute.postId,
   activeVoiceId: initialRoute.voiceId,
+  activeVoiceBook: initialRoute.voiceBook,
   navOpen: false,
 };
 
 function readRoute() {
   if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#profile') {
-    return { view: 'profile', postId: allPosts[0]?.post.id ?? null, voiceId: null };
+    return { view: 'profile', postId: allPosts[0]?.post.id ?? null, voiceId: null, voiceBook: null };
   }
   if (window.location.hash.startsWith('#voice')) {
-    const requestedVoiceId = decodeURIComponent(window.location.hash.replace(/^#voice=?/, ''));
-    const voiceId = voiceContents.some((item) => item.id === requestedVoiceId)
-      ? requestedVoiceId
-      : null;
-    return { view: 'voice', postId: allPosts[0]?.post.id ?? null, voiceId };
+    const params = new URLSearchParams(window.location.hash.slice(1));
+    const requestedVoiceId = params.get('voice');
+    const voiceItem = voiceContents.find((item) => item.id === requestedVoiceId);
+    const requestedBook = Number(params.get('book'));
+    const voiceBook = voiceItem?.books.some((book) => book.number === requestedBook)
+      ? requestedBook
+      : voiceItem?.books[0]?.number ?? null;
+    return { view: 'voice', postId: allPosts[0]?.post.id ?? null, voiceId: voiceItem?.id ?? null, voiceBook };
   }
 
   const requestedId = decodeURIComponent(window.location.hash.replace(/^#post=/, ''));
   const postId = allPosts.some(({ post }) => post.id === requestedId)
     ? requestedId
     : allPosts[0]?.post.id ?? null;
-  return { view: 'posts', postId, voiceId: null };
+  return { view: 'posts', postId, voiceId: null, voiceBook: null };
 }
 
 function getActiveContext() {
@@ -307,10 +311,11 @@ function createVoiceView() {
 
 function createVoiceDetailView() {
   const voiceItem = voiceContents.find((item) => item.id === state.activeVoiceId) ?? voiceContents[0];
-  const voiceLines = voiceItem.lines ?? [];
+  const activeBook = voiceItem.books.find((book) => book.number === state.activeVoiceBook) ?? voiceItem.books[0];
+  const voiceLines = activeBook?.lines ?? [];
   const playableLines = voiceLines.filter((line) => line.audio);
   const lastPreparedLine = playableLines.at(-1)?.number ?? 0;
-  const lineRange = voiceLines.length > 0 ? `1–${voiceLines.length}` : '—';
+  const lineRange = voiceLines.length > 0 ? `${voiceLines[0].number}–${voiceLines.at(-1).number}` : '—';
   const voiceList = voiceContents
     .map(
       (item) => `
@@ -321,21 +326,35 @@ function createVoiceDetailView() {
       `
     )
     .join('');
+  const bookList = voiceItem.books
+    .map(
+      (book) => `
+        <button class="voice-book-link${book.number === activeBook?.number ? ' is-active' : ''}" type="button" data-voice-book="${book.number}" ${book.number === activeBook?.number ? 'aria-current="page"' : ''}>
+          <span>${escapeHTML(book.label)}</span>
+          <small>${book.lines.length}행</small>
+        </button>
+      `
+    )
+    .join('');
   const lineRows = voiceLines
     .map(
       (line, index) => `
         <button
-          class="voice-line${line.audio ? ' has-audio' : ' is-unavailable'}${line.number % 5 === 0 ? ' is-milestone' : ''}"
+          class="voice-line${line.audio ? ' has-audio' : ' is-unavailable'}${line.number % 5 === 0 ? ' is-milestone' : ''}${line.paragraphStart ? ' is-paragraph-start' : ''}${line.omitted ? ' is-omitted' : ''}"
           type="button"
           data-voice-line="${index}"
-          ${line.audio ? `data-audio="${line.audio}" data-note="${escapeHTML(line.note)}"` : 'disabled'}
-          aria-label="${line.number}행${line.note ? `, ${escapeHTML(line.note)} 음성 재생` : ', 음성 준비 중'}"
+          data-line-number="${line.number}"
+          ${line.audio ? `data-audio="${line.audio}"` : 'disabled'}
+          aria-label="${line.number}행${line.omitted ? ', 이 판본에서 생략됨' : line.audio ? ', 음성 재생' : ', 음성 준비 중'}"
         >
           <span class="voice-line__number">${String(line.number).padStart(2, '0')}</span>
-          <span class="voice-line__text">${escapeHTML(line.text)}</span>
+          <span class="voice-line__text">
+            <span class="voice-line__greek" lang="${line.omitted ? 'en' : 'grc'}">${escapeHTML(line.greekText)}</span>
+            <span class="voice-line__korean" lang="ko">${escapeHTML(line.koreanText)}</span>
+          </span>
           <span class="voice-line__audio" aria-hidden="true">
             ${line.audio
-              ? `<i></i><small>${escapeHTML(line.note)}</small>`
+              ? `<i></i><small>${line.number}행</small>`
               : '<small>준비 중</small>'}
           </span>
           <span class="voice-line__progress" aria-hidden="true"></span>
@@ -356,16 +375,23 @@ function createVoiceDetailView() {
         <div class="voice-reader-nav__section">
           <span class="panel-heading__eyebrow">CURRENT POSITION</span>
           <div class="voice-reader-position">
-            <span>BOOK</span><strong>${escapeHTML(voiceItem.book)}</strong>
+            <span>BOOK</span><strong>${escapeHTML(activeBook?.label ?? '—')}</strong>
             <span>LINES</span><strong>${lineRange}</strong>
           </div>
         </div>
+        ${voiceItem.books.length > 1
+          ? `<div class="voice-reader-nav__section">
+              <span class="panel-heading__eyebrow">BOOKS</span>
+              <h2>권 선택</h2>
+              <nav class="voice-book-list" aria-label="권 선택">${bookList}</nav>
+            </div>`
+          : ''}
       </aside>
 
       <main id="main-content" class="voice-reader" tabindex="-1">
         <header class="voice-reader__header">
           <div class="voice-reader__meta">
-            <span>BOOK ${escapeHTML(voiceItem.book)}</span>
+            <span>BOOK ${escapeHTML(activeBook?.label ?? '—')}</span>
             <span>LINES ${lineRange}</span>
           </div>
           <h1 lang="ko">${escapeHTML(voiceItem.korean)}</h1>
@@ -374,6 +400,10 @@ function createVoiceDetailView() {
             <span lang="en">${escapeHTML(voiceItem.english)}</span>
           </div>
           <p>음성이 있는 행을 누르면 재생을 시작합니다. 다음 행에도 음성이 있으면 자동으로 이동하며 이어서 재생합니다.</p>
+          ${voiceItem.source
+            ? `<a class="voice-source-link" href="${escapeHTML(voiceItem.source)}" target="_blank" rel="noreferrer">PERSEUS 원문 ↗</a>`
+            : ''}
+          ${voiceItem.credit ? `<small class="voice-source-credit">${escapeHTML(voiceItem.credit)}</small>` : ''}
         </header>
         <section class="voice-line-list" aria-label="행별 원문과 음성">
           ${lineRows}
@@ -387,7 +417,7 @@ function createVoiceDetailView() {
         <strong data-player-line>행을 선택하세요</strong>
         <span data-player-note>${lastPreparedLine > 0 ? `1–${lastPreparedLine}행에 음성이 준비되어 있습니다.` : '준비된 음성이 없습니다.'}</span>
         <div class="voice-scale" aria-label="도레미파솔라시도 음계">
-          ${playableLines.map((line) => `<i>${escapeHTML(line.note || `${line.number}행`)}</i>`).join('')}
+          ${playableLines.map((line) => `<i>${line.number}행</i>`).join('')}
         </div>
         <p><span class="voice-playback-panel__dot"></span> 연속 재생 활성화</p>
       </aside>
@@ -439,6 +469,10 @@ function bindEvents() {
     button.addEventListener('click', () => selectVoiceContent(button.dataset.voiceId));
   });
 
+  app.querySelectorAll('[data-voice-book]').forEach((button) => {
+    button.addEventListener('click', () => selectVoiceBook(Number(button.dataset.voiceBook)));
+  });
+
   app.querySelector('[data-voice-home]')?.addEventListener('click', () => selectView('voice'));
 
   app.querySelectorAll('[data-topic-id]').forEach((button) => {
@@ -480,9 +514,9 @@ function setupVoiceLinePlayer() {
   function updatePlayerStatus(index, status) {
     const row = rows[index];
     if (!row) return;
-    const lineNumber = Number(row.dataset.voiceLine) + 1;
+    const lineNumber = Number(row.dataset.lineNumber);
     playerLine.textContent = `${lineNumber}행 · ${status}`;
-    playerNote.textContent = `${row.dataset.note} 음을 재생하고 있습니다.`;
+    playerNote.textContent = `${lineNumber}행의 음성을 재생하고 있습니다.`;
   }
 
   async function playLine(index, { autoAdvance = false } = {}) {
@@ -561,6 +595,7 @@ function selectView(view, { updateHistory = true } = {}) {
   if (!['profile', 'posts', 'voice'].includes(view)) return;
   state.activeView = view;
   state.activeVoiceId = null;
+  state.activeVoiceBook = null;
   state.navOpen = false;
 
   if (updateHistory) {
@@ -579,10 +614,25 @@ function selectVoiceContent(voiceId, { updateHistory = true } = {}) {
   if (!voiceContents.some((item) => item.id === voiceId)) return;
   state.activeView = 'voice';
   state.activeVoiceId = voiceId;
+  state.activeVoiceBook = voiceContents.find((item) => item.id === voiceId)?.books[0]?.number ?? null;
   state.navOpen = false;
 
   if (updateHistory) {
-    window.history.pushState({ voiceId }, '', `#voice=${encodeURIComponent(voiceId)}`);
+    window.history.pushState({ voiceId, voiceBook: state.activeVoiceBook }, '', `#voice=${encodeURIComponent(voiceId)}&book=${state.activeVoiceBook}`);
+  }
+
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  requestAnimationFrame(() => app.querySelector('#main-content')?.focus({ preventScroll: true }));
+}
+
+function selectVoiceBook(bookNumber, { updateHistory = true } = {}) {
+  const voiceItem = voiceContents.find((item) => item.id === state.activeVoiceId);
+  if (!voiceItem?.books.some((book) => book.number === bookNumber)) return;
+  state.activeVoiceBook = bookNumber;
+
+  if (updateHistory) {
+    window.history.pushState({ voiceId: voiceItem.id, voiceBook: bookNumber }, '', `#voice=${encodeURIComponent(voiceItem.id)}&book=${bookNumber}`);
   }
 
   render();
@@ -595,6 +645,7 @@ function selectPost(postId, { updateHistory = true } = {}) {
   state.activeView = 'posts';
   state.activePostId = postId;
   state.activeVoiceId = null;
+  state.activeVoiceBook = null;
   state.navOpen = false;
 
   if (updateHistory) {
@@ -652,6 +703,7 @@ window.addEventListener('popstate', () => {
   state.activeView = route.view;
   state.activePostId = route.postId;
   state.activeVoiceId = route.voiceId;
+  state.activeVoiceBook = route.voiceBook;
   state.navOpen = false;
   render();
 });
