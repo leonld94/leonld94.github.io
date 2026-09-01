@@ -4,8 +4,12 @@ import { fileURLToPath } from 'node:url';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const id = String(process.argv[2] || '').trim();
+const xmlUrl = String(process.argv[3] || '').trim();
 if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) {
   throw new Error('작품 ID를 영문 소문자, 숫자, 하이픈으로 입력하세요. 예: plato-apology');
+}
+if (xmlUrl && !/^https?:\/\//i.test(xmlUrl)) {
+  throw new Error('Perseus TEI XML 주소는 http 또는 https로 시작해야 합니다.');
 }
 
 const workDir = path.join(projectRoot, 'content', 'voice', id);
@@ -33,6 +37,7 @@ const manifest = {
     passage: { label: '문장', singular: 'PASSAGE', plural: 'PASSAGES' },
   },
   source: { url: '', label: '원문 보기' },
+  ...(xmlUrl ? { textImport: { format: 'perseus-tei', xmlUrl, structure: 'auto' } } : {}),
   audio: {
     basePath: `/audio/voice/${id}`,
     pattern: '{unit}/{passage}.wav',
@@ -45,3 +50,4 @@ const unit = {
 await fs.writeFile(path.join(workDir, 'work.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 await fs.writeFile(path.join(unitsDir, '01.json'), `${JSON.stringify(unit, null, 2)}\n`, 'utf8');
 console.log(`[voice-new] ${id} 작품 골격을 생성했습니다: ${workDir}`);
+console.log(`[voice-new] 직접 전사하거나, work.json에 textImport를 설정한 뒤 npm.cmd run voice:import -- ${id}를 실행하세요.`);

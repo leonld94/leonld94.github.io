@@ -52,6 +52,14 @@ public/audio/voice/plato-apology/
   1/
 ```
 
+Perseus TEI XML 주소를 이미 알고 있다면 작품 생성 시 두 번째 인수로 함께 넣을 수도 있습니다.
+
+```powershell
+npm.cmd run voice:new -- sophocles-antigone "https://example.com/perseus-antigone.xml"
+```
+
+주소를 생략하면 직접 전사용 작품이 생성되며, 작품별 `.mjs` 파일은 어느 경우에도 만들지 않습니다.
+
 `work.json`은 작품 제목, 탐색 용어, 출처, 음성 파일명 규칙과 단위 목록만 관리합니다. `권/행`뿐 아니라 `장/문장`, `Stephanus/구절`처럼 작품에 맞는 용어와 문자열 식별자를 사용할 수 있습니다.
 
 ```json
@@ -72,6 +80,11 @@ public/audio/voice/plato-apology/
     "label": "원문 보기",
     "credit": "원문 제공자와 판본 정보"
   },
+  "textImport": {
+    "format": "perseus-tei",
+    "xmlUrl": "https://example.com/perseus-edition.xml",
+    "structure": "auto"
+  },
   "audio": {
     "basePath": "/audio/voice/plato-apology",
     "pattern": "{unit}/{passage}.wav"
@@ -86,6 +99,14 @@ public/audio/voice/plato-apology/
   ]
 }
 ```
+
+`textImport`는 선택 사항입니다. 실물 판본을 직접 전사할 때는 생략합니다. Perseus TEI 원문을 로컬 JSON으로 가져오려면 `xmlUrl`에 판본 XML 주소를 적고 모든 작품에 같은 명령을 사용합니다.
+
+```powershell
+npm.cmd run voice:import -- plato-apology
+```
+
+`structure: "auto"`는 `<speaker>`가 있는 희극·비극, `book` 단위가 있는 운문, 단일 단위 작품을 자동 판별합니다. 희극·비극에서는 화자가 실제로 바뀌는 행에만 `speaker`를 저장합니다. 기존 JSON에 입력한 `koreanText`, `audio`, `paragraphStart`, `omitted` 값은 행 ID가 같으면 보존됩니다.
 
 각 단위 파일은 구절만 담습니다. `id`와 `label`에는 `17a`, `chorus-1` 같은 문자열도 사용할 수 있습니다.
 
@@ -147,6 +168,8 @@ npm run import:iliad
 ```bash
 npm run import:odyssey
 ```
+
+새 Perseus 작품에는 작품별 `.mjs`를 만들 필요가 없습니다. `work.json`의 `textImport` 설정과 `npm.cmd run voice:import -- <작품 ID>`를 사용합니다. 기존 일리아스·오뒷세이아 명령은 생략 행 보충과 테스트 음원처럼 두 작품에만 필요한 과거 규칙을 유지하기 위해 남겨 둡니다.
 
 가져온 본문은 `content/voice/<작품 ID>/units`에 단위별로 완전히 저장됩니다. 블로그를 보거나 빌드할 때 Perseus 서버에 본문을 요청하지 않으며, `source.url`은 출처 링크로만 사용됩니다.
 

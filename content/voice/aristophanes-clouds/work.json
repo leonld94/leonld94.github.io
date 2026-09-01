@@ -21,7 +21,13 @@
   "source": {
     "url": "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0027",
     "label": "원문 보기",
-        "credit": "Text provided by Perseus Digital Library, with funding from The Annenberg CPB/Project."
+    "credit": "Text provided by Perseus Digital Library, with funding from The Annenberg CPB/Project."
+  },
+  "textImport": {
+    "format": "perseus-tei",
+    "xmlUrl": "https://raw.githubusercontent.com/PerseusDL/canonical-greekLit/master/data/tlg0019/tlg003/tlg0019.tlg003.perseus-grc2.xml",
+    "structure": "auto",
+    "minimumPassages": 1500
   },
   "audio": {
     "basePath": "/audio/voice/aristophanes-clouds",
