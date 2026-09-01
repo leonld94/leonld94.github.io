@@ -40,7 +40,7 @@ const manifest = {
   units: [{ id: '1', label: '1', order: 1, file: 'units/01.json' }],
 };
 const unit = {
-  passages: [{ id: '1', label: '1', greekText: '고전 그리스어 원문을 입력하세요.', koreanText: '(준비중입니다)' }],
+  passages: [{ id: '1', label: '1', speaker: null, greekText: '고전 그리스어 원문을 입력하세요.', koreanText: '(준비중입니다)' }],
 };
 await fs.writeFile(path.join(workDir, 'work.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 await fs.writeFile(path.join(unitsDir, '01.json'), `${JSON.stringify(unit, null, 2)}\n`, 'utf8');

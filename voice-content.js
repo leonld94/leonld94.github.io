@@ -74,6 +74,26 @@ function inferredAudioUrl(audioConfig, workId, unitId, passageId) {
   return `${String(audioConfig.basePath || `/audio/voice/${workId}`).replace(/\/+$/, '')}/${relativePath}`;
 }
 
+function normalizeSpeaker(value, unitFile, passageId) {
+  if (value == null || value === '') return null;
+  if (typeof value === 'string') {
+    return { label: requiredText(value, unitFile, `${passageId} 구절의 speaker`).normalize('NFC') };
+  }
+  if (typeof value !== 'object' || Array.isArray(value)) {
+    fail(unitFile, `${passageId} 구절의 speaker는 문자열 또는 이름 객체여야 합니다.`);
+  }
+
+  const speaker = {};
+  for (const field of ['greek', 'korean', 'english']) {
+    const text = String(value[field] ?? '').trim();
+    if (text) speaker[field] = text.normalize('NFC');
+  }
+  if (Object.keys(speaker).length === 0) {
+    fail(unitFile, `${passageId} 구절의 speaker 이름이 비어 있습니다.`);
+  }
+  return speaker;
+}
+
 function normalizePassages({ raw, unit, work, unitFile, projectRoot }) {
   const input = Array.isArray(raw) ? raw : raw.passages;
   if (!Array.isArray(input)) fail(unitFile, 'passages 배열이 필요합니다.');
@@ -103,6 +123,7 @@ function normalizePassages({ raw, unit, work, unitFile, projectRoot }) {
       greekText,
       koreanText,
       audio,
+      ...(passage.speaker != null ? { speaker: normalizeSpeaker(passage.speaker, unitFile, id) } : {}),
       ...(passage.paragraphStart ? { paragraphStart: true } : {}),
       ...(passage.omitted ? { omitted: true } : {}),
     };

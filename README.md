@@ -95,6 +95,10 @@ public/audio/voice/plato-apology/
     {
       "id": "1",
       "label": "1",
+      "speaker": {
+        "greek": "ΣΩΚΡΑΤΗΣ",
+        "korean": "소크라테스"
+      },
       "greekText": "첫 번째 그리스어 문장",
       "koreanText": "첫 번째 문장의 한국어 번역",
       "paragraphStart": true
@@ -109,6 +113,7 @@ public/audio/voice/plato-apology/
 ```
 
 - `koreanText`를 생략하면 화면에 `(준비중입니다)`가 표시됩니다.
+- 희극·비극의 화자는 `"speaker": "소크라테스"`처럼 간단히 쓰거나, 위 예시처럼 `greek`, `korean`, `english` 이름을 함께 적을 수 있습니다. `speaker`를 생략하거나 `null`로 두면 화자 영역은 표시되지 않습니다.
 - `paragraphStart: true`인 구절 앞에는 원문의 단락 여백이 표시됩니다.
 - `omitted: true`인 구절은 생략 안내와 취소선 스타일로 표시됩니다.
 - 개별 구절에 `audio`를 직접 지정할 수도 있습니다.

@@ -1394,6 +1394,33 @@ a:focus-visible,
   gap: 7px;
 }
 
+.voice-line__speaker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px 10px;
+  width: fit-content;
+  max-width: 100%;
+  padding-left: 10px;
+  color: var(--accent-dark);
+  font-family: var(--sans);
+  line-height: 1.3;
+  text-align: left;
+  border-left: 3px solid var(--accent);
+}
+
+.voice-line__speaker strong {
+  font-family: var(--greek-serif);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.voice-line__speaker small {
+  color: #777b89;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
 .voice-line__greek {
   font-family: var(--greek-serif);
   font-feature-settings: 'mark' 1, 'mkmk' 1;

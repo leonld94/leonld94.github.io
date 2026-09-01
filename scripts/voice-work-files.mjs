@@ -8,6 +8,7 @@ function passageFromLine(line, index) {
     greekText: String(line.greekText ?? line.text ?? '').normalize('NFC'),
   };
   if (line.koreanText && line.koreanText !== '(준비중입니다)') passage.koreanText = String(line.koreanText).normalize('NFC');
+  if (line.speaker != null) passage.speaker = line.speaker;
   if (line.audio) passage.audio = String(line.audio);
   if (line.paragraphStart) passage.paragraphStart = true;
   if (line.omitted) passage.omitted = true;
