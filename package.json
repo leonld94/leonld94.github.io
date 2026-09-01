@@ -5,14 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/validate-voice-content.mjs && vite build",
     "preview": "vite preview",
     "import:iliad": "node scripts/import-perseus-iliad.mjs",
     "import:odyssey": "node scripts/import-perseus-odyssey.mjs",
-    "normalize:iliad": "node scripts/import-perseus-iliad.mjs --fill-local",
-    "normalize:odyssey": "node scripts/import-perseus-odyssey.mjs --fill-local",
-    "verify:iliad": "node scripts/verify-local-iliad.mjs",
-    "verify:odyssey": "node scripts/verify-local-odyssey.mjs"
+    "voice:new": "node scripts/create-voice-work.mjs",
+    "voice:validate": "node scripts/validate-voice-content.mjs"
   },
   "devDependencies": {
     "vite": "^7.3.1"

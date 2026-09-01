@@ -1333,6 +1333,19 @@ a:focus-visible,
   padding: 18px clamp(18px, 4vw, 42px) 44px;
 }
 
+.voice-loading-state {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  color: #7b7f89;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+}
+
+.voice-loading-state.is-error {
+  color: #a13b3b;
+}
+
 .voice-line {
   --line-progress: 0%;
   position: relative;

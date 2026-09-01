@@ -1,0 +1,176 @@
+{
+  "id": "iliad",
+  "order": 1,
+  "titles": {
+    "greek": "Ὅμηρος – Ἰλιάς",
+    "english": "Homer – Iliad",
+    "korean": "호메로스 – 일리아스"
+  },
+  "navigation": {
+    "unit": {
+      "label": "권",
+      "singular": "BOOK",
+      "plural": "BOOKS"
+    },
+    "passage": {
+      "label": "행",
+      "singular": "LINE",
+      "plural": "LINES"
+    }
+  },
+  "source": {
+    "url": "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0133",
+    "label": "PERSEUS 원문",
+    "credit": "Text provided by Perseus Digital Library, with funding from The Annenberg CPB/Project."
+  },
+  "audio": {
+    "basePath": "/audio/voice/iliad",
+    "pattern": "{unit}/{passage}.wav"
+  },
+  "units": [
+    {
+      "id": "1",
+      "label": "1",
+      "order": 1,
+      "file": "units/01.json"
+    },
+    {
+      "id": "2",
+      "label": "2",
+      "order": 2,
+      "file": "units/02.json"
+    },
+    {
+      "id": "3",
+      "label": "3",
+      "order": 3,
+      "file": "units/03.json"
+    },
+    {
+      "id": "4",
+      "label": "4",
+      "order": 4,
+      "file": "units/04.json"
+    },
+    {
+      "id": "5",
+      "label": "5",
+      "order": 5,
+      "file": "units/05.json"
+    },
+    {
+      "id": "6",
+      "label": "6",
+      "order": 6,
+      "file": "units/06.json"
+    },
+    {
+      "id": "7",
+      "label": "7",
+      "order": 7,
+      "file": "units/07.json"
+    },
+    {
+      "id": "8",
+      "label": "8",
+      "order": 8,
+      "file": "units/08.json"
+    },
+    {
+      "id": "9",
+      "label": "9",
+      "order": 9,
+      "file": "units/09.json"
+    },
+    {
+      "id": "10",
+      "label": "10",
+      "order": 10,
+      "file": "units/10.json"
+    },
+    {
+      "id": "11",
+      "label": "11",
+      "order": 11,
+      "file": "units/11.json"
+    },
+    {
+      "id": "12",
+      "label": "12",
+      "order": 12,
+      "file": "units/12.json"
+    },
+    {
+      "id": "13",
+      "label": "13",
+      "order": 13,
+      "file": "units/13.json"
+    },
+    {
+      "id": "14",
+      "label": "14",
+      "order": 14,
+      "file": "units/14.json"
+    },
+    {
+      "id": "15",
+      "label": "15",
+      "order": 15,
+      "file": "units/15.json"
+    },
+    {
+      "id": "16",
+      "label": "16",
+      "order": 16,
+      "file": "units/16.json"
+    },
+    {
+      "id": "17",
+      "label": "17",
+      "order": 17,
+      "file": "units/17.json"
+    },
+    {
+      "id": "18",
+      "label": "18",
+      "order": 18,
+      "file": "units/18.json"
+    },
+    {
+      "id": "19",
+      "label": "19",
+      "order": 19,
+      "file": "units/19.json"
+    },
+    {
+      "id": "20",
+      "label": "20",
+      "order": 20,
+      "file": "units/20.json"
+    },
+    {
+      "id": "21",
+      "label": "21",
+      "order": 21,
+      "file": "units/21.json"
+    },
+    {
+      "id": "22",
+      "label": "22",
+      "order": 22,
+      "file": "units/22.json"
+    },
+    {
+      "id": "23",
+      "label": "23",
+      "order": 23,
+      "file": "units/23.json"
+    },
+    {
+      "id": "24",
+      "label": "24",
+      "order": 24,
+      "file": "units/24.json"
+    }
+  ]
+}

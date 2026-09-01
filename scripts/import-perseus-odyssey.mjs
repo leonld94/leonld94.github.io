@@ -1,9 +1,8 @@
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeVoiceWork } from './voice-work-files.mjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const outputPath = path.join(projectRoot, 'content', 'voice', 'odyssey.json');
 const sourcePage = 'https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0135';
 const sourceXml = 'https://raw.githubusercontent.com/PerseusDL/canonical-greekLit/master/data/tlg0012/tlg002/tlg0012.tlg002.perseus-grc2.xml';
 
@@ -103,18 +102,14 @@ async function downloadXml() {
   throw new Error('원문을 받을 수 없습니다.');
 }
 
-const fillLocalOnly = process.argv.includes('--fill-local');
-let data;
-if (fillLocalOnly) {
-  data = JSON.parse(await fs.readFile(outputPath, 'utf8'));
-  data.books = data.books.map((book) => ({ ...book, lines: fillOmittedLines(book.lines) }));
-} else {
-  const xml = await downloadXml();
-  const books = parseBooks(xml);
-  if (books.length !== 24) {
-    console.warn(`[odyssey-import] 24권 중 ${books.length}권만 수집되었습니다. 접근할 수 없는 권은 건너뜁니다.`);
-  }
-  data = {
+const books = parseBooks(await downloadXml());
+if (books.length !== 24) {
+  console.warn(`[odyssey-import] 24권 중 ${books.length}권만 수집되었습니다. 접근할 수 없는 권은 건너뜁니다.`);
+}
+const result = await writeVoiceWork({
+  projectRoot,
+  sourceLabel: 'PERSEUS 원문',
+  data: {
     id: 'odyssey',
     order: 2,
     titles: {
@@ -125,9 +120,6 @@ if (fillLocalOnly) {
     source: sourcePage,
     credit: 'Text provided by Perseus Digital Library, with funding from The Annenberg CPB/Project.',
     books,
-  };
-}
-
-await fs.writeFile(outputPath, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
-const lineCount = data.books.reduce((total, book) => total + book.lines.length, 0);
-console.log(`[odyssey-import] ${data.books.length}권, ${lineCount}행을 ${path.relative(projectRoot, outputPath)}에 저장했습니다.`);
+  },
+});
+console.log(`[odyssey-import] ${result.unitCount}권, ${result.passageCount}행을 ${path.relative(projectRoot, result.workDir)}에 저장했습니다.`);

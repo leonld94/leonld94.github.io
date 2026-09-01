@@ -1,9 +1,8 @@
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeVoiceWork } from './voice-work-files.mjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const outputPath = path.join(projectRoot, 'content', 'voice', 'iliad.json');
 const sourcePage = 'https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0133';
 const sourceXml = 'https://raw.githubusercontent.com/PerseusDL/canonical-greekLit/master/data/tlg0012/tlg001/tlg0012.tlg001.perseus-grc2.xml';
 
@@ -107,36 +106,14 @@ async function downloadXml() {
   throw new Error('원문을 받을 수 없습니다.');
 }
 
-const fillLocalOnly = process.argv.includes('--fill-local');
-const restoreMissingOnly = process.argv.includes('--restore-missing');
-const restoreBookNumber = Number(process.argv.find((argument) => argument.startsWith('--restore-book='))?.split('=')[1]) || null;
-let data;
-if (fillLocalOnly) {
-  data = JSON.parse(await fs.readFile(outputPath, 'utf8'));
-  data.books = data.books.map((book) => ({ ...book, lines: fillOmittedLines(book.lines) }));
-} else if (restoreBookNumber) {
-  data = JSON.parse(await fs.readFile(outputPath, 'utf8'));
-  const sourceBook = parseBooks(await downloadXml()).find((book) => book.number === restoreBookNumber);
-  if (!sourceBook) throw new Error(`원문에서 ${restoreBookNumber}권을 찾을 수 없습니다.`);
-  data.books = data.books
-    .filter((book) => book.number !== restoreBookNumber)
-    .concat(sourceBook)
-    .sort((left, right) => left.number - right.number);
-  console.log(`[iliad-import] ${restoreBookNumber}권을 원문에서 복원했습니다.`);
-} else if (restoreMissingOnly) {
-  data = JSON.parse(await fs.readFile(outputPath, 'utf8'));
-  const existingNumbers = new Set(data.books.map((book) => book.number));
-  const sourceBooks = parseBooks(await downloadXml());
-  const missingBooks = sourceBooks.filter((book) => !existingNumbers.has(book.number));
-  data.books = [...data.books, ...missingBooks].sort((left, right) => left.number - right.number);
-  console.log(`[iliad-import] 누락된 권 복원: ${missingBooks.map((book) => book.number).join(', ') || '없음'}`);
-} else {
-  const xml = await downloadXml();
-  const books = parseBooks(xml);
-  if (books.length !== 24) {
-    console.warn(`[iliad-import] 24권 중 ${books.length}권만 수집되었습니다. 접근할 수 없는 권은 건너뜁니다.`);
-  }
-  data = {
+const books = parseBooks(await downloadXml());
+if (books.length !== 24) {
+  console.warn(`[iliad-import] 24권 중 ${books.length}권만 수집되었습니다. 접근할 수 없는 권은 건너뜁니다.`);
+}
+const result = await writeVoiceWork({
+  projectRoot,
+  sourceLabel: 'PERSEUS 원문',
+  data: {
     id: 'iliad',
     order: 1,
     titles: {
@@ -147,9 +124,6 @@ if (fillLocalOnly) {
     source: sourcePage,
     credit: 'Text provided by Perseus Digital Library, with funding from The Annenberg CPB/Project.',
     books,
-  };
-}
-
-await fs.writeFile(outputPath, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
-const lineCount = data.books.reduce((total, book) => total + book.lines.length, 0);
-console.log(`[iliad-import] ${data.books.length}권, ${lineCount}행을 ${path.relative(projectRoot, outputPath)}에 저장했습니다.`);
+  },
+});
+console.log(`[iliad-import] ${result.unitCount}권, ${result.passageCount}행을 ${path.relative(projectRoot, result.workDir)}에 저장했습니다.`);
