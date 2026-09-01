@@ -1,0 +1,38 @@
+{
+  "id": "aristophanes-clouds",
+  "order": 3,
+  "titles": {
+    "greek": "Ἀριστοφάνης - Νεφέλαι",
+    "english": "Aristophanes - Clouds",
+    "korean": "아리스토파네스 - 구름"
+  },
+  "navigation": {
+    "unit": {
+      "label": "장",
+      "singular": "SECTION",
+      "plural": "SECTIONS"
+    },
+    "passage": {
+      "label": "문장",
+      "singular": "PASSAGE",
+      "plural": "PASSAGES"
+    }
+  },
+  "source": {
+    "url": "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0027",
+    "label": "원문 보기",
+        "credit": "Text provided by Perseus Digital Library, with funding from The Annenberg CPB/Project."
+  },
+  "audio": {
+    "basePath": "/audio/voice/aristophanes-clouds",
+    "pattern": "{unit}/{passage}.wav"
+  },
+  "units": [
+    {
+      "id": "1",
+      "label": "1",
+      "order": 1,
+      "file": "units/01.json"
+    }
+  ]
+}

@@ -5,53 +5,45 @@
       "label": "1",
       "greekText": "μῆνιν ἄϝειδε θεὰ Πηληϝϊάδεω Ἀχιλῆϝος",
       "koreanText": "분노를 노래하소서 여신이여, 펠레우스의 아들 아킬레우스의",
-      "audio": "/audio/voice/tones/Hom-Il-1-1.wav",
       "paragraphStart": true
     },
     {
       "id": "2",
       "label": "2",
       "greekText": "οὐλομένην, ἣ μυρίʼ Ἀχαιοῖς ἄλγεʼ ἔθηκε,",
-      "koreanText": "분노를, 아카이아 인들에게 셀 수 없는 고통을 가져다 주었고,",
-      "audio": "/audio/voice/tones/Hom-Il-1-2.wav"
+      "koreanText": "분노를, 아카이아 인들에게 셀 수 없는 고통을 가져다 주었고,"
     },
     {
       "id": "3",
       "label": "3",
       "greekText": "πολλὰς δʼ ἰφθίμους ψυχὰς Ἄϊδι προΐαψεν",
-      "koreanText": "영웅들의 수많은 강인한 영혼들을 하데스로 보낸,",
-      "audio": "/audio/voice/tones/03-mi.wav"
+      "koreanText": "영웅들의 수많은 강인한 영혼들을 하데스로 보낸,"
     },
     {
       "id": "4",
       "label": "4",
       "greekText": "ἡρώων, αὐτοὺς δὲ ἑλώρια τεῦχε κύνεσσιν",
-      "koreanText": "또 그 자신은 온갖 새 떼들과 개 떼들의 먹이로 만든",
-      "audio": "/audio/voice/tones/04-fa.wav"
+      "koreanText": "또 그 자신은 온갖 새 떼들과 개 떼들의 먹이로 만든"
     },
     {
       "id": "5",
       "label": "5",
-      "greekText": "οἰωνοῖσί τε πᾶσι, Διὸς δʼ ἐτελείετο βουλή,",
-      "audio": "/audio/voice/tones/05-sol.wav"
+      "greekText": "οἰωνοῖσί τε πᾶσι, Διὸς δʼ ἐτελείετο βουλή,"
     },
     {
       "id": "6",
       "label": "6",
-      "greekText": "ἐξ οὗ δὴ τὰ πρῶτα διαστήτην ἐρίσαντε",
-      "audio": "/audio/voice/tones/06-la.wav"
+      "greekText": "ἐξ οὗ δὴ τὰ πρῶτα διαστήτην ἐρίσαντε"
     },
     {
       "id": "7",
       "label": "7",
-      "greekText": "Ἀτρεΐδης τε ἄναξ ἀνδρῶν καὶ δῖος Ἀχιλλεύς.",
-      "audio": "/audio/voice/tones/07-si.wav"
+      "greekText": "Ἀτρεΐδης τε ἄναξ ἀνδρῶν καὶ δῖος Ἀχιλλεύς."
     },
     {
       "id": "8",
       "label": "8",
       "greekText": "τίς τʼ ἄρ σφωε θεῶν ἔριδι ξυνέηκε μάχεσθαι;",
-      "audio": "/audio/voice/tones/08-do-high.wav",
       "paragraphStart": true
     },
     {
