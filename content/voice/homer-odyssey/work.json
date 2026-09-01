@@ -24,7 +24,7 @@
     "credit": "Text provided by Perseus Digital Library, with funding from The Annenberg CPB/Project."
   },
   "audio": {
-    "basePath": "/audio/voice/odyssey",
+    "basePath": "/audio/voice/homer-odyssey",
     "pattern": "{unit}/{passage}.wav"
   },
   "units": [
