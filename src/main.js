@@ -8,9 +8,23 @@ const app = document.getElementById('app');
 const allPosts = topics.flatMap((topic) =>
   topic.posts.map((post) => ({ post, topic }))
 );
+
+function comparePostRecency(left, right) {
+  const leftDate = Date.parse(left.post.date);
+  const rightDate = Date.parse(right.post.date);
+
+  if (Number.isFinite(leftDate) && Number.isFinite(rightDate) && leftDate !== rightDate) {
+    return leftDate - rightDate;
+  }
+
+  const leftSequence = Number(left.post.id.match(/(\d+)$/)?.[1] ?? -1);
+  const rightSequence = Number(right.post.id.match(/(\d+)$/)?.[1] ?? -1);
+  return leftSequence - rightSequence;
+}
+
 const latestPostContext = allPosts.reduce((latest, current) => {
   if (!latest) return current;
-  return new Date(current.post.date) > new Date(latest.post.date) ? current : latest;
+  return comparePostRecency(current, latest) > 0 ? current : latest;
 }, null);
 const voiceUnitCache = new Map();
 const voiceUnitRequests = new Map();
@@ -245,7 +259,7 @@ function createProfileView() {
           <i></i><i></i><i></i>
         </div>
         <div class="profile-intro">
-          <span class="page-eyebrow">PROFILE · 아선대너무좋아</span>
+          <span class="page-eyebrow">PROFILE · 아선대너무좋아님</span>
           <h1>배우고 생각한 것을<br>남깁니다.</h1>
           <p>여러 취미를 즐기며 발견한 생각들을 기록하는 개인 블로그입니다. 흩어지기 쉬운 생각을 한곳에 모읍니다.</p>
           ${latestPostContext
@@ -264,7 +278,7 @@ function createProfileView() {
         <div class="profile-identity__mark" aria-hidden="true">A</div>
         <div class="profile-identity__copy">
           <span class="page-eyebrow">WHO AM I?</span>
-          <h2 id="profile-identity-title">아선대너무좋아</h2>
+          <h2 id="profile-identity-title">아선대너무좋아님</h2>
           <p>선형대수를 매우 좋아하는 공학도입니다.</p>
         </div>
         <span class="profile-identity__tag">NICKNAME</span>
