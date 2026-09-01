@@ -2,11 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import MarkdownIt from 'markdown-it';
+import { buildVoiceCatalog, VIRTUAL_VOICE_UNIT_PREFIX } from './voice-content.js';
 
 const VIRTUAL_MODULE_ID = 'virtual:posts';
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID;
 const VIRTUAL_VOICE_MODULE_ID = 'virtual:voice-contents';
 const RESOLVED_VIRTUAL_VOICE_MODULE_ID = '\0' + VIRTUAL_VOICE_MODULE_ID;
+const RESOLVED_VIRTUAL_VOICE_UNIT_PREFIX = '\0' + VIRTUAL_VOICE_UNIT_PREFIX;
 
 // ── Topic metadata ──
 const TOPIC_META = {
@@ -27,6 +29,8 @@ export default function markdownPostsPlugin() {
   const defaultValidateLink = md.validateLink.bind(md);
   md.validateLink = (url) => /^post:\/\//.test(url) || defaultValidateLink(url);
   let contentDir;
+  let projectRoot;
+  let voiceCatalog = { works: [], unitsByVirtualId: new Map(), filesByVirtualId: new Map() };
 
   function buildTopics() {
     const topicMap = {};
@@ -96,102 +100,28 @@ export default function markdownPostsPlugin() {
     );
   }
 
-  function buildVoiceContents() {
-    const voicePath = path.join(contentDir, 'voice');
-    if (!fs.existsSync(voicePath)) return [];
-    const seenIds = new Set();
+  function refreshVoiceCatalog() {
+    voiceCatalog = buildVoiceCatalog({ contentDir, projectRoot });
+    return voiceCatalog;
+  }
 
-    return fs
-      .readdirSync(voicePath)
-      .filter((file) => file.endsWith('.json'))
-      .map((file) => {
-        const filePath = path.join(voicePath, file);
-        let data;
-        try {
-          data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-        } catch (error) {
-          throw new Error(`[voice-contents] ${file}: 올바른 JSON 파일이 아닙니다. ${error.message}`);
-        }
-
-        if (!data.id || !data.titles?.korean || !data.titles?.english || !data.titles?.greek) {
-          throw new Error(`[voice-contents] ${file}: id와 titles.korean/english/greek이 필요합니다.`);
-        }
-        if (!Array.isArray(data.books) && !Array.isArray(data.lines)) {
-          throw new Error(`[voice-contents] ${file}: books 또는 lines 배열이 필요합니다.`);
-        }
-        if (seenIds.has(data.id)) {
-          throw new Error(`[voice-contents] ${file}: 중복된 id "${data.id}"가 있습니다.`);
-        }
-        seenIds.add(data.id);
-
-        const normalizeLines = (lines, bookLabel) => lines.map((line, index) => {
-          const lineNumber = Number(line.number) || index + 1;
-          const greekText = String(line.greekText ?? line.text ?? '').trim().normalize('NFC');
-          const koreanText = String(line.koreanText ?? '(준비중입니다)').trim().normalize('NFC');
-          const audio = line.audio ? String(line.audio) : null;
-          if (!greekText) {
-            throw new Error(`[voice-contents] ${file}: ${bookLabel}권 ${lineNumber}행의 greekText가 비어 있습니다.`);
-          }
-          if (!koreanText) {
-            throw new Error(`[voice-contents] ${file}: ${bookLabel}권 ${lineNumber}행의 koreanText가 비어 있습니다.`);
-          }
-          if (audio?.startsWith('/')) {
-            const audioPath = path.join(path.dirname(contentDir), 'public', audio.slice(1));
-            if (!fs.existsSync(audioPath)) {
-              throw new Error(`[voice-contents] ${file}: ${bookLabel}권 ${lineNumber}행의 음성 파일을 찾을 수 없습니다: ${audio}`);
-            }
-          }
-          return {
-            number: lineNumber,
-            greekText,
-            koreanText,
-            audio,
-            ...(line.paragraphStart ? { paragraphStart: true } : {}),
-            ...(line.omitted ? { omitted: true } : {}),
-          };
-        });
-
-        const rawBooks = Array.isArray(data.books)
-          ? data.books
-          : [{ number: 1, label: String(data.book || 'I'), lines: data.lines }];
-        const seenBookNumbers = new Set();
-        const books = rawBooks
-          .map((book, index) => {
-            const number = Number(book.number) || index + 1;
-            if (seenBookNumbers.has(number)) {
-              throw new Error(`[voice-contents] ${file}: 중복된 ${number}권이 있습니다.`);
-            }
-            if (!Array.isArray(book.lines)) {
-              throw new Error(`[voice-contents] ${file}: ${number}권의 lines는 배열이어야 합니다.`);
-            }
-            seenBookNumbers.add(number);
-            return {
-              number,
-              label: String(book.label || number),
-              lines: normalizeLines(book.lines, number),
-            };
-          })
-          .filter((book) => book.lines.length > 0)
-          .sort((a, b) => a.number - b.number);
-
-        return {
-          id: data.id,
-          order: Number(data.order) || 999,
-          greek: data.titles.greek,
-          english: data.titles.english,
-          korean: data.titles.korean,
-          source: data.source ? String(data.source) : null,
-          credit: data.credit ? String(data.credit) : null,
-          books,
-        };
-      })
-      .sort((a, b) => a.order - b.order || a.korean.localeCompare(b.korean, 'ko'));
+  function voiceCatalogModuleSource() {
+    const { works } = refreshVoiceCatalog();
+    const source = works.map((work) => {
+      const units = work.units.map(({ virtualId, ...unit }) => (
+        `{...${JSON.stringify(unit)},load:()=>import(${JSON.stringify(virtualId)}).then(module=>module.default)}`
+      ));
+      const { units: ignoredUnits, audio: ignoredAudio, ...metadata } = work;
+      return `{...${JSON.stringify(metadata)},units:[${units.join(',')}]}`;
+    });
+    return `export const voiceContents = [${source.join(',')}];`;
   }
 
   return {
     name: 'markdown-posts',
 
     configResolved(config) {
+      projectRoot = config.root;
       contentDir = path.resolve(config.root, 'content');
     },
 
@@ -202,6 +132,9 @@ export default function markdownPostsPlugin() {
       if (id === VIRTUAL_VOICE_MODULE_ID) {
         return RESOLVED_VIRTUAL_VOICE_MODULE_ID;
       }
+      if (id.startsWith(VIRTUAL_VOICE_UNIT_PREFIX)) {
+        return `\0${id}`;
+      }
     },
 
     load(id) {
@@ -210,8 +143,14 @@ export default function markdownPostsPlugin() {
         return `export const topics = ${JSON.stringify(topics, null, 2)};`;
       }
       if (id === RESOLVED_VIRTUAL_VOICE_MODULE_ID) {
-        const voiceContents = buildVoiceContents();
-        return `export const voiceContents = ${JSON.stringify(voiceContents, null, 2)};`;
+        return voiceCatalogModuleSource();
+      }
+      if (id.startsWith(RESOLVED_VIRTUAL_VOICE_UNIT_PREFIX)) {
+        const virtualId = id.slice(1);
+        if (!voiceCatalog.unitsByVirtualId.has(virtualId)) refreshVoiceCatalog();
+        const passages = voiceCatalog.unitsByVirtualId.get(virtualId);
+        if (!passages) throw new Error(`[voice-contents] 알 수 없는 단위 모듈입니다: ${virtualId}`);
+        return `export default ${JSON.stringify(passages)};`;
       }
     },
 
@@ -225,10 +164,20 @@ export default function markdownPostsPlugin() {
         }
       }
       if (file.endsWith('.json') && file.includes(path.sep + 'content' + path.sep + 'voice' + path.sep)) {
+        const previousCatalog = voiceCatalog;
+        refreshVoiceCatalog();
         const mod = server.moduleGraph.getModuleById(RESOLVED_VIRTUAL_VOICE_MODULE_ID);
         if (mod) {
           server.moduleGraph.invalidateModule(mod);
           modules.push(mod);
+        }
+        for (const [virtualId, unitFile] of previousCatalog.filesByVirtualId) {
+          if (path.resolve(unitFile) !== path.resolve(file)) continue;
+          const unitModule = server.moduleGraph.getModuleById(`\0${virtualId}`);
+          if (unitModule) {
+            server.moduleGraph.invalidateModule(unitModule);
+            modules.push(unitModule);
+          }
         }
       }
       if (modules.length > 0) return modules;

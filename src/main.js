@@ -12,36 +12,39 @@ const latestPostContext = allPosts.reduce((latest, current) => {
   if (!latest) return current;
   return new Date(current.post.date) > new Date(latest.post.date) ? current : latest;
 }, null);
+const voiceUnitCache = new Map();
+const voiceUnitRequests = new Map();
+const voiceUnitErrors = new Map();
 
 const initialRoute = readRoute();
 const state = {
   activeView: initialRoute.view,
   activePostId: initialRoute.postId,
   activeVoiceId: initialRoute.voiceId,
-  activeVoiceBook: initialRoute.voiceBook,
+  activeVoiceUnitId: initialRoute.voiceUnitId,
   navOpen: false,
 };
 
 function readRoute() {
   if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#profile') {
-    return { view: 'profile', postId: allPosts[0]?.post.id ?? null, voiceId: null, voiceBook: null };
+    return { view: 'profile', postId: allPosts[0]?.post.id ?? null, voiceId: null, voiceUnitId: null };
   }
   if (window.location.hash.startsWith('#voice')) {
     const params = new URLSearchParams(window.location.hash.slice(1));
     const requestedVoiceId = params.get('voice');
     const voiceItem = voiceContents.find((item) => item.id === requestedVoiceId);
-    const requestedBook = Number(params.get('book'));
-    const voiceBook = voiceItem?.books.some((book) => book.number === requestedBook)
-      ? requestedBook
-      : voiceItem?.books[0]?.number ?? null;
-    return { view: 'voice', postId: allPosts[0]?.post.id ?? null, voiceId: voiceItem?.id ?? null, voiceBook };
+    const requestedUnitId = params.get('unit') ?? params.get('book');
+    const voiceUnitId = voiceItem?.units.some((unit) => unit.id === requestedUnitId)
+      ? requestedUnitId
+      : voiceItem?.units[0]?.id ?? null;
+    return { view: 'voice', postId: allPosts[0]?.post.id ?? null, voiceId: voiceItem?.id ?? null, voiceUnitId };
   }
 
   const requestedId = decodeURIComponent(window.location.hash.replace(/^#post=/, ''));
   const postId = allPosts.some(({ post }) => post.id === requestedId)
     ? requestedId
     : allPosts[0]?.post.id ?? null;
-  return { view: 'posts', postId, voiceId: null, voiceBook: null };
+  return { view: 'posts', postId, voiceId: null, voiceUnitId: null };
 }
 
 function getActiveContext() {
@@ -221,8 +224,8 @@ function createProfileView() {
         </div>
         <div class="profile-intro">
           <span class="page-eyebrow">PROFILE · 아선대너무좋아</span>
-          <h1>배우고 생각한 것을<br>오래 남깁니다.</h1>
-          <p>수학, 철학, 공학, 언어를 오가며 발견한 연결을 기록하는 개인 블로그입니다. 여러 활동 속에서 흩어지기 쉬운 생각을 한곳에 모읍니다.</p>
+          <h1>배우고 생각한 것을<br>남깁니다.</h1>
+          <p>여러 취미를 즐기며 발견한 생각들을 기록하는 개인 블로그입니다. 흩어지기 쉬운 생각을 한곳에 모읍니다.</p>
           ${latestPostContext
             ? `<button class="profile-read-button" type="button" data-post-id="${escapeHTML(latestPostContext.post.id)}">
                 <span class="profile-read-button__label">
@@ -249,7 +252,7 @@ function createProfileView() {
         <article class="profile-note">
           <span class="page-eyebrow">ABOUT THIS BLOG</span>
           <h2>서로 다른 분야 사이의<br>연결고리를 찾아서</h2>
-          <p>새로 배운 개념과 오래 품은 질문을 주제별 글로 정리합니다. 완성된 답보다 생각이 이어지는 과정을 남기는 공간입니다.</p>
+          <p>새로 배운 개념과 오래 품은 질문을 정리합니다. 흔한 답보단 재미있는 색다른 생각을 남기는 공간입니다.</p>
           <dl class="profile-stats">
             <div><dt>${topics.length}</dt><dd>관심 분야</dd></div>
             <div><dt>${allPosts.length}</dt><dd>공개된 글</dd></div>
@@ -289,9 +292,9 @@ function createVoiceView() {
   return `
     <main id="main-content" class="voice-landing" tabindex="-1">
       <header class="voice-landing__header">
-        <span class="page-eyebrow">VOICE · HOMERIC EPICS</span>
-        <h1>세 언어로 만나는<br>호메로스</h1>
-        <p>고전 그리스어, 영어, 한국어로 이어지는 두 작품의 입구입니다. 작품을 선택하면 읽기 화면으로 이동합니다.</p>
+        <span class="page-eyebrow">VOICE · CLASSICAL GREEK</span>
+        <h1>음성으로 만나는<br>고전 그리스어</h1>
+        <p>재구성된 고전 그리스어 낭독을 듣는 곳입니다.<br>작품을 선택하면 읽기 화면으로 이동합니다.</p>
       </header>
 
       <section class="voice-entry-list" aria-label="음성 콘텐츠 목록">
@@ -309,13 +312,27 @@ function createVoiceView() {
   `;
 }
 
+function voiceUnitKey(workId, unitId) {
+  return `${workId}/${unitId}`;
+}
+
+function displayPassageLabel(label) {
+  const text = String(label);
+  return /^\d$/.test(text) ? text.padStart(2, '0') : text;
+}
+
 function createVoiceDetailView() {
   const voiceItem = voiceContents.find((item) => item.id === state.activeVoiceId) ?? voiceContents[0];
-  const activeBook = voiceItem.books.find((book) => book.number === state.activeVoiceBook) ?? voiceItem.books[0];
-  const voiceLines = activeBook?.lines ?? [];
-  const playableLines = voiceLines.filter((line) => line.audio);
-  const lastPreparedLine = playableLines.at(-1)?.number ?? 0;
-  const lineRange = voiceLines.length > 0 ? `${voiceLines[0].number}–${voiceLines.at(-1).number}` : '—';
+  if (!voiceItem) return '<main id="main-content"><p class="empty-state">등록된 음성 작품이 없습니다.</p></main>';
+  const activeUnit = voiceItem.units.find((unit) => unit.id === state.activeVoiceUnitId) ?? voiceItem.units[0];
+  const cacheKey = voiceUnitKey(voiceItem.id, activeUnit.id);
+  const voicePassages = voiceUnitCache.get(cacheKey) ?? [];
+  const loadError = voiceUnitErrors.get(cacheKey);
+  const playablePassages = voicePassages.filter((passage) => passage.audio);
+  const passageRange = voicePassages.length > 0
+    ? `${voicePassages[0].label}–${voicePassages.at(-1).label}`
+    : '—';
+  const navigation = voiceItem.navigation;
   const voiceList = voiceContents
     .map(
       (item) => `
@@ -326,35 +343,35 @@ function createVoiceDetailView() {
       `
     )
     .join('');
-  const bookList = voiceItem.books
+  const unitList = voiceItem.units
     .map(
-      (book) => `
-        <button class="voice-book-link${book.number === activeBook?.number ? ' is-active' : ''}" type="button" data-voice-book="${book.number}" ${book.number === activeBook?.number ? 'aria-current="page"' : ''}>
-          <span>${escapeHTML(book.label)}</span>
-          <small>${book.lines.length}행</small>
+      (unit) => `
+        <button class="voice-book-link${unit.id === activeUnit?.id ? ' is-active' : ''}" type="button" data-voice-unit="${escapeHTML(unit.id)}" ${unit.id === activeUnit?.id ? 'aria-current="page"' : ''}>
+          <span>${escapeHTML(unit.label)}</span>
+          <small>${unit.passageCount}${escapeHTML(navigation.passage.label)}</small>
         </button>
       `
     )
     .join('');
-  const lineRows = voiceLines
+  const passageRows = voicePassages
     .map(
-      (line, index) => `
+      (passage, index) => `
         <button
-          class="voice-line${line.audio ? ' has-audio' : ' is-unavailable'}${line.number % 5 === 0 ? ' is-milestone' : ''}${line.paragraphStart ? ' is-paragraph-start' : ''}${line.omitted ? ' is-omitted' : ''}"
+          class="voice-line${passage.audio ? ' has-audio' : ' is-unavailable'}${passage.order % 5 === 0 ? ' is-milestone' : ''}${passage.paragraphStart ? ' is-paragraph-start' : ''}${passage.omitted ? ' is-omitted' : ''}"
           type="button"
           data-voice-line="${index}"
-          data-line-number="${line.number}"
-          ${line.audio ? `data-audio="${line.audio}"` : 'disabled'}
-          aria-label="${line.number}행${line.omitted ? ', 이 판본에서 생략됨' : line.audio ? ', 음성 재생' : ', 음성 준비 중'}"
+          data-passage-label="${escapeHTML(passage.label)}"
+          ${passage.audio ? `data-audio="${escapeHTML(passage.audio)}"` : 'disabled'}
+          aria-label="${escapeHTML(passage.label)}${escapeHTML(navigation.passage.label)}${passage.omitted ? ', 이 판본에서 생략됨' : passage.audio ? ', 음성 재생' : ', 음성 준비 중'}"
         >
-          <span class="voice-line__number">${String(line.number).padStart(2, '0')}</span>
+          <span class="voice-line__number">${escapeHTML(displayPassageLabel(passage.label))}</span>
           <span class="voice-line__text">
-            <span class="voice-line__greek" lang="${line.omitted ? 'en' : 'grc'}">${escapeHTML(line.greekText)}</span>
-            <span class="voice-line__korean" lang="ko">${escapeHTML(line.koreanText)}</span>
+            <span class="voice-line__greek" lang="${passage.omitted ? 'en' : 'grc'}">${escapeHTML(passage.greekText)}</span>
+            <span class="voice-line__korean" lang="ko">${escapeHTML(passage.koreanText)}</span>
           </span>
           <span class="voice-line__audio" aria-hidden="true">
-            ${line.audio
-              ? `<i></i><small>${line.number}행</small>`
+            ${passage.audio
+              ? `<i></i><small>${escapeHTML(passage.label)}${escapeHTML(navigation.passage.label)}</small>`
               : '<small>준비 중</small>'}
           </span>
           <span class="voice-line__progress" aria-hidden="true"></span>
@@ -365,7 +382,7 @@ function createVoiceDetailView() {
 
   return `
     <div class="voice-reader-layout">
-      <aside class="voice-reader-nav" aria-label="작품과 행 탐색">
+      <aside class="voice-reader-nav" aria-label="작품과 ${escapeHTML(navigation.passage.label)} 탐색">
         <button class="voice-back-button" type="button" data-voice-home>← 음성 홈</button>
         <div class="voice-reader-nav__section">
           <span class="panel-heading__eyebrow">WORKS</span>
@@ -373,17 +390,17 @@ function createVoiceDetailView() {
           <nav class="voice-detail-list">${voiceList}</nav>
         </div>
         <div class="voice-reader-nav__section">
-          <span class="panel-heading__eyebrow">CURRENT POSITION</span>
+            <span class="panel-heading__eyebrow">CURRENT POSITION</span>
           <div class="voice-reader-position">
-            <span>BOOK</span><strong>${escapeHTML(activeBook?.label ?? '—')}</strong>
-            <span>LINES</span><strong>${lineRange}</strong>
+            <span>${escapeHTML(navigation.unit.singular)}</span><strong>${escapeHTML(activeUnit?.label ?? '—')}</strong>
+            <span>${escapeHTML(navigation.passage.plural)}</span><strong>${escapeHTML(passageRange)}</strong>
           </div>
         </div>
-        ${voiceItem.books.length > 1
+        ${voiceItem.units.length > 1
           ? `<div class="voice-reader-nav__section">
-              <span class="panel-heading__eyebrow">BOOKS</span>
-              <h2>권 선택</h2>
-              <nav class="voice-book-list" aria-label="권 선택">${bookList}</nav>
+              <span class="panel-heading__eyebrow">${escapeHTML(navigation.unit.plural)}</span>
+              <h2>${escapeHTML(navigation.unit.label)} 선택</h2>
+              <nav class="voice-book-list" aria-label="${escapeHTML(navigation.unit.label)} 선택">${unitList}</nav>
             </div>`
           : ''}
       </aside>
@@ -391,22 +408,26 @@ function createVoiceDetailView() {
       <main id="main-content" class="voice-reader" tabindex="-1">
         <header class="voice-reader__header">
           <div class="voice-reader__meta">
-            <span>BOOK ${escapeHTML(activeBook?.label ?? '—')}</span>
-            <span>LINES ${lineRange}</span>
+            <span>${escapeHTML(navigation.unit.singular)} ${escapeHTML(activeUnit?.label ?? '—')}</span>
+            <span>${escapeHTML(navigation.passage.plural)} ${escapeHTML(passageRange)}</span>
           </div>
           <h1 lang="ko">${escapeHTML(voiceItem.korean)}</h1>
           <div class="voice-title-pair">
             <span lang="grc">${escapeHTML(voiceItem.greek)}</span>
             <span lang="en">${escapeHTML(voiceItem.english)}</span>
           </div>
-          <p>음성이 있는 행을 누르면 재생을 시작합니다. 다음 행에도 음성이 있으면 자동으로 이동하며 이어서 재생합니다.</p>
-          ${voiceItem.source
-            ? `<a class="voice-source-link" href="${escapeHTML(voiceItem.source)}" target="_blank" rel="noreferrer">PERSEUS 원문 ↗</a>`
+          <p>음성이 있는 ${escapeHTML(navigation.passage.label)}을 누르면 재생을 시작합니다. 다음 ${escapeHTML(navigation.passage.label)}에도 음성이 있으면 자동으로 이동하며 이어서 재생합니다.</p>
+          ${voiceItem.source?.url
+            ? `<a class="voice-source-link" href="${escapeHTML(voiceItem.source.url)}" target="_blank" rel="noreferrer">${escapeHTML(voiceItem.source.label)} ↗</a>`
             : ''}
-          ${voiceItem.credit ? `<small class="voice-source-credit">${escapeHTML(voiceItem.credit)}</small>` : ''}
+          ${voiceItem.source?.credit ? `<small class="voice-source-credit">${escapeHTML(voiceItem.source.credit)}</small>` : ''}
         </header>
-        <section class="voice-line-list" aria-label="행별 원문과 음성">
-          ${lineRows}
+        <section class="voice-line-list" aria-label="${escapeHTML(navigation.passage.label)}별 원문과 음성">
+          ${loadError
+            ? `<p class="voice-loading-state is-error">본문을 불러오지 못했습니다: ${escapeHTML(loadError.message)}</p>`
+            : voiceUnitCache.has(cacheKey)
+              ? passageRows
+              : '<p class="voice-loading-state">본문을 불러오는 중입니다…</p>'}
         </section>
         <audio class="voice-audio-player" preload="auto"></audio>
       </main>
@@ -414,15 +435,37 @@ function createVoiceDetailView() {
       <aside class="voice-playback-panel" aria-label="음성 재생 상태" aria-live="polite">
         <span class="panel-heading__eyebrow">NOW PLAYING</span>
         <div class="voice-playback-disc" aria-hidden="true"><i></i></div>
-        <strong data-player-line>행을 선택하세요</strong>
-        <span data-player-note>${lastPreparedLine > 0 ? `1–${lastPreparedLine}행에 음성이 준비되어 있습니다.` : '준비된 음성이 없습니다.'}</span>
-        <div class="voice-scale" aria-label="도레미파솔라시도 음계">
-          ${playableLines.map((line) => `<i>${line.number}행</i>`).join('')}
+        <strong data-player-line>${escapeHTML(navigation.passage.label)}을 선택하세요</strong>
+        <span data-player-note>${playablePassages.length > 0 ? `${playablePassages.length}개 ${navigation.passage.label}에 음성이 준비되어 있습니다.` : '준비된 음성이 없습니다.'}</span>
+        <div class="voice-scale" aria-label="재생 가능한 ${escapeHTML(navigation.passage.label)}">
+          ${playablePassages.map((passage) => `<i>${escapeHTML(passage.label)}${escapeHTML(navigation.passage.label)}</i>`).join('')}
         </div>
         <p><span class="voice-playback-panel__dot"></span> 연속 재생 활성화</p>
       </aside>
     </div>
   `;
+}
+
+function ensureActiveVoiceUnitLoaded() {
+  const voiceItem = voiceContents.find((item) => item.id === state.activeVoiceId);
+  const activeUnit = voiceItem?.units.find((unit) => unit.id === state.activeVoiceUnitId);
+  if (!voiceItem || !activeUnit) return;
+  const cacheKey = voiceUnitKey(voiceItem.id, activeUnit.id);
+  if (voiceUnitCache.has(cacheKey) || voiceUnitRequests.has(cacheKey)) return;
+
+  voiceUnitErrors.delete(cacheKey);
+  const request = activeUnit.load()
+    .then((passages) => {
+      voiceUnitCache.set(cacheKey, passages);
+      voiceUnitRequests.delete(cacheKey);
+      if (state.activeVoiceId === voiceItem.id && state.activeVoiceUnitId === activeUnit.id) render();
+    })
+    .catch((error) => {
+      voiceUnitRequests.delete(cacheKey);
+      voiceUnitErrors.set(cacheKey, error);
+      if (state.activeVoiceId === voiceItem.id && state.activeVoiceUnitId === activeUnit.id) render();
+    });
+  voiceUnitRequests.set(cacheKey, request);
 }
 
 function render() {
@@ -453,7 +496,10 @@ function render() {
 
   bindEvents();
   if (state.activeView === 'posts' && context) loadComments(context.post.id);
-  if (state.activeView === 'voice' && state.activeVoiceId) setupVoiceLinePlayer();
+  if (state.activeView === 'voice' && state.activeVoiceId) {
+    ensureActiveVoiceUnitLoaded();
+    setupVoiceLinePlayer();
+  }
 }
 
 function bindEvents() {
@@ -469,8 +515,8 @@ function bindEvents() {
     button.addEventListener('click', () => selectVoiceContent(button.dataset.voiceId));
   });
 
-  app.querySelectorAll('[data-voice-book]').forEach((button) => {
-    button.addEventListener('click', () => selectVoiceBook(Number(button.dataset.voiceBook)));
+  app.querySelectorAll('[data-voice-unit]').forEach((button) => {
+    button.addEventListener('click', () => selectVoiceUnit(button.dataset.voiceUnit));
   });
 
   app.querySelector('[data-voice-home]')?.addEventListener('click', () => selectView('voice'));
@@ -507,6 +553,7 @@ function setupVoiceLinePlayer() {
   const playerLine = app.querySelector('[data-player-line]');
   const playerNote = app.querySelector('[data-player-note]');
   const playbackPanel = app.querySelector('.voice-playback-panel');
+  const passageLabel = voiceContents.find((item) => item.id === state.activeVoiceId)?.navigation.passage.label || '구절';
   if (!player || rows.length === 0) return;
 
   let currentIndex = -1;
@@ -514,9 +561,9 @@ function setupVoiceLinePlayer() {
   function updatePlayerStatus(index, status) {
     const row = rows[index];
     if (!row) return;
-    const lineNumber = Number(row.dataset.lineNumber);
-    playerLine.textContent = `${lineNumber}행 · ${status}`;
-    playerNote.textContent = `${lineNumber}행의 음성을 재생하고 있습니다.`;
+    const label = row.dataset.passageLabel;
+    playerLine.textContent = `${label}${passageLabel} · ${status}`;
+    playerNote.textContent = `${label}${passageLabel}의 음성을 재생하고 있습니다.`;
   }
 
   async function playLine(index, { autoAdvance = false } = {}) {
@@ -587,7 +634,7 @@ function setupVoiceLinePlayer() {
 
     playbackPanel?.classList.remove('is-active');
     playerLine.textContent = '연속 재생 완료';
-    playerNote.textContent = `${currentIndex + 1}행까지 준비된 음성을 모두 재생했습니다.`;
+    playerNote.textContent = `연속된 ${passageLabel}의 음성을 모두 재생했습니다.`;
   });
 }
 
@@ -595,7 +642,7 @@ function selectView(view, { updateHistory = true } = {}) {
   if (!['profile', 'posts', 'voice'].includes(view)) return;
   state.activeView = view;
   state.activeVoiceId = null;
-  state.activeVoiceBook = null;
+  state.activeVoiceUnitId = null;
   state.navOpen = false;
 
   if (updateHistory) {
@@ -614,11 +661,11 @@ function selectVoiceContent(voiceId, { updateHistory = true } = {}) {
   if (!voiceContents.some((item) => item.id === voiceId)) return;
   state.activeView = 'voice';
   state.activeVoiceId = voiceId;
-  state.activeVoiceBook = voiceContents.find((item) => item.id === voiceId)?.books[0]?.number ?? null;
+  state.activeVoiceUnitId = voiceContents.find((item) => item.id === voiceId)?.units[0]?.id ?? null;
   state.navOpen = false;
 
   if (updateHistory) {
-    window.history.pushState({ voiceId, voiceBook: state.activeVoiceBook }, '', `#voice=${encodeURIComponent(voiceId)}&book=${state.activeVoiceBook}`);
+    window.history.pushState({ voiceId, voiceUnitId: state.activeVoiceUnitId }, '', `#voice=${encodeURIComponent(voiceId)}&unit=${encodeURIComponent(state.activeVoiceUnitId)}`);
   }
 
   render();
@@ -626,13 +673,13 @@ function selectVoiceContent(voiceId, { updateHistory = true } = {}) {
   requestAnimationFrame(() => app.querySelector('#main-content')?.focus({ preventScroll: true }));
 }
 
-function selectVoiceBook(bookNumber, { updateHistory = true } = {}) {
+function selectVoiceUnit(unitId, { updateHistory = true } = {}) {
   const voiceItem = voiceContents.find((item) => item.id === state.activeVoiceId);
-  if (!voiceItem?.books.some((book) => book.number === bookNumber)) return;
-  state.activeVoiceBook = bookNumber;
+  if (!voiceItem?.units.some((unit) => unit.id === unitId)) return;
+  state.activeVoiceUnitId = unitId;
 
   if (updateHistory) {
-    window.history.pushState({ voiceId: voiceItem.id, voiceBook: bookNumber }, '', `#voice=${encodeURIComponent(voiceItem.id)}&book=${bookNumber}`);
+    window.history.pushState({ voiceId: voiceItem.id, voiceUnitId: unitId }, '', `#voice=${encodeURIComponent(voiceItem.id)}&unit=${encodeURIComponent(unitId)}`);
   }
 
   render();
@@ -645,7 +692,7 @@ function selectPost(postId, { updateHistory = true } = {}) {
   state.activeView = 'posts';
   state.activePostId = postId;
   state.activeVoiceId = null;
-  state.activeVoiceBook = null;
+  state.activeVoiceUnitId = null;
   state.navOpen = false;
 
   if (updateHistory) {
@@ -703,7 +750,7 @@ window.addEventListener('popstate', () => {
   state.activeView = route.view;
   state.activePostId = route.postId;
   state.activeVoiceId = route.voiceId;
-  state.activeVoiceBook = route.voiceBook;
+  state.activeVoiceUnitId = route.voiceUnitId;
   state.navOpen = false;
   render();
 });
