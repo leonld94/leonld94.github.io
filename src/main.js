@@ -15,6 +15,28 @@ const latestPostContext = allPosts.reduce((latest, current) => {
 const voiceUnitCache = new Map();
 const voiceUnitRequests = new Map();
 const voiceUnitErrors = new Map();
+const voiceVolumeStorageKey = 'leonld94-voice-volume';
+
+function readVoiceVolume() {
+  try {
+    const storedValue = window.localStorage.getItem(voiceVolumeStorageKey);
+    if (storedValue === null) return 1;
+    const storedVolume = Number(storedValue);
+    return Number.isFinite(storedVolume) && storedVolume >= 0 && storedVolume <= 1 ? storedVolume : 1;
+  } catch {
+    return 1;
+  }
+}
+
+function saveVoiceVolume(volume) {
+  try {
+    window.localStorage.setItem(voiceVolumeStorageKey, String(volume));
+  } catch {
+    // 저장소를 사용할 수 없는 환경에서도 현재 페이지의 볼륨 조절은 유지합니다.
+  }
+}
+
+let voiceVolume = readVoiceVolume();
 
 const initialRoute = readRoute();
 const state = {
@@ -348,11 +370,11 @@ function createVoiceDetailView() {
   const cacheKey = voiceUnitKey(voiceItem.id, activeUnit.id);
   const voicePassages = voiceUnitCache.get(cacheKey) ?? [];
   const loadError = voiceUnitErrors.get(cacheKey);
-  const playablePassages = voicePassages.filter((passage) => passage.audio);
   const passageRange = voicePassages.length > 0
     ? `${voicePassages[0].label}–${voicePassages.at(-1).label}`
     : '—';
   const navigation = voiceItem.navigation;
+  const volumePercent = Math.round(voiceVolume * 100);
   const voiceList = voiceContents
     .map(
       (item) => `
@@ -430,6 +452,36 @@ function createVoiceDetailView() {
           : ''}
       </aside>
 
+      <aside class="voice-volume-panel" aria-labelledby="voice-volume-title">
+        <span class="panel-heading__eyebrow">VOLUME</span>
+        <div class="voice-volume-panel__heading">
+          <h2 id="voice-volume-title">음성 크기</h2>
+          <output for="voice-volume" data-volume-output>${volumePercent}%</output>
+        </div>
+        <div class="voice-volume-panel__control">
+          <span aria-hidden="true">−</span>
+          <input
+            id="voice-volume"
+            class="voice-volume-slider"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value="${volumePercent}"
+            aria-label="음성 크기"
+            aria-valuetext="${volumePercent}%"
+            style="--volume-level: ${volumePercent}%"
+            data-volume-control
+          >
+          <span aria-hidden="true">＋</span>
+        </div>
+        <div class="voice-volume-panel__scale" aria-hidden="true">
+          <span>0</span><i></i><i></i><i></i><span>100</span>
+        </div>
+        <p>재생 중에도 바로 적용되며 다음 방문에도 유지됩니다.</p>
+        <span class="voice-player-status" data-player-status aria-live="polite"></span>
+      </aside>
+
       <main id="main-content" class="voice-reader" tabindex="-1">
         <header class="voice-reader__header">
           <div class="voice-reader__meta">
@@ -456,17 +508,6 @@ function createVoiceDetailView() {
         </section>
         <audio class="voice-audio-player" preload="auto"></audio>
       </main>
-
-      <aside class="voice-playback-panel" aria-label="음성 재생 상태" aria-live="polite">
-        <span class="panel-heading__eyebrow">NOW PLAYING</span>
-        <div class="voice-playback-disc" aria-hidden="true"><i></i></div>
-        <strong data-player-line>${escapeHTML(navigation.passage.label)}을 선택하세요</strong>
-        <span data-player-note>${playablePassages.length > 0 ? `${playablePassages.length}개 ${navigation.passage.label}에 음성이 준비되어 있습니다.` : '준비된 음성이 없습니다.'}</span>
-        <div class="voice-scale" aria-label="재생 가능한 ${escapeHTML(navigation.passage.label)}">
-          ${playablePassages.map((passage) => `<i>${escapeHTML(passage.label)}${escapeHTML(navigation.passage.label)}</i>`).join('')}
-        </div>
-        <p><span class="voice-playback-panel__dot"></span> 연속 재생 활성화</p>
-      </aside>
     </div>
   `;
 }
@@ -575,11 +616,25 @@ function bindEvents() {
 function setupVoiceLinePlayer() {
   const player = app.querySelector('.voice-audio-player');
   const rows = [...app.querySelectorAll('.voice-line')];
-  const playerLine = app.querySelector('[data-player-line]');
-  const playerNote = app.querySelector('[data-player-note]');
-  const playbackPanel = app.querySelector('.voice-playback-panel');
+  const volumeControl = app.querySelector('[data-volume-control]');
+  const volumeOutput = app.querySelector('[data-volume-output]');
+  const playerStatus = app.querySelector('[data-player-status]');
   const passageLabel = voiceContents.find((item) => item.id === state.activeVoiceId)?.navigation.passage.label || '구절';
-  if (!player || rows.length === 0) return;
+  if (!player) return;
+
+  function applyVolume(percent, { persist = false } = {}) {
+    const normalizedPercent = Math.min(100, Math.max(0, Number(percent) || 0));
+    voiceVolume = normalizedPercent / 100;
+    player.volume = voiceVolume;
+    volumeControl?.style.setProperty('--volume-level', `${normalizedPercent}%`);
+    volumeControl?.setAttribute('aria-valuetext', `${Math.round(normalizedPercent)}%`);
+    if (volumeOutput) volumeOutput.textContent = `${Math.round(normalizedPercent)}%`;
+    if (persist) saveVoiceVolume(voiceVolume);
+  }
+
+  applyVolume(voiceVolume * 100);
+  volumeControl?.addEventListener('input', () => applyVolume(volumeControl.value, { persist: true }));
+  if (rows.length === 0) return;
 
   let currentIndex = -1;
 
@@ -587,8 +642,7 @@ function setupVoiceLinePlayer() {
     const row = rows[index];
     if (!row) return;
     const label = row.dataset.passageLabel;
-    playerLine.textContent = `${label}${passageLabel} · ${status}`;
-    playerNote.textContent = `${label}${passageLabel}의 음성을 재생하고 있습니다.`;
+    if (playerStatus) playerStatus.textContent = `${label}${passageLabel} ${status}`;
   }
 
   async function playLine(index, { autoAdvance = false } = {}) {
@@ -599,7 +653,6 @@ function setupVoiceLinePlayer() {
     rows.forEach((item) => item.classList.remove('is-playing', 'is-paused'));
     row.classList.add('is-playing');
     currentIndex = index;
-    playbackPanel?.classList.add('is-active');
     updatePlayerStatus(index, '재생 중');
 
     if (autoAdvance) {
@@ -612,9 +665,7 @@ function setupVoiceLinePlayer() {
       await player.play();
     } catch {
       row.classList.remove('is-playing');
-      playbackPanel?.classList.remove('is-active');
-      playerLine.textContent = '재생할 수 없습니다';
-      playerNote.textContent = '브라우저의 오디오 재생 설정을 확인해주세요.';
+      if (playerStatus) playerStatus.textContent = '재생할 수 없습니다. 브라우저의 오디오 재생 설정을 확인해주세요.';
     }
   }
 
@@ -657,9 +708,7 @@ function setupVoiceLinePlayer() {
       return;
     }
 
-    playbackPanel?.classList.remove('is-active');
-    playerLine.textContent = '연속 재생 완료';
-    playerNote.textContent = `연속된 ${passageLabel}의 음성을 모두 재생했습니다.`;
+    if (playerStatus) playerStatus.textContent = `연속된 ${passageLabel}의 음성을 모두 재생했습니다.`;
   });
 }
 
