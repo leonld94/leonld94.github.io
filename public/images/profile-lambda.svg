@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title description">
+  <title id="title">대문자 람다</title>
+  <desc id="description">따뜻한 아이보리색 원 안에 남색 그리스 문자 대문자 람다를 그린 로고</desc>
+  <circle cx="128" cy="128" r="124" fill="#faf2df" />
+  <circle cx="128" cy="128" r="116" fill="none" stroke="#1f2d5b" stroke-width="4" />
+  <path
+    d="M72 190 128 64l56 126"
+    fill="none"
+    stroke="#1f2d5b"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+    stroke-width="20"
+  />
+</svg>

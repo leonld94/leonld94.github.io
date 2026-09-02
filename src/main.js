@@ -254,9 +254,12 @@ function createProfileView() {
   return `
     <main id="main-content" class="profile-page" tabindex="-1">
       <section class="profile-hero">
-        <div class="profile-portrait" aria-hidden="true">
-          <span>A</span>
-          <i></i><i></i><i></i>
+        <div class="profile-portrait">
+          <img
+            class="profile-portrait__image"
+            src="/images/profile-lambda.svg"
+            alt="아이보리색 원 안의 남색 그리스 문자 대문자 람다 프로필 로고"
+          />
         </div>
         <div class="profile-intro">
           <span class="page-eyebrow">PROFILE · 아선대너무좋아님</span>
@@ -275,7 +278,9 @@ function createProfileView() {
       </section>
 
       <section class="profile-identity" aria-labelledby="profile-identity-title">
-        <div class="profile-identity__mark" aria-hidden="true">A</div>
+        <div class="profile-identity__mark" aria-hidden="true">
+          <img src="/images/profile-lambda.svg" alt="" />
+        </div>
         <div class="profile-identity__copy">
           <span class="page-eyebrow">WHO AM I?</span>
           <h2 id="profile-identity-title">아선대너무좋아님</h2>
