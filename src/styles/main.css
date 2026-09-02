@@ -1643,6 +1643,7 @@ a:focus-visible,
   .voice-reader-layout {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     padding: 92px 14px 150px;
   }
 
