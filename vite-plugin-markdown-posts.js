@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import hljs from 'highlight.js/lib/common';
 import MarkdownIt from 'markdown-it';
 import { buildVoiceCatalog, VIRTUAL_VOICE_UNIT_PREFIX } from './voice-content.js';
 
@@ -25,7 +26,20 @@ export default function markdownPostsPlugin() {
   // WARNING: html: true allows raw HTML in markdown files.
   // Only enable this if you trust all content authors.
   // If you don't need raw HTML in posts, set html: false for safety.
-  const md = new MarkdownIt({ html: true, typographer: true });
+  const md = new MarkdownIt({
+    html: true,
+    typographer: true,
+    highlight(source, languageName) {
+      const requestedLanguage = languageName.trim().split(/\s+/)[0].toLowerCase();
+      const result = requestedLanguage && hljs.getLanguage(requestedLanguage)
+        ? hljs.highlight(source, { language: requestedLanguage, ignoreIllegals: true })
+        : hljs.highlightAuto(source);
+      const resolvedLanguage = result.language || requestedLanguage || 'plaintext';
+      const languageLabel = resolvedLanguage === 'plaintext' ? 'TEXT' : resolvedLanguage.toUpperCase();
+
+      return `<pre class="code-block" data-language="${md.utils.escapeHtml(languageLabel)}"><code class="hljs language-${md.utils.escapeHtml(resolvedLanguage)}">${result.value}</code></pre>`;
+    },
+  });
   const defaultValidateLink = md.validateLink.bind(md);
   md.validateLink = (url) => /^post:\/\//.test(url) || defaultValidateLink(url);
   let contentDir;

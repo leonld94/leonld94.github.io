@@ -431,14 +431,80 @@ a:focus-visible,
 }
 
 .article-content pre {
+  position: relative;
   overflow-x: auto;
-  padding: 20px;
-  color: #f8f8ff;
-  background: #25293a;
-  border-radius: 12px;
+  margin: 2em 0;
+  padding: 48px 22px 22px;
+  color: #e8ecf8;
+  background: linear-gradient(145deg, #20263a, #171b2b);
+  border: 1px solid rgba(125, 139, 190, 0.3);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(24, 28, 45, 0.16);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  tab-size: 4;
 }
 
-.article-content pre code { padding: 0; color: inherit; background: none; }
+.article-content pre.code-block::before {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  padding: 3px 8px;
+  color: #aeb8d5;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  content: attr(data-language);
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.article-content pre code {
+  display: block;
+  padding: 0;
+  color: inherit;
+  background: none;
+  font-family: 'Cascadia Code', Consolas, 'Courier New', monospace;
+  font-size: inherit;
+}
+
+.article-content .hljs-comment,
+.article-content .hljs-quote { color: #8993aa; font-style: italic; }
+
+.article-content .hljs-keyword,
+.article-content .hljs-selector-tag,
+.article-content .hljs-literal,
+.article-content .hljs-section,
+.article-content .hljs-link { color: #9fa8ff; }
+
+.article-content .hljs-string,
+.article-content .hljs-title,
+.article-content .hljs-name,
+.article-content .hljs-type,
+.article-content .hljs-attribute { color: #8fd7c7; }
+
+.article-content .hljs-number,
+.article-content .hljs-symbol,
+.article-content .hljs-bullet,
+.article-content .hljs-variable,
+.article-content .hljs-template-variable { color: #f2bd7b; }
+
+.article-content .hljs-built_in,
+.article-content .hljs-meta,
+.article-content .hljs-selector-attr,
+.article-content .hljs-selector-pseudo { color: #e9a8c8; }
+
+.article-content .hljs-title.function_,
+.article-content .hljs-title.class_ { color: #82c7ef; }
+
+.article-content .hljs-attr,
+.article-content .hljs-property,
+.article-content .hljs-params { color: #d9deec; }
+
+.article-content .hljs-emphasis { font-style: italic; }
+.article-content .hljs-strong { font-weight: 700; }
 .article-content img { max-width: 100%; height: auto; }
 
 .article-nav {
