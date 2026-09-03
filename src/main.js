@@ -1,5 +1,6 @@
 import './styles/main.css';
 import { topics } from './data/posts.js';
+import { systemsStack } from './data/systemsStack.js';
 import { voiceContents } from './data/voiceContents.js';
 import { formatDateKR } from './utils/format.js';
 import { escapeHTML } from './utils/sanitize.js';
@@ -236,6 +237,47 @@ function createPostsView() {
 }
 
 function createProfileView() {
+  const systemsStatusLabels = {
+    complete: '달성',
+    learning: '학습 중',
+    planned: '미달성',
+  };
+  const completedSystemsLayers = systemsStack.filter((layer) => layer.status === 'complete').length;
+  const systemsProgress = Math.round((completedSystemsLayers / systemsStack.length) * 100);
+  const systemsLayers = systemsStack
+    .map((layer, index) => {
+      const status = systemsStatusLabels[layer.status] ? layer.status : 'planned';
+      const nextStatus = systemsStack[index + 1]?.status;
+      const connectsToNext = status === 'complete' && nextStatus === 'complete';
+      const evidence = layer.evidence.length
+        ? `<ul>${layer.evidence.map((item) => `<li>${escapeHTML(item)}</li>`).join('')}</ul>`
+        : '<p>아직 기록된 달성 근거가 없습니다.</p>';
+
+      return `
+        <li class="systems-stack__step is-${status}${connectsToNext ? ' connects-next' : ''}">
+          <details class="systems-layer"${index === 0 ? ' open' : ''}>
+            <summary>
+              <span class="systems-layer__node" aria-hidden="true">${layer.level}</span>
+              <span class="systems-layer__card">
+                <span class="systems-layer__meta">
+                  <small>${escapeHTML(layer.domain)}</small>
+                  <span>${escapeHTML(systemsStatusLabels[status])}</span>
+                </span>
+                <strong>${escapeHTML(layer.title)}</strong>
+                <span class="systems-layer__prompt">${escapeHTML(layer.question)}</span>
+                <span class="systems-layer__toggle" aria-hidden="true">근거 보기 <i>+</i></span>
+              </span>
+            </summary>
+            <div class="systems-layer__evidence">
+              <span class="page-eyebrow">EVIDENCE NOTE</span>
+              ${evidence}
+            </div>
+          </details>
+        </li>
+      `;
+    })
+    .join('');
+
   const topicCards = topics
     .map(
       (topic) => `
@@ -305,6 +347,50 @@ function createProfileView() {
             <h2>기록하는 분야</h2>
           </div>
           <div class="profile-topic-grid">${topicCards}</div>
+        </div>
+      </section>
+
+      <section class="systems-progress" aria-labelledby="systems-progress-title">
+        <header class="systems-progress__header">
+          <div>
+            <span class="page-eyebrow">COMPUTER SYSTEMS ABSTRACTION STACK</span>
+            <h2 id="systems-progress-title">컴퓨터 시스템 추상화 계층<br>학습 현황</h2>
+            <p>응용 프로그램부터 반도체 물리까지 이어지는 12개 추상화 계층을 얼마나 이해했는지 기록합니다. 각 단계의 핵심 질문에 스스로 답하고, 글·프로젝트·구현 결과를 그 근거로 남기는 것이 목표입니다.</p>
+            <div class="systems-progress__actions">
+              <button
+                class="systems-progress__action systems-progress__action--toggle"
+                type="button"
+                data-systems-toggle
+                aria-expanded="true"
+                aria-controls="systems-progress-content"
+              >
+                <span data-systems-toggle-label>계층 접기</span>
+                <i aria-hidden="true">−</i>
+              </button>
+            </div>
+          </div>
+          <div class="systems-progress__aside">
+            <button class="systems-progress__action systems-progress__action--post" type="button" data-post-id="eng_2">
+              <span>관련 포스트</span>
+              <strong>프로그래밍의 토대를 배우자</strong>
+              <i aria-hidden="true">→</i>
+            </button>
+            <div class="systems-progress__summary" aria-label="${systemsStack.length}개 계층 중 ${completedSystemsLayers}개 달성">
+              <strong>${completedSystemsLayers}<span> / ${systemsStack.length}</span></strong>
+              <small>기록된 달성</small>
+              <span class="systems-progress__bar" aria-hidden="true"><i style="--progress: ${systemsProgress}%"></i></span>
+            </div>
+          </div>
+        </header>
+        <div id="systems-progress-content" class="systems-progress__content">
+          <div class="systems-progress__legend" aria-label="달성 상태 범례">
+            <span><i class="is-complete"></i>달성</span>
+            <span><i class="is-learning"></i>학습 중</span>
+            <span><i class="is-planned"></i>미달성</span>
+          </div>
+          <ol class="systems-stack" reversed>
+            ${systemsLayers}
+          </ol>
         </div>
       </section>
     </main>
@@ -594,6 +680,22 @@ function bindEvents() {
 
   app.querySelectorAll('[data-post-id]').forEach((button) => {
     button.addEventListener('click', () => selectPost(button.dataset.postId));
+  });
+
+  app.querySelector('[data-systems-toggle]')?.addEventListener('click', (event) => {
+    const button = event.currentTarget;
+    const section = button.closest('.systems-progress');
+    const content = section?.querySelector('#systems-progress-content');
+    const summary = section?.querySelector('.systems-progress__summary');
+    if (!section || !content || !summary) return;
+
+    const isCollapsed = !content.hidden;
+    content.hidden = isCollapsed;
+    summary.hidden = isCollapsed;
+    section.classList.toggle('is-collapsed', isCollapsed);
+    button.setAttribute('aria-expanded', String(!isCollapsed));
+    button.querySelector('[data-systems-toggle-label]').textContent = isCollapsed ? '계층 펼치기' : '계층 접기';
+    button.querySelector('i').textContent = isCollapsed ? '+' : '−';
   });
 
   app.querySelectorAll('[data-voice-id]').forEach((button) => {
