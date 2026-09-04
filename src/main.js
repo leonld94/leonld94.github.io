@@ -1,5 +1,6 @@
 import './styles/main.css';
 import { topics } from './data/posts.js';
+import { classicalLanguageProgress, classicalLanguageStages } from './data/classicalLanguageProgress.js';
 import { systemsStack } from './data/systemsStack.js';
 import { voiceContents } from './data/voiceContents.js';
 import { formatDateKR } from './utils/format.js';
@@ -278,6 +279,98 @@ function createProfileView() {
     })
     .join('');
 
+  const classicalStageGuide = classicalLanguageStages
+    .map(
+      (stage) => `
+        <span class="classical-progress__checkpoint classical-progress__checkpoint--guide">
+          <button
+            class="classical-progress__stage-button"
+            type="button"
+            data-classical-language-details
+            data-detail-key="stage-${stage.level}"
+            data-detail-eyebrow="${stage.level}단계 판정 기준"
+            data-detail-title="${escapeHTML(stage.title)}"
+            data-detail-body="${escapeHTML(stage.criterion)}"
+            aria-expanded="false"
+            aria-controls="classical-language-detail-popover"
+          >
+            <span>${stage.level}</span>
+            <strong>${escapeHTML(stage.title)}</strong>
+            <small>상세보기</small>
+          </button>
+        </span>
+      `,
+    )
+    .join('');
+
+  const classicalLanguageRows = classicalLanguageProgress
+    .map((language) => {
+      const hasLevel = Number.isInteger(language.level)
+        && classicalLanguageStages.some((stage) => stage.level === language.level);
+      const currentStage = hasLevel
+        ? classicalLanguageStages.find((stage) => stage.level === language.level)
+        : null;
+      const checkpoints = classicalLanguageStages
+        .map((stage, index) => {
+          const isReached = hasLevel && stage.level <= language.level;
+          const connectsToNext = hasLevel
+            && index < classicalLanguageStages.length - 1
+            && stage.level < language.level;
+          const classes = [
+            'classical-progress__checkpoint',
+            isReached ? 'is-reached' : '',
+            stage.level === language.level ? 'is-current' : '',
+            connectsToNext ? 'connects-next' : '',
+          ].filter(Boolean).join(' ');
+
+          return `
+            <span
+              class="${classes}"
+              title="${escapeHTML(`${stage.level}단계 ${stage.title}: ${stage.criterion}`)}"
+              ${stage.level === language.level ? 'aria-current="step"' : ''}
+            >
+              <i aria-hidden="true"></i>
+              <small>${stage.level}</small>
+            </span>
+          `;
+        })
+        .join('');
+      const progressLabel = currentStage
+        ? `${language.name}: ${currentStage.level}단계 ${currentStage.title}`
+        : `${language.name}: 단계 미설정`;
+      const note = language.note || '아직 작성된 설명이 없습니다.';
+
+      return `
+        <div class="classical-progress__row" role="row">
+          <div class="classical-progress__language" role="rowheader">
+            <strong>${escapeHTML(language.name)}</strong>
+            <span>${currentStage ? `${currentStage.level}단계 · ${escapeHTML(currentStage.title)}` : '단계 미설정'}</span>
+            <button
+              type="button"
+              data-classical-language-details
+              data-detail-key="language-${escapeHTML(language.id)}"
+              data-detail-eyebrow="LANGUAGE NOTE"
+              data-detail-title="${escapeHTML(language.name)}"
+              data-detail-body="${escapeHTML(note)}"
+              aria-expanded="false"
+              aria-controls="classical-language-detail-popover"
+            >
+              <span>설명 보기</span>
+              <i data-detail-icon aria-hidden="true">+</i>
+            </button>
+          </div>
+          <div
+            class="classical-progress__meter${hasLevel ? '' : ' is-unset'}"
+            role="img"
+            aria-label="${escapeHTML(progressLabel)}"
+          >
+            ${checkpoints}
+          </div>
+        </div>
+      `;
+    })
+    .join('');
+
   const topicCards = topics
     .map(
       (topic) => `
@@ -350,12 +443,54 @@ function createProfileView() {
         </div>
       </section>
 
+      <section class="classical-progress" aria-labelledby="classical-progress-title">
+        <header class="classical-progress__intro">
+          <span class="page-eyebrow">CLASSICAL TEXT READING PROGRESS</span>
+          <h2 id="classical-progress-title">고전어 원전 독해 진행도</h2>
+          <p>고대어·고전 원전을 읽는 독해 학습 진행도를 고전어 학습 방법론에 따라 기록합니다. 각 단계의 간격이 동일하진 않습니다.</p>
+          <button
+            class="classical-progress__toggle"
+            type="button"
+            data-classical-progress-toggle
+            aria-expanded="true"
+            aria-controls="classical-progress-content"
+          >
+            <span data-classical-progress-toggle-label>진행도 접기</span>
+            <i aria-hidden="true">−</i>
+          </button>
+          <button class="classical-progress__related-post" type="button" data-post-id="lang_3">
+            <span>관련 포스트</span>
+            <strong>${escapeHTML(allPosts.find(({ post }) => post.id === 'lang_3')?.post.title ?? '언어 진행도 정리')}</strong>
+            <i aria-hidden="true">→</i>
+          </button>
+        </header>
+        <div id="classical-progress-content" class="classical-progress__scroller" tabindex="0" aria-label="고전어 원전 독해 진행도 표. 좌우로 스크롤할 수 있습니다.">
+          <div class="classical-progress__grid" role="table" aria-labelledby="classical-progress-title">
+            <div class="classical-progress__row classical-progress__row--guide" role="row">
+              <div class="classical-progress__language classical-progress__language--guide" role="rowheader">
+                <strong>단계 기준</strong>
+                <span>0–7 학습 단계</span>
+              </div>
+              <div class="classical-progress__meter classical-progress__meter--guide" role="cell">
+                ${classicalStageGuide}
+              </div>
+            </div>
+            ${classicalLanguageRows}
+          </div>
+        </div>
+        <div id="classical-language-detail-popover" class="classical-language-popover" popover role="tooltip">
+          <span data-classical-popover-eyebrow></span>
+          <strong data-classical-popover-title></strong>
+          <p data-classical-popover-body></p>
+        </div>
+      </section>
+
       <section class="systems-progress" aria-labelledby="systems-progress-title">
         <header class="systems-progress__header">
           <div>
             <span class="page-eyebrow">COMPUTER SYSTEMS ABSTRACTION STACK</span>
             <h2 id="systems-progress-title">컴퓨터 시스템 추상화 계층<br>학습 현황</h2>
-            <p>응용 프로그램부터 반도체 물리까지 이어지는 12개 추상화 계층을 얼마나 이해했는지 기록합니다. 각 단계의 핵심 질문에 스스로 답하고, 글·프로젝트·구현 결과를 그 근거로 남기는 것이 목표입니다.</p>
+            <p>반도체의 물리적 원리에 해당하는 Low Level부터 응용 프로그램 작성 지침에 해당하는 High Level까지의 컴퓨터 전 범위를 얼마나 이해했는지를 기록합니다. 학부과정의 얕은 수준에서나마 모두 이해하는 것이 목표입니다.</p>
             <div class="systems-progress__actions">
               <button
                 class="systems-progress__action systems-progress__action--toggle"
@@ -681,6 +816,70 @@ function bindEvents() {
   app.querySelectorAll('[data-post-id]').forEach((button) => {
     button.addEventListener('click', () => selectPost(button.dataset.postId));
   });
+
+  app.querySelector('[data-classical-progress-toggle]')?.addEventListener('click', (event) => {
+    const button = event.currentTarget;
+    const section = button.closest('.classical-progress');
+    const content = section?.querySelector('#classical-progress-content');
+    if (!section || !content) return;
+
+    const isCollapsed = !content.hidden;
+    content.hidden = isCollapsed;
+    section.classList.toggle('is-collapsed', isCollapsed);
+    button.setAttribute('aria-expanded', String(!isCollapsed));
+    button.querySelector('[data-classical-progress-toggle-label]').textContent = isCollapsed
+      ? '진행도 펼치기'
+      : '진행도 접기';
+    button.querySelector('i').textContent = isCollapsed ? '+' : '−';
+
+    const popover = section.querySelector('#classical-language-detail-popover');
+    if (isCollapsed && popover?.matches(':popover-open')) popover.hidePopover();
+  });
+
+  const classicalLanguagePopover = app.querySelector('#classical-language-detail-popover');
+  const classicalLanguageDetailButtons = [...app.querySelectorAll('[data-classical-language-details]')];
+  if (classicalLanguagePopover) {
+    classicalLanguagePopover.addEventListener('toggle', () => {
+      const isOpen = classicalLanguagePopover.matches(':popover-open');
+      classicalLanguageDetailButtons.forEach((button) => {
+        const isActive = isOpen && button.dataset.detailKey === classicalLanguagePopover.dataset.detailKey;
+        button.setAttribute('aria-expanded', String(isActive));
+        const icon = button.querySelector('[data-detail-icon]');
+        if (icon) icon.textContent = isActive ? '−' : '+';
+      });
+    });
+
+    classicalLanguageDetailButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const isSameDetail = classicalLanguagePopover.matches(':popover-open')
+          && classicalLanguagePopover.dataset.detailKey === button.dataset.detailKey;
+        if (classicalLanguagePopover.matches(':popover-open')) classicalLanguagePopover.hidePopover();
+        if (isSameDetail) return;
+
+        classicalLanguagePopover.dataset.detailKey = button.dataset.detailKey;
+        classicalLanguagePopover.querySelector('[data-classical-popover-eyebrow]').textContent = button.dataset.detailEyebrow;
+        classicalLanguagePopover.querySelector('[data-classical-popover-title]').textContent = button.dataset.detailTitle;
+        classicalLanguagePopover.querySelector('[data-classical-popover-body]').textContent = button.dataset.detailBody;
+        classicalLanguagePopover.showPopover();
+
+        const buttonRect = button.getBoundingClientRect();
+        const popoverRect = classicalLanguagePopover.getBoundingClientRect();
+        const isKeyboardClick = event.detail === 0;
+        const anchorX = isKeyboardClick ? buttonRect.right : event.clientX;
+        const anchorY = isKeyboardClick ? buttonRect.bottom : event.clientY;
+        const left = Math.min(
+          Math.max(12, anchorX + 14),
+          window.innerWidth - popoverRect.width - 12,
+        );
+        const preferredTop = anchorY + 14;
+        const top = preferredTop + popoverRect.height <= window.innerHeight - 12
+          ? preferredTop
+          : Math.max(12, anchorY - popoverRect.height - 14);
+        classicalLanguagePopover.style.left = `${left}px`;
+        classicalLanguagePopover.style.top = `${top}px`;
+      });
+    });
+  }
 
   app.querySelector('[data-systems-toggle]')?.addEventListener('click', (event) => {
     const button = event.currentTarget;
