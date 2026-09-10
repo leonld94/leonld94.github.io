@@ -104,24 +104,38 @@ export function createProfileView({ allPosts, latestPostContext }) {
       const progressLabel = currentStage
         ? `${language.name}: ${currentStage.level}단계 ${currentStage.title}`
         : `${language.name}: 단계 미설정`;
+      const description = language.description || '아직 작성된 언어 설명이 없습니다.';
       const note = language.note || '아직 작성된 설명이 없습니다.';
 
       return `
         <div class="classical-progress__row" role="row">
           <div class="classical-progress__language" role="rowheader">
-            <strong>${escapeHTML(language.name)}</strong>
+            <button
+              class="classical-progress__language-name"
+              type="button"
+              data-classical-language-details
+              data-detail-key="description-${escapeHTML(language.id)}"
+              data-detail-eyebrow="LANGUAGE OVERVIEW"
+              data-detail-title="${escapeHTML(language.name)}"
+              data-detail-body="${escapeHTML(description)}"
+              aria-expanded="false"
+              aria-controls="classical-language-detail-popover"
+            >
+              <strong>${escapeHTML(language.name)}</strong>
+              <i aria-hidden="true">↗</i>
+            </button>
             <span>${currentStage ? `${currentStage.level}단계 · ${escapeHTML(currentStage.title)}` : '단계 미설정'}</span>
             <button
               type="button"
               data-classical-language-details
-              data-detail-key="language-${escapeHTML(language.id)}"
-              data-detail-eyebrow="LANGUAGE NOTE"
-              data-detail-title="${escapeHTML(language.name)}"
+              data-detail-key="progress-${escapeHTML(language.id)}"
+              data-detail-eyebrow="LEARNING PROGRESS"
+              data-detail-title="${escapeHTML(language.name)} 학습 진행도"
               data-detail-body="${escapeHTML(note)}"
               aria-expanded="false"
               aria-controls="classical-language-detail-popover"
             >
-              <span>설명 보기</span>
+              <span>진행도 설명 보기</span>
               <i data-detail-icon aria-hidden="true">+</i>
             </button>
           </div>
