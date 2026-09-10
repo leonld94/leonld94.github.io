@@ -173,13 +173,13 @@ export function createProfileView({ allPosts, latestPostContext }) {
           <img
             class="profile-portrait__image"
             src="/images/profile-lambda.svg"
-            alt="아이보리색 원 안의 남색 그리스 문자 대문자 람다 프로필 로고"
+            alt="프로필 로고"
           />
         </div>
         <div class="profile-intro">
           <span class="page-eyebrow">PROFILE · 아선대너무좋아님</span>
-          <h1>배우고 생각한 것을<br>남깁니다.</h1>
-          <p>여러 취미를 즐기며 발견한 생각들을 기록하는 개인 블로그입니다. 흩어지기 쉬운 생각을 한곳에 모읍니다.</p>
+          <h1>흘러가는 생각을<br>기록합니다.</h1>
+          <p>여러 취미를 즐기며 발견한 생각들을 흩어지지 않도록 기록하는 개인 블로그입니다.</p>
           ${latestPostContext
             ? `<button class="profile-read-button" type="button" data-post-id="${escapeHTML(latestPostContext.post.id)}">
                 <span class="profile-read-button__label">
@@ -207,8 +207,8 @@ export function createProfileView({ allPosts, latestPostContext }) {
       <section class="profile-details" aria-label="블로그 소개">
         <article class="profile-note">
           <span class="page-eyebrow">ABOUT THIS BLOG</span>
-          <h2>서로 다른 분야 사이의<br>연결고리를 찾아서</h2>
-          <p>새로 배운 개념과 오래 품은 질문을 정리합니다. 흔한 답보단 재미있는 색다른 생각을 남기는 공간입니다.</p>
+          <h2>여러 분야 사이의<br>연결고리를 찾아서</h2>
+          <p>여러 분야에 관심을 가지며 혹시나 있을 연결고리를 탐색합니다. 흔한 답보단 재미있는 색다른 생각을 남기는 공간입니다.</p>
           <dl class="profile-stats">
             <div><dt>${topics.length}</dt><dd>관심 분야</dd></div>
             <div><dt>${allPosts.length}</dt><dd>공개된 글</dd></div>
@@ -217,7 +217,7 @@ export function createProfileView({ allPosts, latestPostContext }) {
         <div class="profile-interests">
           <div class="profile-interests__heading">
             <span class="page-eyebrow">INTERESTS</span>
-            <h2>기록하는 분야</h2>
+            <h2>현재 관심 분야</h2>
           </div>
           <div class="profile-topic-grid">${topicCards}</div>
         </div>
@@ -227,7 +227,7 @@ export function createProfileView({ allPosts, latestPostContext }) {
         <header class="classical-progress__intro">
           <span class="page-eyebrow">CLASSICAL TEXT READING PROGRESS</span>
           <h2 id="classical-progress-title">고전어 원전 독해 진행도</h2>
-          <p>고대어·고전 원전을 읽는 독해 학습 진행도를 고전어 학습 방법론에 따라 기록합니다. 각 단계의 간격이 동일하진 않습니다.</p>
+          <p>고대어·고전 원전을 위한 독해 학습 진행도를 고전어 학습 방법론에 따라 기록합니다. 각 단계 간의 간격이 동일한 시간과 노력을 의미하진 않습니다.</p>
           <button
             class="classical-progress__toggle"
             type="button"
