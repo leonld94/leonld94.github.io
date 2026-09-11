@@ -172,8 +172,8 @@ export function createProfileView({ allPosts, latestPostContext }) {
         <div class="profile-portrait">
           <img
             class="profile-portrait__image"
-            src="/images/profile-lambda.svg"
-            alt="프로필 로고"
+              src="/images/profile-perlica.png"
+              alt="푸른 안경을 쓴 Perlica 캐릭터 프로필 이미지"
           />
         </div>
         <div class="profile-intro">
@@ -194,7 +194,7 @@ export function createProfileView({ allPosts, latestPostContext }) {
 
       <section class="profile-identity" aria-labelledby="profile-identity-title">
         <div class="profile-identity__mark" aria-hidden="true">
-          <img src="/images/profile-lambda.svg" alt="" />
+          <img src="/images/profile-perlica.png" alt="" />
         </div>
         <div class="profile-identity__copy">
           <span class="page-eyebrow">WHO AM I?</span>
