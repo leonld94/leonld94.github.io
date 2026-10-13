@@ -22,7 +22,7 @@ export function createProfileView({ allPosts, latestPostContext }) {
 
       return `
         <li class="systems-stack__step is-${status}${connectsToNext ? ' connects-next' : ''}">
-          <details class="systems-layer"${index === 0 ? ' open' : ''}>
+          <details class="systems-layer"${status === 'complete' ? ' open' : ''}>
             <summary>
               <span class="systems-layer__node" aria-hidden="true">${layer.level}</span>
               <span class="systems-layer__card">
