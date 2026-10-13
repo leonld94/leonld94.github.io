@@ -63,7 +63,7 @@ export const systemsStack = [
     domain: 'Hardware Design',
     question: 'CPU를 레지스터·연산기와 그 사이의 데이터 이동으로 어떻게 표현하는가?',
     status: 'complete',
-    evidence: ["[컴퓨터구조] A+"],
+    evidence: ["[컴퓨터구조] A0"],
   },
   {
     level: 4,
